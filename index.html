@@ -299,28 +299,72 @@
       flex-wrap: wrap;
     }
 
-    .crumb {
-      border: 0;
-      background: none;
-      padding: 0;
-      color: var(--muted);
-      font: inherit;
-      font-weight: 650;
-      cursor: pointer;
-      box-shadow: none;
-    }
+    .crumbs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
 
-    .crumb.active {
-      color: var(--ink);
-    }
+.crumb {
+  position: relative;
+  border: 0;
+  background: none;
+  padding: 0 0 7px;
+  color: #8a8f9b;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  box-shadow: none;
+  transition: color 0.15s ease;
+}
 
-    .crumb.done {
-      color: var(--navy);
-    }
+.crumb::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 99px;
+  background: transparent;
+}
 
-    .slash {
-      color: #c4c8d0;
-    }
+.crumb:hover {
+  color: #30313d;
+}
+
+.crumb.active {
+  color: #30313d;
+  font-weight: 800;
+}
+
+.crumb.active::after {
+  background: #30313d;
+  height: 3px;
+}
+
+.crumb.done {
+  color: var(--navy);
+}
+
+.crumb.done::before {
+  content: "✓ ";
+  color: var(--green);
+  font-weight: 900;
+}
+
+.crumb.done::after {
+  background: rgba(8, 50, 80, 0.35);
+}
+
+.slash {
+  color: #c4c8d0;
+  padding-bottom: 7px;
+}
 
     .stage-panel {
       border-top: 1px solid var(--line);
