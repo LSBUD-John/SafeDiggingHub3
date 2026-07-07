@@ -25,6 +25,10 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
@@ -328,6 +332,12 @@
       gap: 8px;
       font-size: 0.9rem;
       box-shadow: 0 8px 16px rgba(20, 41, 56, 0.10);
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
     }
 
     button.secondary,
@@ -808,7 +818,7 @@
         #About</a>
         #Resources</a>
         https://lsbud.co.uk/onecallSign in / register</a>
-        #Start search</a>
+        # return false;">Start search</a>
       </nav>
     </header>
 
@@ -953,7 +963,7 @@
                   Mocked insight generated from the selected boundary. Phase 1 remains a library journey, but this demonstrates future site-led service logic.
                 </p>
               </div>
-              <button onclick="goStep('services')">Continue</button>
+              <button id="insightContinueButton" onclick="requireActivityThenServices()" disabled>Continue</button>
             </div>
 
             <div class="metric-row">
@@ -993,7 +1003,8 @@
             <div class="activity-card">
               <div>
                 <label for="activitySelect">What do you want to do?</label>
-                <select id="activitySelect" onchange="updateServices()">
+                <select id="activitySelect" onchange="handleActivityChange()">
+                  <option value="" selected disabled>Select an activity...</option>
                   <option value="plan">Plan or assess feasibility</option>
                   <option value="dig">Dig, trench or excavate</option>
                   <option value="posts">Install posts, fencing or signs</option>
@@ -1005,7 +1016,7 @@
                 </select>
               </div>
 
-              <button onclick="goStep('services')">Show services</button>
+              <button id="activityContinueButton" onclick="requireActivityThenServices()" disabled>Show services</button>
             </div>
           </div>
         </div>
@@ -1146,7 +1157,9 @@
 
     function loadCssOnce(href) {
       return new Promise((resolve, reject) => {
-        if ([...document.styleSheets].some(sheet => sheet.href === href)) {
+        const existing = document.querySelector(`link[href="${href}"]`);
+
+        if (existing) {
           resolve();
           return;
         }
@@ -1162,7 +1175,9 @@
 
     function loadScriptOnce(src) {
       return new Promise((resolve, reject) => {
-        if ([...document.scripts].some(script => script.src === src)) {
+        const existing = document.querySelector(`script[src="${src}"]`);
+
+        if (existing) {
           resolve();
           return;
         }
@@ -1192,7 +1207,7 @@
         await loadScriptOnce(DRAW_JS);
 
         if (typeof L === "undefined") {
-          throw new Error("Leaflet object L is still undefined after loading scripts.");
+          throw new Error("Leaflet did not initialise.");
         }
 
         leafletAssetsLoaded = true;
@@ -1203,15 +1218,17 @@
 
     function showMapLoadError(error) {
       const mapDiv = document.getElementById("leafletMap");
+
       mapDiv.innerHTML = `
         <div class="map-error">
-          <strong>Map library could not be loaded.</strong><br>
-          Please check that this browser can access:<br>
+          <strong>Map library could not be loaded.</strong><br><br>
+          Please check browser access to:<br>
           ${LEAFLET_JS}<br>
           ${DRAW_JS}<br><br>
           Error: ${escapeHtml(error.message)}
         </div>
       `;
+
       console.error(error);
     }
 
@@ -1225,9 +1242,18 @@
 
       order.forEach((name, i) => {
         const crumb = document.querySelector('[data-crumb="' + name + '"]');
-        if (!crumb) return;
-        if (i < idx) crumb.classList.add("done");
-        if (i === idx) crumb.classList.add("active");
+
+        if (!crumb) {
+          return;
+        }
+
+        if (i < idx) {
+          crumb.classList.add("done");
+        }
+
+        if (i === idx) {
+          crumb.classList.add("active");
+        }
       });
 
       if (step === "draw") {
@@ -1235,17 +1261,37 @@
           try {
             await loadLeafletAssets();
             initLeafletMap();
-            if (map) map.invalidateSize();
+            if (map) {
+              map.invalidateSize();
+            }
           } catch (error) {
             showMapLoadError(error);
           }
         }, 150);
       }
 
-      if (step === "insight") updateInsightMetrics();
-      if (step === "services") updateServices();
-      if (step === "basket") renderBasket();
-      if (step === "downloads") renderDownloads();
+      if (step === "insight") {
+        updateInsightMetrics();
+        validateActivitySelection();
+      }
+
+      if (step === "services") {
+        if (!validateActivitySelection()) {
+          goStep("insight");
+          alert("Please select what you want to do at this site before continuing.");
+          return;
+        }
+
+        updateServices();
+      }
+
+      if (step === "basket") {
+        renderBasket();
+      }
+
+      if (step === "downloads") {
+        renderDownloads();
+      }
 
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -1384,7 +1430,9 @@
     function selectSearchResult(index) {
       const result = latestSearchResults[index];
 
-      if (!result || !map) return;
+      if (!result || !map) {
+        return;
+      }
 
       const lat = parseFloat(result.lat);
       const lon = parseFloat(result.lon);
@@ -1441,7 +1489,9 @@
     }
 
     function clearBoundary() {
-      if (!drawnItems) return;
+      if (!drawnItems) {
+        return;
+      }
 
       drawnItems.clearLayers();
       currentBoundaryGeoJSON = null;
@@ -1473,17 +1523,65 @@
     }
 
     function currentActivity() {
-      return document.getElementById("activitySelect").value;
+      const activitySelect = document.getElementById("activitySelect");
+      return activitySelect ? activitySelect.value : "";
+    }
+
+    function handleActivityChange() {
+      validateActivitySelection();
+      updateServices();
+    }
+
+    function validateActivitySelection() {
+      const activity = currentActivity();
+      const hasActivity = activity !== "";
+
+      const insightContinueButton = document.getElementById("insightContinueButton");
+      const activityContinueButton = document.getElementById("activityContinueButton");
+
+      if (insightContinueButton) {
+        insightContinueButton.disabled = !hasActivity;
+      }
+
+      if (activityContinueButton) {
+        activityContinueButton.disabled = !hasActivity;
+      }
+
+      return hasActivity;
+    }
+
+    function requireActivityThenServices() {
+      if (!validateActivitySelection()) {
+        alert("Please select what you want to do at this site before continuing.");
+        return;
+      }
+
+      goStep("services");
     }
 
     function updateServices() {
       const activity = currentActivity();
+      const grid = document.getElementById("serviceGrid");
+
+      if (!grid) {
+        return;
+      }
+
+      if (!activity) {
+        grid.innerHTML = `
+          <article class="service">
+            <div class="type">Select activity</div>
+            <h3>Choose what you want to do</h3>
+            <p>Select an activity on the Site insight step to reveal relevant library resources and premium options.</p>
+            <div class="price">Required</div>
+          </article>
+        `;
+        return;
+      }
 
       const services = baseServices.filter(service => {
         return service.tags.includes("all") || service.tags.includes(activity);
       });
-
-      const grid = document.getElementById("serviceGrid");
 
       grid.innerHTML = services.map(service => `
         <article class="service ${selectedServices.has(service.id) ? "selected" : ""}">
@@ -1599,6 +1697,7 @@
 
     updateServices();
     updateInsightMetrics();
+    validateActivitySelection();
 
     document.addEventListener("DOMContentLoaded", function () {
       const input = document.getElementById("mapSearchInput");
