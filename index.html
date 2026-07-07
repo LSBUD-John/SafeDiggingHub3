@@ -6,11 +6,14 @@
 
   <title>LSBUD Safe Digging Portal</title>
 
-  <!-- Leaflet -->
+  <!-- Leaflet CSS -->
   https://unpkg.com/leaflet@1.9.4/dist/leaflet.css
 
-  <!-- Leaflet Draw -->
+  <!-- Leaflet Draw CSS -->
   https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css
+
+  <!-- Prevent favicon 404 in prototype -->
+  data:,
 
   <style>
     :root {
@@ -56,14 +59,14 @@
     }
 
     .topbar {
-      height: 72px;
+      min-height: 72px;
       border-bottom: 1px solid var(--line);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 34px;
+      padding: 14px 34px;
       gap: 22px;
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.94);
       position: sticky;
       top: 0;
       z-index: 1000;
@@ -111,6 +114,8 @@
       color: var(--muted);
       font-size: 0.88rem;
       white-space: nowrap;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .top-actions a {
@@ -142,6 +147,7 @@
       color: var(--muted);
       font-size: 0.9rem;
       background: #fff;
+      overflow-x: auto;
     }
 
     .navline a {
@@ -151,6 +157,7 @@
       display: inline-flex;
       align-items: center;
       border-bottom: 2px solid transparent;
+      white-space: nowrap;
     }
 
     .navline a.active {
@@ -1210,10 +1217,10 @@
     </footer>
   </div>
 
-  <!-- Leaflet -->
+  <!-- Leaflet JS -->
   https://unpkg.com/leaflet@1.9.4/dist/leaflet.jsscript>
 
-  <!-- Leaflet Draw -->
+  <!-- Leaflet Draw JS -->
   https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.jsscript>
 
   <script>
@@ -1317,6 +1324,7 @@
     let drawnItems;
     let currentBoundaryGeoJSON = null;
     let currentAreaHa = 0;
+    let latestSearchResults = [];
 
     function goStep(step) {
       document.querySelectorAll(".stage").forEach(el => el.classList.remove("active"));
@@ -1372,6 +1380,11 @@
     }
 
     function initLeafletMap() {
+      if (typeof L === "undefined") {
+        alert("Leaflet has not loaded. Check the CDN links and internet access.");
+        return;
+      }
+
       map = L.map("leafletMap", {
         zoomControl: true
       }).setView([52.523, -1.468], 14);
@@ -1475,7 +1488,10 @@
       panel.classList.add("active");
 
       try {
-        const url = "https://nominatim.openstreetmap.org/search?format=json&limit=5&countrycodes=gb&q=" + encodeURIComponent(query);
+        const url =
+          "https://nominatim.openstreetmap.org/search?format=json&limit=5&countrycodes=gb&q=" +
+          encodeURIComponent(query);
+
         const response = await fetch(url, {
           headers: {
             "Accept": "application/json"
@@ -1487,6 +1503,7 @@
         }
 
         const results = await response.json();
+        latestSearchResults = results;
 
         if (!results.length) {
           list.innerHTML = "<li>No results found. Try a postcode, town or street name.</li>";
@@ -1501,15 +1518,13 @@
           </li>
         `).join("");
 
-        window.latestSearchResults = results;
-
       } catch (error) {
         list.innerHTML = "<li>Search unavailable. Check internet access or try again.</li>";
       }
     }
 
     function selectSearchResult(index) {
-      const result = window.latestSearchResults[index];
+      const result = latestSearchResults[index];
 
       if (!result || !map) {
         return;
@@ -1728,15 +1743,17 @@
     }
 
     updateServices();
+    updateInsightMetrics();
 
-    window.addEventListener("load", () => {
-      initLeafletMap();
-      updateInsightMetrics();
-    });
+    document.addEventListener("DOMContentLoaded", function () {
+      const input = document.getElementById("mapSearchInput");
 
-    document.getElementById("mapSearchInput").addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        searchMapLocation();
+      if (input) {
+        input.addEventListener("keydown", function (event) {
+          if (event.key === "Enter") {
+            searchMapLocation();
+          }
+        });
       }
     });
   </script>
