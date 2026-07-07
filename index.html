@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LSBUD Safe Digging Portal</title>
+  <style>
+    :root {
+      --navy: #06265c;
+      --blue: #005eb8;
+      --green: #69a83a;
+      --green-dark: #477a28;
+      --ink: #10233f;
+      --muted: #617184;
+      --bg: #eef4f8;
+      --panel: #ffffff;
+      --soft: #f6f9fc;
+      --line: #d8e3ec;
+      --line-dark: #b9cad8;
+      --dark: #10283a;
+      --warning: #b46b00;
+      --danger: #8a2f2f;
+      --shadow: 0 10px 24px rgba(6, 38, 92, 0.08);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+
+    a { color: var(--blue); }
+
+    .app {
+      max-width: 1220px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #fff;
+      box-shadow: 0 0 0 1px #dce7ef;
+    }
+
+    .topbar {
+      margin: 28px 32px 0;
+      padding: 16px 22px;
+      border: 1px solid var(--line);
+      border-bottom: 0;
+      border-radius: 14px 14px 0 0;
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .logo {
+      width: 146px;
+      height: 46px;
+      flex: 0 0 auto;
+    }
+
+    .brand h1 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .top-actions a {
+      border: 1px solid var(--line);
+      text-decoration: none;
+      color: var(--navy);
+      padding: 9px 13px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      background: #fff;
+    }
+
+    .top-actions a.primary {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+
+    .hero {
+      margin: 0 32px;
+      padding: 36px 32px;
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: #fff;
+      border: 1px solid var(--navy);
+    }
+
+    .hero small {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #d7ebfa;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 800;
+      font-size: 0.72rem;
+      margin-bottom: 12px;
+    }
+
+    .hero small::before {
+      content: "";
+      width: 28px;
+      height: 2px;
+      background: var(--green);
+      display: inline-block;
+    }
+
+    .hero h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 4vw, 2.75rem);
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .hero p {
+      max-width: 800px;
+      margin: 0;
+      line-height: 1.55;
+      color: #eff8ff;
+      font-size: 1.02rem;
+    }
+
+    main {
+      margin: 0 32px 32px;
+      border: 1px solid var(--line);
+      border-top: 0;
+      padding: 24px;
+    }
+
+    .stepper {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 22px;
+      background: #fff;
+    }
+
+    .step {
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      padding: 13px 10px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 0.82rem;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    .step:last-child { border-right: 0; }
+
+    .step span {
+      display: block;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--green-dark);
+      margin-bottom: 4px;
+    }
+
+    .step.active {
+      background: #eef6fc;
+      color: var(--navy);
+      box-shadow: inset 0 -4px 0 var(--blue);
+    }
+
+    .stage { display: none; }
+    .stage.active { display: block; }
+
+    .card {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-head {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .card-head h3 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 1.25rem;
+    }
+
+    .card-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.45;
+    }
+
+    .card-body { padding: 20px; }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(330px, 0.75fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      margin: 0 0 7px;
+      color: var(--navy);
+      font-size: 0.88rem;
+      font-weight: 800;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #c7d8e5;
+      border-radius: 8px;
+      padding: 12px 13px;
+      color: var(--ink);
+      font: inherit;
+      background: #fff;
+    }
+
+    textarea { min-height: 92px; resize: vertical; }
+
+    button, .btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      background: var(--green);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(71, 122, 40, 0.18);
+      white-space: nowrap;
+    }
+
+    .btn-blue { background: var(--blue); box-shadow: 0 4px 12px rgba(0, 94, 184, 0.18); }
+    .btn-dark { background: var(--dark); box-shadow: none; }
+    .btn-grey { background: #647784; box-shadow: none; }
+    .btn-ghost { background: #fff; color: var(--navy); border: 1px solid var(--line-dark); box-shadow: none; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .map {
+      min-height: 475px;
+      border: 1px solid #c8d8e4;
+      border-radius: 12px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.78) 0 2px, transparent 2px 96px),
+        linear-gradient(0deg, rgba(255,255,255,0.78) 0 2px, transparent 2px 96px),
+        radial-gradient(circle at 74% 26%, #dbeaf6 0 0, transparent 220px),
+        linear-gradient(135deg, #edf5fa, #dce8f1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map::before {
+      content: "";
+      position: absolute;
+      left: -40px;
+      right: -40px;
+      top: 105px;
+      height: 82px;
+      background: rgba(255,255,255,0.55);
+      transform: rotate(10deg);
+    }
+
+    .map::after {
+      content: "";
+      position: absolute;
+      left: -20px;
+      right: -20px;
+      bottom: 115px;
+      height: 22px;
+      background: rgba(255,255,255,0.55);
+      transform: rotate(-4deg);
+    }
+
+    .map-toolbar {
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      z-index: 3;
+      display: grid;
+      gap: 8px;
+    }
+
+    .tool {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--navy);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      box-shadow: var(--shadow);
+    }
+
+    .map-search {
+      position: absolute;
+      top: 18px;
+      left: 68px;
+      right: 18px;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+
+    .site-polygon {
+      position: absolute;
+      width: 300px;
+      height: 220px;
+      left: 42%;
+      top: 140px;
+      background: rgba(0, 94, 184, 0.12);
+      border: 4px solid #e04c4c;
+      clip-path: polygon(18% 0, 90% 14%, 100% 70%, 56% 100%, 5% 75%, 0 24%);
+      z-index: 2;
+    }
+
+    .map-note {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      z-index: 3;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      box-shadow: var(--shadow);
+    }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .metric {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--navy);
+      font-size: 1.35rem;
+      margin-bottom: 4px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .alert-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .alert {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--warning);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .alert.high { border-left-color: var(--danger); }
+    .alert.low { border-left-color: var(--green); }
+
+    .alert h4 {
+      margin: 0 0 5px;
+      color: var(--navy);
+      font-size: 0.98rem;
+    }
+
+    .alert p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .activity-line {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .service-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      min-height: 205px;
+      position: relative;
+    }
+
+    .service-card.selected {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(105, 168, 58, 0.18);
+    }
+
+    .service-card .type {
+      color: var(--green-dark);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .service-card h4 {
+      margin: 0 0 8px;
+      color: var(--navy);
+      font-size: 1rem;
+    }
+
+    .service-card p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.42;
+      font-size: 0.9rem;
+    }
+
+    .service-card .price {
+      margin-top: auto;
+      color: var(--ink);
+      font-weight: 900;
+      font-size: 0.94rem;
+    }
+
+    .service-card button {
+      margin-top: 12px;
+      width: 100%;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .basket-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(310px, 0.45fr);
+      gap: 18px;
+    }
+
+    .basket-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .basket-list li {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 13px 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .basket-list strong { color: var(--navy); }
+
+    .summary-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .summary-card h4 {
+      margin: 0 0 10px;
+      color: var(--navy);
+    }
+
+    .summary-card p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      line-height: 1.42;
+      font-size: 0.9rem;
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .download {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .download h4 {
+      margin: 0 0 7px;
+      color: var(--navy);
+    }
+
+    .download p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.42;
+      font-size: 0.9rem;
+    }
+
+    .login-panel {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--blue);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .login-panel h4 { margin: 0 0 8px; color: var(--navy); }
+    .login-panel p { margin: 0; color: var(--muted); line-height: 1.45; }
+
+    .phase-note {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    footer {
+      padding: 22px 32px;
+      background: var(--navy);
+      color: #c7d8e9;
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 980px) {
+      .topbar { margin: 0; border-radius: 0; flex-direction: column; align-items: flex-start; }
+      .hero, main { margin-left: 0; margin-right: 0; }
+      .stepper { grid-template-columns: repeat(2, 1fr); }
+      .step { border-bottom: 1px solid var(--line); }
+      .split, .basket-layout { grid-template-columns: 1fr; }
+      .insight-grid, .alert-row, .service-grid, .download-grid { grid-template-columns: 1fr; }
+      .fields, .activity-line { grid-template-columns: 1fr; }
+      .map { min-height: 390px; }
+      .site-polygon { left: 30%; width: 240px; height: 180px; }
+    }
+
+    @media (max-width: 620px) {
+      .brand { flex-direction: column; align-items: flex-start; }
+      .form-row, .map-search { grid-template-columns: 1fr; }
+      .map-search { left: 18px; }
+      .map-toolbar { display: none; }
+      .site-polygon { left: 18%; }
+      main { padding: 16px; }
+      .hero { padding: 30px 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 330 104" role="img" aria-label="LSBUD logo" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="326" height="100" rx="16" fill="#ffffff" stroke="#d7e2ec" stroke-width="4"/>
+          <path d="M38 69 C75 38, 108 83, 146 53 S214 38, 254 66" fill="none" stroke="#69a83a" stroke-width="9" stroke-linecap="round"/>
+          <circle cx="38" cy="69" r="8" fill="#69a83a"/>
+          <circle cx="254" cy="66" r="8" fill="#69a83a"/>
+          <text x="38" y="58" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="800" fill="#06265c" letter-spacing="1">LSBUD</text>
+          <text x="39" y="84" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#5f6f82" letter-spacing="2">SAFE DIGGING</text>
+        </svg>
+        <div>
+          <h1>Safe Digging Portal</h1>
+          <p>Library phase prototype for site-led utility search, guidance and service routing.</p>
+        </div>
+      </div>
+      <nav class="top-actions" aria-label="Portal actions">
+        <a href="https://lsbud.co.uk" target="_blank" rel="noopener">LSBUD website</a>
+        <a href="https://lsbud.co.uk/onecall" target="_blank" rel="noopener" class="primary">Login to OneCall</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <small>Safe digging search</small>
+      <h2>Draw your site. Select what you need. Download the right resources.</h2>
+      <p>Phase 1 keeps delivery simple: a clean library journey that routes logged-in users to relevant OneCall searches, guidance packs, partner services and premium options.</p>
+    </section>
+
+    <main>
+      <section class="stepper" aria-label="Search progress">
+        <button class="step active" data-step="start" onclick="goStep('start')"><span>Step 1</span>Start</button>
+        <button class="step" data-step="draw" onclick="goStep('draw')"><span>Step 2</span>Draw site</button>
+        <button class="step" data-step="insight" onclick="goStep('insight')"><span>Step 3</span>Site insight</button>
+        <button class="step" data-step="services" onclick="goStep('services')"><span>Step 4</span>Select services</button>
+        <button class="step" data-step="basket" onclick="goStep('basket')"><span>Step 5</span>Basket</button>
+        <button class="step" data-step="downloads" onclick="goStep('downloads')"><span>Step 6</span>Downloads</button>
+      </section>
+
+      <section class="stage active" id="stage-start">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Start a safe digging search</h3>
+              <p>Login, define a site and choose the activity planned at that location. The portal then presents the relevant library resources and premium service options.</p>
+            </div>
+          </div>
+          <div class="card-body split">
+            <div>
+              <div class="fields">
+                <div>
+                  <label for="userRef">Your reference</label>
+                  <input id="userRef" placeholder="e.g. Project / quote / enquiry reference" value="SDP-0001" />
+                </div>
+                <div>
+                  <label for="loginStatus">Login status</label>
+                  <select id="loginStatus" onchange="syncLoginStatus()">
+                    <option value="guest">Guest / not logged in</option>
+                    <option value="logged-in">Logged in to OneCall</option>
+                  </select>
+                </div>
+              </div>
+              <p class="phase-note">In Phase 1, login is simulated. In live service, users would login to retrieve search responses, downloads and saved site records.</p>
+              <div class="actions">
+                <button class="btn-dark" onclick="simulateLogin()">Login / register</button>
+                <button onclick="goStep('draw')">Start search</button>
+              </div>
+            </div>
+            <div class="summary-card">
+              <h4>Library phase delivery</h4>
+              <p>This prototype does not perform live asset searches. It demonstrates the clean journey and routes users to library resources, OneCall, partner services and premium options.</p>
+              <p><strong>Journey:</strong> Login → Draw Site → Site Insight → Select Services → Basket → Downloads.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stage" id="stage-draw">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Draw or define the site</h3>
+              <p>Search for a place, then draw a simple site boundary. The map is a visual placeholder for the Phase 1 prototype.</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="map" aria-label="Map placeholder for drawing a site boundary">
+              <div class="map-toolbar" aria-hidden="true">
+                <div class="tool">+</div>
+                <div class="tool">−</div>
+                <div class="tool">◎</div>
+                <div class="tool">◇</div>
+              </div>
+              <div class="map-search">
+                <input id="siteSearch" placeholder="Search postcode, town, grid reference or site name..." />
+                <button class="btn-blue" onclick="mockLocate()">Search</button>
+              </div>
+              <div class="site-polygon"></div>
+              <div class="map-note">
+                <span>Prototype boundary drawn — 4.20 hectares</span>
+                <button onclick="goStep('insight')">Continue</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stage" id="stage-insight">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Site insight</h3>
+              <p>Indicative insight generated from the drawn area. Phase 1 uses mocked values to demonstrate the future direction.</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="insight-grid">
+              <div class="metric"><strong>4.20</strong><span>Site area, hectares</span></div>
+              <div class="metric"><strong>19</strong><span>Estimated utilities nearby</span></div>
+              <div class="metric"><strong>2</strong><span>Potential asset alerts</span></div>
+              <div class="metric"><strong>Library</strong><span>Phase 1 response type</span></div>
+            </div>
+
+            <div class="alert-row">
+              <div class="alert high">
+                <h4>High voltage alert</h4>
+                <p>Potential high-voltage assets may be present in or near the selected area. Use OneCall and relevant safety guidance before work.</p>
+              </div>
+              <div class="alert">
+                <h4>High pressure alert</h4>
+                <p>Potential high-pressure pipeline risk may require additional checks, guidance or asset-owner contact depending on the work type.</p>
+              </div>
+            </div>
+
+            <div class="activity-line">
+              <div>
+                <label for="activitySelect">What do you want to do at this site?</label>
+                <select id="activitySelect" onchange="updateServices()">
+                  <option value="plan">Plan or assess feasibility</option>
+                  <option value="dig">Dig, trench or excavate</option>
+                  <option value="posts">Install posts, fencing or signs</option>
+                  <option value="vegetation">Clear trees, hedges or vegetation</option>
+                  <option value="design">Design or engineer a scheme</option>
+                  <option value="environment">Check environmental constraints</option>
+                  <option value="renewables">Plan renewables or grid connection</option>
+                  <option value="emergency">Respond to an incident</option>
+                </select>
+              </div>
+              <button onclick="goStep('services')">Select services</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stage" id="stage-services">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Select services</h3>
+              <p>Choose from core library resources, site guidance and premium service routes. Items can be added to the basket.</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="service-grid" id="serviceGrid"></div>
+            <div class="actions">
+              <button class="btn-ghost" onclick="goStep('insight')">Back</button>
+              <button onclick="goStep('basket')">View basket</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stage" id="stage-basket">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Basket</h3>
+              <p>Review the selected resources and service routes before continuing to login/downloads.</p>
+            </div>
+          </div>
+          <div class="card-body basket-layout">
+            <div>
+              <ul class="basket-list" id="basketList"></ul>
+              <p class="phase-note" id="emptyBasketNote">No items selected yet. Add services from the previous step.</p>
+              <div class="actions">
+                <button class="btn-ghost" onclick="goStep('services')">Add more services</button>
+                <button onclick="goStep('downloads')">Continue</button>
+              </div>
+            </div>
+            <div class="summary-card">
+              <h4>Prototype basket</h4>
+              <p>Phase 1 treats the basket as a selected-resource pack, not a payment basket.</p>
+              <p>Later phases can add quote references, payment, BACS, email confirmation and saved project records.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stage" id="stage-downloads">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Downloads and routes</h3>
+              <p>Users must login to receive search responses, site-specific downloads or saved activity records.</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="login-panel">
+              <h4 id="loginPanelTitle">Login required</h4>
+              <p id="loginPanelText">Please login to OneCall to access search responses, saved site details and downloadable packs.</p>
+              <div class="actions">
+                <a href="https://lsbud.co.uk/onecall" target="_blank" rel="noopener" class="btn btn-dark">Login to OneCall</a>
+                <button class="btn-ghost" onclick="simulateLogin()">Simulate login</button>
+              </div>
+            </div>
+
+            <div class="download-grid" id="downloadGrid"></div>
+
+            <div class="actions">
+              <button class="btn-ghost" onclick="goStep('draw')">Start another site</button>
+              <button onclick="mockDownloadAll()">Download selected pack</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      LSBUD Safe Digging Portal — Phase 1 prototype. This layout demonstrates a clean library journey only: login, site drawing, indicative site insight, activity-led service selection, basket and gated downloads. Live asset searches, payments and stored responses are not executed in this version.
+    </footer>
+  </div>
+
+  <script>
+    const baseServices = [
+      { id: 'onecall', type: 'Core', title: 'LSBUD OneCall Utility Search', desc: 'Route to the free OneCall utility search for the selected site.', price: 'Free route', tags: ['all'] },
+      { id: 'guide', type: 'Library', title: 'Safe Digging Guidance Pack', desc: 'Relevant guidance notes and safe digging checklist for the chosen work type.', price: 'Included', tags: ['all'] },
+      { id: 'asset-risk', type: 'Library', title: 'High Voltage / High Pressure Guidance', desc: 'Asset-risk guidance for possible high-voltage and high-pressure infrastructure alerts.', price: 'Included', tags: ['all', 'dig', 'posts', 'design', 'emergency'] },
+      { id: 'planning-env', type: 'Library', title: 'Planning & Environmental Resource Pack', desc: 'Routes to TPO, SSSI, conservation, watercourse and planning resource links.', price: 'Included', tags: ['plan', 'vegetation', 'environment', 'renewables'] },
+      { id: 'hsg47', type: 'Library', title: 'HSG47 / Excavation Guidance', desc: 'Guidance route for avoiding danger from underground services during excavation.', price: 'Included', tags: ['dig', 'posts'] },
+      { id: 'pas128', type: 'Library', title: 'PAS128 / Design Route Card', desc: 'Desktop due-diligence and utility detection guidance for design and engineering work.', price: 'Included', tags: ['design', 'plan'] },
+      { id: 'topup', type: 'Premium', title: 'Top-Up Asset Search', desc: 'Enhanced asset confidence route where users want additional assurance.', price: 'Premium option', tags: ['all'] },
+      { id: 'survey', type: 'Premium', title: 'Request Survey Quote', desc: 'Route to GPR, PAS128 verification or specialist site survey quotation.', price: 'Quote request', tags: ['design', 'dig', 'plan', 'renewables'] },
+      { id: 'equipment', type: 'Premium', title: 'Equipment & Safety Support', desc: 'Route to CAT scanner, safety equipment or toolbox-talk support services.', price: 'Partner route', tags: ['dig', 'posts', 'emergency'] },
+      { id: 'renewables', type: 'Premium', title: 'Renewables Feasibility Pack', desc: 'Support route for grid connection, DNO asset assumptions and planning checks.', price: 'Premium option', tags: ['renewables'] },
+      { id: 'incident', type: 'Emergency', title: 'Critical Asset Contact Route', desc: 'Fast-route library page for emergency utility contacts and incident prompts.', price: 'Restricted route', tags: ['emergency'] }
+    ];
+
+    let selectedServices = new Set(['onecall', 'guide']);
+    let loggedIn = false;
+
+    function goStep(step) {
+      document.querySelectorAll('.stage').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+      document.getElementById('stage-' + step).classList.add('active');
+      document.querySelector('[data-step="' + step + '"]').classList.add('active');
+      if (step === 'services') updateServices();
+      if (step === 'basket') renderBasket();
+      if (step === 'downloads') renderDownloads();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function currentActivity() {
+      return document.getElementById('activitySelect').value;
+    }
+
+    function updateServices() {
+      const activity = currentActivity();
+      const grid = document.getElementById('serviceGrid');
+      const services = baseServices.filter(s => s.tags.includes('all') || s.tags.includes(activity));
+      grid.innerHTML = services.map(service => `
+        <article class="service-card ${selectedServices.has(service.id) ? 'selected' : ''}">
+          <div class="type">${service.type}</div>
+          <h4>${service.title}</h4>
+          <p>${service.desc}</p>
+          <div class="price">${service.price}</div>
+          <button class="${selectedServices.has(service.id) ? 'btn-grey' : ''}" onclick="toggleService('${service.id}')">${selectedServices.has(service.id) ? 'Remove' : 'Add to basket'}</button>
+        </article>
+      `).join('');
+    }
+
+    function toggleService(id) {
+      if (selectedServices.has(id)) selectedServices.delete(id);
+      else selectedServices.add(id);
+      updateServices();
+    }
+
+    function serviceById(id) {
+      return baseServices.find(s => s.id === id);
+    }
+
+    function renderBasket() {
+      const list = document.getElementById('basketList');
+      const note = document.getElementById('emptyBasketNote');
+      const items = [...selectedServices].map(serviceById).filter(Boolean);
+      note.style.display = items.length ? 'none' : 'block';
+      list.innerHTML = items.map(item => `
+        <li><span><strong>${item.title}</strong><br>${item.type}</span><span>${item.price}</span></li>
+      `).join('');
+    }
+
+    function renderDownloads() {
+      const grid = document.getElementById('downloadGrid');
+      const items = [...selectedServices].map(serviceById).filter(Boolean);
+      document.getElementById('loginPanelTitle').textContent = loggedIn ? 'Logged in — downloads available' : 'Login required';
+      document.getElementById('loginPanelText').textContent = loggedIn
+        ? 'The prototype is showing available download and routing cards for the selected library pack.'
+        : 'Please login to OneCall to access search responses, saved site details and downloadable packs.';
+      grid.innerHTML = items.map(item => `
+        <article class="download">
+          <h4>${item.title}</h4>
+          <p>${loggedIn ? 'Available as a prototype download / route.' : 'Locked until login.'}</p>
+          <button class="${loggedIn ? 'btn-blue' : 'btn-grey'}" onclick="mockDownload('${item.title}')">${loggedIn ? 'Open / download' : 'Login required'}</button>
+        </article>
+      `).join('');
+    }
+
+    function syncLoginStatus() {
+      loggedIn = document.getElementById('loginStatus').value === 'logged-in';
+    }
+
+    function simulateLogin() {
+      loggedIn = true;
+      const status = document.getElementById('loginStatus');
+      if (status) status.value = 'logged-in';
+      alert('Prototype login simulated. Downloads will now show as available.');
+      if (document.getElementById('stage-downloads').classList.contains('active')) renderDownloads();
+    }
+
+    function mockLocate() {
+      const value = document.getElementById('siteSearch').value.trim();
+      alert(value ? 'Prototype map moved to: ' + value : 'Enter a postcode, town, grid reference or site name first.');
+    }
+
+    function mockDownload(title) {
+      if (!loggedIn) {
+        alert('Login required before this response or library pack can be accessed.');
+        return;
+      }
+      alert('Prototype download opened: ' + title);
+    }
+
+    function mockDownloadAll() {
+      if (!loggedIn) {
+        alert('Login required before selected downloads can be accessed.');
+        return;
+      }
+      alert('Prototype selected pack downloaded.');
+    }
+
+    updateServices();
+  </script>
+</body>
+</html>
