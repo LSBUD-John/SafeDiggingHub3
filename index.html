@@ -4,316 +4,409 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LSBUD Safe Digging Portal</title>
+
   <style>
     :root {
-      --navy: #06265c;
-      --blue: #005eb8;
-      --green: #69a83a;
-      --green-dark: #477a28;
-      --ink: #10233f;
-      --muted: #617184;
-      --bg: #eef4f8;
-      --panel: #ffffff;
-      --soft: #f6f9fc;
-      --line: #d8e3ec;
-      --line-dark: #b9cad8;
-      --dark: #10283a;
-      --warning: #b46b00;
-      --danger: #8a2f2f;
-      --shadow: 0 10px 24px rgba(6, 38, 92, 0.08);
-      --radius: 12px;
+      --navy: #083250;
+      --red: #c91517;
+      --green: #6f9f43;
+      --ink: #2d2f38;
+      --muted: #6f7280;
+      --soft: #f7f8fa;
+      --line: #e4e7eb;
+      --line-dark: #cfd6dc;
+      --warning: #b7791f;
+      --danger: #b84444;
+      --shadow: 0 18px 45px rgba(16, 24, 40, 0.06);
+      --radius: 18px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
       color: var(--ink);
-      background: var(--bg);
+      background: #fff;
     }
 
-    a { color: var(--blue); }
+    a {
+      color: inherit;
+    }
 
-    .app {
-      max-width: 1220px;
+    .page {
       min-height: 100vh;
-      margin: 0 auto;
-      background: #fff;
-      box-shadow: 0 0 0 1px #dce7ef;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(8, 50, 80, 0.03), transparent 280px),
+        radial-gradient(circle at 86% 18%, rgba(111, 159, 67, 0.05), transparent 260px),
+        #fff;
     }
 
     .topbar {
-      margin: 28px 32px 0;
-      padding: 16px 22px;
-      border: 1px solid var(--line);
-      border-bottom: 0;
-      border-radius: 14px 14px 0 0;
-      background: #fff;
+      height: 72px;
+      border-bottom: 1px solid var(--line);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 18px;
+      justify-content: space-between;
+      padding: 0 34px;
+      gap: 22px;
+      background: rgba(255, 255, 255, 0.92);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
       min-width: 0;
     }
 
     .logo {
-      width: 146px;
-      height: 46px;
+      width: 185px;
+      height: auto;
+      display: block;
       flex: 0 0 auto;
     }
 
-    .brand h1 {
-      margin: 0;
-      color: var(--navy);
-      font-size: 1.35rem;
-      letter-spacing: -0.02em;
+    .product-name {
+      border-left: 1px solid var(--line);
+      padding-left: 18px;
+      min-width: 0;
     }
 
-    .brand p {
-      margin: 3px 0 0;
+    .product-name strong {
+      display: block;
+      color: var(--ink);
+      font-size: 0.96rem;
+      line-height: 1.2;
+    }
+
+    .product-name span {
+      display: block;
       color: var(--muted);
-      font-size: 0.88rem;
+      font-size: 0.8rem;
+      margin-top: 2px;
     }
 
     .top-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      white-space: nowrap;
     }
 
     .top-actions a {
-      border: 1px solid var(--line);
       text-decoration: none;
-      color: var(--navy);
-      padding: 9px 13px;
-      border-radius: 999px;
-      font-size: 0.88rem;
-      font-weight: 700;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .top-actions .login {
+      color: var(--ink);
+    }
+
+    .top-actions .primary {
+      background: #142938;
+      color: #fff;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.84rem;
+      box-shadow: 0 8px 18px rgba(20, 41, 56, 0.12);
+    }
+
+    .navline {
+      height: 46px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      padding: 0 34px;
+      color: var(--muted);
+      font-size: 0.9rem;
       background: #fff;
     }
 
-    .top-actions a.primary {
-      background: var(--navy);
-      color: #fff;
-      border-color: var(--navy);
-    }
-
-    .hero {
-      margin: 0 32px;
-      padding: 36px 32px;
-      background: linear-gradient(135deg, var(--navy), var(--blue));
-      color: #fff;
-      border: 1px solid var(--navy);
-    }
-
-    .hero small {
+    .navline a {
+      text-decoration: none;
+      color: var(--muted);
+      height: 46px;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      color: #d7ebfa;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-weight: 800;
-      font-size: 0.72rem;
-      margin-bottom: 12px;
+      border-bottom: 2px solid transparent;
     }
 
-    .hero small::before {
-      content: "";
-      width: 28px;
-      height: 2px;
-      background: var(--green);
-      display: inline-block;
+    .navline a.active {
+      color: var(--ink);
+      border-bottom-color: var(--ink);
     }
 
-    .hero h2 {
-      margin: 0 0 10px;
-      font-size: clamp(1.8rem, 4vw, 2.75rem);
-      line-height: 1.05;
-      letter-spacing: -0.035em;
+    .wrap {
+      width: min(1060px, calc(100% - 48px));
+      margin: 0 auto;
     }
 
-    .hero p {
-      max-width: 800px;
-      margin: 0;
-      line-height: 1.55;
-      color: #eff8ff;
-      font-size: 1.02rem;
-    }
-
-    main {
-      margin: 0 32px 32px;
-      border: 1px solid var(--line);
-      border-top: 0;
-      padding: 24px;
-    }
-
-    .stepper {
+    .intro {
+      padding: 74px 0 46px;
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 0;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 22px;
-      background: #fff;
-    }
-
-    .step {
-      border: 0;
-      border-right: 1px solid var(--line);
-      background: #fff;
-      color: var(--muted);
-      padding: 13px 10px;
-      cursor: pointer;
-      font-weight: 800;
-      font-size: 0.82rem;
-      box-shadow: none;
-      border-radius: 0;
-    }
-
-    .step:last-child { border-right: 0; }
-
-    .step span {
-      display: block;
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--green-dark);
-      margin-bottom: 4px;
-    }
-
-    .step.active {
-      background: #eef6fc;
-      color: var(--navy);
-      box-shadow: inset 0 -4px 0 var(--blue);
-    }
-
-    .stage { display: none; }
-    .stage.active { display: block; }
-
-    .card {
-      background: var(--soft);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .card-head {
-      background: #fff;
-      border-bottom: 1px solid var(--line);
-      padding: 18px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 18px;
-    }
-
-    .card-head h3 {
-      margin: 0;
-      color: var(--navy);
-      font-size: 1.25rem;
-    }
-
-    .card-head p {
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: 0.94rem;
-      line-height: 1.45;
-    }
-
-    .card-body { padding: 20px; }
-
-    .split {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(330px, 0.75fr);
-      gap: 20px;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
+      gap: 70px;
       align-items: start;
     }
 
-    .form-row {
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #5c55ff;
+      font-weight: 700;
+      font-size: 0.84rem;
+      margin-bottom: 18px;
+    }
+
+    .spinner {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      border: 2px solid rgba(92, 85, 255, 0.18);
+      border-top-color: #5c55ff;
+    }
+
+    .intro h1 {
+      margin: 0;
+      color: #30313d;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1.04;
+      letter-spacing: -0.045em;
+      max-width: 620px;
+    }
+
+    .intro p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 20px 0 0;
+      max-width: 620px;
+    }
+
+    .intro-side {
+      color: var(--muted);
+      line-height: 1.55;
+      padding-top: 64px;
+      font-size: 1rem;
+    }
+
+    .crumbs {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .crumb {
+      border: 0;
+      background: none;
+      padding: 0;
+      color: var(--muted);
+      font: inherit;
+      font-weight: 650;
+      cursor: pointer;
+      box-shadow: none;
+    }
+
+    .crumb.active {
+      color: var(--ink);
+    }
+
+    .crumb.done {
+      color: var(--navy);
+    }
+
+    .slash {
+      color: #c4c8d0;
+    }
+
+    .stage-panel {
+      border-top: 1px solid var(--line);
+      padding: 34px 0 88px;
+    }
+
+    .stage {
+      display: none;
+    }
+
+    .stage.active {
+      display: block;
+    }
+
+    .stage-grid {
+      display: grid;
+      grid-template-columns: 90px minmax(0, 1fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .rail {
+      position: relative;
+      min-height: 420px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .rail::before {
+      content: "";
+      width: 1px;
+      background: var(--line);
+      position: absolute;
+      top: 0;
+      bottom: 0;
+    }
+
+    .rail-number {
+      position: sticky;
+      top: 100px;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: #30313d;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      z-index: 2;
+    }
+
+    .stage-head {
+      margin-bottom: 22px;
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 10px;
-      margin-bottom: 14px;
+      gap: 22px;
+      align-items: end;
     }
 
-    .fields {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 14px;
+    .stage-head h2 {
+      margin: 0;
+      color: #30313d;
+      font-size: 1.34rem;
+      letter-spacing: -0.02em;
     }
 
-    label {
-      display: block;
-      margin: 0 0 7px;
-      color: var(--navy);
-      font-size: 0.88rem;
-      font-weight: 800;
+    .stage-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.52;
+      max-width: 720px;
     }
 
-    input, select, textarea {
-      width: 100%;
-      border: 1px solid #c7d8e5;
-      border-radius: 8px;
-      padding: 12px 13px;
-      color: var(--ink);
-      font: inherit;
-      background: #fff;
-    }
-
-    textarea { min-height: 92px; resize: vertical; }
-
-    button, .btn {
+    .button,
+    button {
       border: 0;
-      border-radius: 999px;
-      padding: 12px 18px;
-      background: var(--green);
+      background: #142938;
       color: #fff;
-      font-weight: 800;
+      border-radius: 9px;
+      padding: 11px 15px;
+      font-weight: 750;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 4px 12px rgba(71, 122, 40, 0.18);
-      white-space: nowrap;
+      font-size: 0.9rem;
+      box-shadow: 0 8px 16px rgba(20, 41, 56, 0.10);
     }
 
-    .btn-blue { background: var(--blue); box-shadow: 0 4px 12px rgba(0, 94, 184, 0.18); }
-    .btn-dark { background: var(--dark); box-shadow: none; }
-    .btn-grey { background: #647784; box-shadow: none; }
-    .btn-ghost { background: #fff; color: var(--navy); border: 1px solid var(--line-dark); box-shadow: none; }
+    .button.secondary,
+    button.secondary {
+      color: #30313d;
+      background: #fff;
+      border: 1px solid var(--line-dark);
+      box-shadow: none;
+    }
 
-    .actions {
+    label {
+      display: block;
+      color: #30313d;
+      font-size: 0.82rem;
+      font-weight: 750;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 11px 12px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus,
+    button:focus,
+    a:focus {
+      outline: 3px solid rgba(111, 159, 67, 0.20);
+      outline-offset: 2px;
+    }
+
+    .form-strip {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 190px auto;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .map-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .map-toolbar {
+      height: 46px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 16px;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 0.84rem;
     }
 
     .map {
-      min-height: 475px;
-      border: 1px solid #c8d8e4;
-      border-radius: 12px;
-      background:
-        linear-gradient(90deg, rgba(255,255,255,0.78) 0 2px, transparent 2px 96px),
-        linear-gradient(0deg, rgba(255,255,255,0.78) 0 2px, transparent 2px 96px),
-        radial-gradient(circle at 74% 26%, #dbeaf6 0 0, transparent 220px),
-        linear-gradient(135deg, #edf5fa, #dce8f1);
+      height: 430px;
       position: relative;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.78) 0 2px, transparent 2px 92px),
+        linear-gradient(0deg, rgba(255,255,255,0.78) 0 2px, transparent 2px 92px),
+        radial-gradient(circle at 72% 32%, #e4edf3 0 0, transparent 220px),
+        linear-gradient(135deg, #f2f5f7, #e7edf2);
       overflow: hidden;
     }
 
@@ -322,117 +415,86 @@
       position: absolute;
       left: -40px;
       right: -40px;
-      top: 105px;
-      height: 82px;
-      background: rgba(255,255,255,0.55);
+      top: 110px;
+      height: 78px;
+      background: rgba(255,255,255,0.58);
       transform: rotate(10deg);
     }
 
-    .map::after {
-      content: "";
+    .site-poly {
       position: absolute;
-      left: -20px;
-      right: -20px;
-      bottom: 115px;
-      height: 22px;
-      background: rgba(255,255,255,0.55);
-      transform: rotate(-4deg);
+      width: 295px;
+      height: 215px;
+      left: 42%;
+      top: 112px;
+      background: rgba(201, 21, 23, 0.08);
+      border: 3px solid rgba(201, 21, 23, 0.78);
+      clip-path: polygon(18% 0, 90% 14%, 100% 70%, 56% 100%, 5% 75%, 0 24%);
     }
 
-    .map-toolbar {
+    .map-controls {
       position: absolute;
-      left: 18px;
-      top: 18px;
-      z-index: 3;
+      left: 16px;
+      top: 16px;
       display: grid;
-      gap: 8px;
+      gap: 7px;
     }
 
-    .tool {
-      width: 36px;
-      height: 36px;
-      border-radius: 6px;
-      border: 1px solid var(--line);
+    .map-control {
+      width: 32px;
+      height: 32px;
       background: #fff;
-      color: var(--navy);
+      border: 1px solid var(--line);
+      border-radius: 7px;
       display: grid;
       place-items: center;
+      color: var(--muted);
       font-weight: 900;
-      box-shadow: var(--shadow);
+      box-shadow: 0 4px 13px rgba(16, 24, 40, 0.08);
     }
 
-    .map-search {
-      position: absolute;
-      top: 18px;
-      left: 68px;
-      right: 18px;
-      z-index: 3;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-    }
-
-    .site-polygon {
-      position: absolute;
-      width: 300px;
-      height: 220px;
-      left: 42%;
-      top: 140px;
-      background: rgba(0, 94, 184, 0.12);
-      border: 4px solid #e04c4c;
-      clip-path: polygon(18% 0, 90% 14%, 100% 70%, 56% 100%, 5% 75%, 0 24%);
-      z-index: 2;
-    }
-
-    .map-note {
-      position: absolute;
-      left: 18px;
-      right: 18px;
-      bottom: 18px;
-      z-index: 3;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 12px 14px;
+    .map-footer {
+      height: 58px;
+      border-top: 1px solid var(--line);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
+      padding: 0 16px;
       color: var(--muted);
       font-size: 0.9rem;
-      box-shadow: var(--shadow);
+      background: #fff;
     }
 
-    .insight-grid {
+    .metric-row {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .metric {
       background: #fff;
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 28px rgba(16, 24, 40, 0.04);
     }
 
     .metric strong {
       display: block;
-      color: var(--navy);
-      font-size: 1.35rem;
+      font-size: 1.34rem;
+      color: #30313d;
       margin-bottom: 4px;
     }
 
     .metric span {
       color: var(--muted);
-      font-size: 0.84rem;
+      font-size: 0.86rem;
     }
 
-    .alert-row {
+    .alert-list {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
       margin-bottom: 18px;
     }
@@ -440,100 +502,118 @@
     .alert {
       background: #fff;
       border: 1px solid var(--line);
-      border-left: 5px solid var(--warning);
-      border-radius: 10px;
-      padding: 14px;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 10px 28px rgba(16, 24, 40, 0.04);
     }
 
-    .alert.high { border-left-color: var(--danger); }
-    .alert.low { border-left-color: var(--green); }
+    .alert::before {
+      content: "";
+      display: block;
+      width: 32px;
+      height: 3px;
+      border-radius: 99px;
+      background: var(--danger);
+      margin-bottom: 12px;
+    }
 
-    .alert h4 {
-      margin: 0 0 5px;
-      color: var(--navy);
-      font-size: 0.98rem;
+    .alert.pressure::before {
+      background: var(--warning);
+    }
+
+    .alert h3 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      color: #30313d;
     }
 
     .alert p {
       margin: 0;
       color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.4;
+      line-height: 1.48;
+      font-size: 0.92rem;
     }
 
-    .activity-line {
+    .activity-card {
       background: #fff;
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: var(--shadow);
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 12px;
+      gap: 14px;
       align-items: end;
     }
 
-    .service-grid {
+    .services {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
     }
 
-    .service-card {
+    .service {
       background: #fff;
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 16px;
+      padding: 18px;
+      min-height: 210px;
       display: flex;
       flex-direction: column;
-      min-height: 205px;
-      position: relative;
+      box-shadow: 0 10px 28px rgba(16, 24, 40, 0.04);
+      transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
     }
 
-    .service-card.selected {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(105, 168, 58, 0.18);
+    .service:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 32px rgba(16, 24, 40, 0.07);
     }
 
-    .service-card .type {
-      color: var(--green-dark);
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
-      font-weight: 900;
+    .service.selected {
+      border-color: rgba(111, 159, 67, 0.75);
+      box-shadow: 0 0 0 3px rgba(111, 159, 67, 0.14);
+    }
+
+    .service .type {
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
-    .service-card h4 {
+    .service h3 {
       margin: 0 0 8px;
-      color: var(--navy);
+      color: #30313d;
       font-size: 1rem;
     }
 
-    .service-card p {
-      margin: 0 0 12px;
+    .service p {
+      margin: 0 0 13px;
       color: var(--muted);
-      line-height: 1.42;
-      font-size: 0.9rem;
+      line-height: 1.45;
+      font-size: 0.92rem;
     }
 
-    .service-card .price {
+    .service .price {
       margin-top: auto;
-      color: var(--ink);
-      font-weight: 900;
-      font-size: 0.94rem;
+      color: #30313d;
+      font-weight: 800;
+      font-size: 0.92rem;
     }
 
-    .service-card button {
-      margin-top: 12px;
+    .service button {
+      margin-top: 13px;
       width: 100%;
-      border-radius: 8px;
-      padding: 10px 12px;
+      border-radius: 9px;
+      box-shadow: none;
     }
 
     .basket-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(310px, 0.45fr);
-      gap: 18px;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 20px;
     }
 
     .basket-list {
@@ -547,73 +627,87 @@
     .basket-list li {
       background: #fff;
       border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 13px 14px;
+      border-radius: 14px;
+      padding: 14px 16px;
       display: flex;
       justify-content: space-between;
-      gap: 10px;
+      gap: 18px;
       color: var(--muted);
+      box-shadow: 0 8px 22px rgba(16, 24, 40, 0.03);
     }
 
-    .basket-list strong { color: var(--navy); }
+    .basket-list strong {
+      color: #30313d;
+    }
 
-    .summary-card {
+    .summary {
       background: #fff;
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 8px 22px rgba(16, 24, 40, 0.03);
     }
 
-    .summary-card h4 {
-      margin: 0 0 10px;
-      color: var(--navy);
+    .summary h3 {
+      margin: 0 0 8px;
+      color: #30313d;
     }
 
-    .summary-card p {
+    .summary p {
       margin: 0 0 10px;
       color: var(--muted);
-      line-height: 1.42;
-      font-size: 0.9rem;
+      line-height: 1.45;
+      font-size: .92rem;
     }
 
-    .download-grid {
+    .login-panel {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 22px rgba(16, 24, 40, 0.03);
+    }
+
+    .login-panel h3 {
+      margin: 0 0 8px;
+      color: #30313d;
+    }
+
+    .login-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .downloads {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
     }
 
     .download {
       background: #fff;
       border: 1px solid var(--line);
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 16px;
+      box-shadow: 0 8px 22px rgba(16, 24, 40, 0.03);
     }
 
-    .download h4 {
+    .download h3 {
       margin: 0 0 7px;
-      color: var(--navy);
+      color: #30313d;
+      font-size: 1rem;
     }
 
     .download p {
       margin: 0 0 12px;
       color: var(--muted);
-      line-height: 1.42;
-      font-size: 0.9rem;
+      line-height: 1.43;
+      font-size: .92rem;
     }
 
-    .login-panel {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-left: 5px solid var(--blue);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-
-    .login-panel h4 { margin: 0 0 8px; color: var(--navy); }
-    .login-panel p { margin: 0; color: var(--muted); line-height: 1.45; }
-
-    .phase-note {
+    .note {
       margin-top: 16px;
       color: var(--muted);
       font-size: 0.88rem;
@@ -621,173 +715,331 @@
     }
 
     footer {
-      padding: 22px 32px;
-      background: var(--navy);
-      color: #c7d8e9;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      padding: 28px 34px;
       font-size: 0.84rem;
       line-height: 1.45;
+      background: #fff;
     }
 
-    @media (max-width: 980px) {
-      .topbar { margin: 0; border-radius: 0; flex-direction: column; align-items: flex-start; }
-      .hero, main { margin-left: 0; margin-right: 0; }
-      .stepper { grid-template-columns: repeat(2, 1fr); }
-      .step { border-bottom: 1px solid var(--line); }
-      .split, .basket-layout { grid-template-columns: 1fr; }
-      .insight-grid, .alert-row, .service-grid, .download-grid { grid-template-columns: 1fr; }
-      .fields, .activity-line { grid-template-columns: 1fr; }
-      .map { min-height: 390px; }
-      .site-polygon { left: 30%; width: 240px; height: 180px; }
+    @media (max-width: 960px) {
+      .topbar {
+        height: auto;
+        padding: 18px 22px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .navline {
+        overflow-x: auto;
+        padding: 0 22px;
+      }
+
+      .intro {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding-top: 48px;
+      }
+
+      .intro-side {
+        padding-top: 0;
+      }
+
+      .stage-grid {
+        grid-template-columns: 42px minmax(0, 1fr);
+        gap: 18px;
+      }
+
+      .form-strip,
+      .activity-card {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-row,
+      .alert-list,
+      .services,
+      .downloads,
+      .basket-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .map {
+        height: 380px;
+      }
+
+      .site-poly {
+        left: 32%;
+        width: 240px;
+        height: 178px;
+      }
     }
 
     @media (max-width: 620px) {
-      .brand { flex-direction: column; align-items: flex-start; }
-      .form-row, .map-search { grid-template-columns: 1fr; }
-      .map-search { left: 18px; }
-      .map-toolbar { display: none; }
-      .site-polygon { left: 18%; }
-      main { padding: 16px; }
-      .hero { padding: 30px 22px; }
+      .wrap {
+        width: min(100% - 28px, 1060px);
+      }
+
+      .logo {
+        width: 155px;
+      }
+
+      .product-name {
+        display: none;
+      }
+
+      .top-actions {
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .stage-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .rail {
+        display: none;
+      }
+
+      .stage-head {
+        grid-template-columns: 1fr;
+      }
+
+      .map {
+        height: 330px;
+      }
+
+      .site-poly {
+        left: 20%;
+        top: 110px;
+      }
+
+      .map-footer {
+        height: auto;
+        padding: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
+
 <body>
-  <div class="app">
+  <div class="page">
+
     <header class="topbar">
       <div class="brand">
-        <svg class="logo" viewBox="0 0 330 104" role="img" aria-label="LSBUD logo" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="2" width="326" height="100" rx="16" fill="#ffffff" stroke="#d7e2ec" stroke-width="4"/>
-          <path d="M38 69 C75 38, 108 83, 146 53 S214 38, 254 66" fill="none" stroke="#69a83a" stroke-width="9" stroke-linecap="round"/>
-          <circle cx="38" cy="69" r="8" fill="#69a83a"/>
-          <circle cx="254" cy="66" r="8" fill="#69a83a"/>
-          <text x="38" y="58" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="800" fill="#06265c" letter-spacing="1">LSBUD</text>
-          <text x="39" y="84" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#5f6f82" letter-spacing="2">SAFE DIGGING</text>
+        <svg class="logo" viewBox="0 0 615 170" role="img" aria-label="LSBUD Safe Digging For All logo" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="110" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="130" font-weight="900" letter-spacing="-8">
+            <tspan fill="#083250">LSB</tspan><tspan fill="#c91517">U</tspan><tspan fill="#083250">D</tspan>
+          </text>
+          <text x="7" y="158" font-family="Arial, Helvetica, sans-serif" font-size="28" letter-spacing="9" fill="#083250">SAFE DIGGING FOR </text>
+          <text x="498" y="158" font-family="Arial, Helvetica, sans-serif" font-size="28" letter-spacing="9" fill="#c91517">ALL</text>
         </svg>
-        <div>
-          <h1>Safe Digging Portal</h1>
-          <p>Library phase prototype for site-led utility search, guidance and service routing.</p>
+
+        <div class="product-name">
+          <strong>Safe Digging Portal</strong>
+          <span>Library phase prototype</span>
         </div>
       </div>
-      <nav class="top-actions" aria-label="Portal actions">
-        <a href="https://lsbud.co.uk" target="_blank" rel="noopener">LSBUD website</a>
-        <a href="https://lsbud.co.uk/onecall" target="_blank" rel="noopener" class="primary">Login to OneCall</a>
+
+      <nav class="top-actions" aria-label="Top navigation">
+        #About</a>
+        #Resources</a>
+        https://lsbud.co.uk/onecallSign in / register</a>
+        # return false;">Start search</a>
       </nav>
     </header>
 
-    <section class="hero">
-      <small>Safe digging search</small>
-      <h2>Draw your site. Select what you need. Download the right resources.</h2>
-      <p>Phase 1 keeps delivery simple: a clean library journey that routes logged-in users to relevant OneCall searches, guidance packs, partner services and premium options.</p>
+    <nav class="navline" aria-label="Section navigation">
+      #Overview</a>
+      #Library</a>
+      #Premium services</a>
+      #Downloads</a>
+    </nav>
+
+    <section class="intro wrap">
+      <div>
+        <div class="status"><span class="spinner"></span> Library phase journey</div>
+        <h1>Get the right safe digging resources for your site.</h1>
+        <p>
+          Login, draw a site, view simple indicative site insight, choose what you want to do,
+          then add relevant library resources and premium routes to your basket.
+        </p>
+      </div>
+
+      <div class="intro-side">
+        A cleaner ordering journey for Phase 1: no live searches, no complex dashboard,
+        just a site-led route to OneCall, guidance, premium options and gated downloads.
+      </div>
     </section>
 
-    <main>
-      <section class="stepper" aria-label="Search progress">
-        <button class="step active" data-step="start" onclick="goStep('start')"><span>Step 1</span>Start</button>
-        <button class="step" data-step="draw" onclick="goStep('draw')"><span>Step 2</span>Draw site</button>
-        <button class="step" data-step="insight" onclick="goStep('insight')"><span>Step 3</span>Site insight</button>
-        <button class="step" data-step="services" onclick="goStep('services')"><span>Step 4</span>Select services</button>
-        <button class="step" data-step="basket" onclick="goStep('basket')"><span>Step 5</span>Basket</button>
-        <button class="step" data-step="downloads" onclick="goStep('downloads')"><span>Step 6</span>Downloads</button>
-      </section>
+    <section class="wrap">
+      <div class="crumbs" aria-label="Breadcrumb progress">
+        <button class="crumb active" data-crumb="start" onclick="goStep('start')">Login</button>
+        <span class="slash">/</span>
+        <button class="crumb" data-crumb="draw" onclick="goStep('draw')">Draw site</button>
+        <span class="slash">/</span>
+        <button class="crumb" data-crumb="insight" onclick="goStep('insight')">Site insight</button>
+        <span class="slash">/</span>
+        <button class="crumb" data-crumb="services" onclick="goStep('services')">Service options</button>
+        <span class="slash">/</span>
+        <button class="crumb" data-crumb="basket" onclick="goStep('basket')">Basket</button>
+        <span class="slash">/</span>
+        <button class="crumb" data-crumb="downloads" onclick="goStep('downloads')">Downloads</button>
+      </div>
+    </section>
 
+    <main class="stage-panel wrap">
+
+      <!-- STEP 1 -->
       <section class="stage active" id="stage-start">
-        <div class="card">
-          <div class="card-head">
-            <div>
-              <h3>Start a safe digging search</h3>
-              <p>Login, define a site and choose the activity planned at that location. The portal then presents the relevant library resources and premium service options.</p>
-            </div>
+        <div class="stage-grid">
+          <div class="rail">
+            <div class="rail-number">1</div>
           </div>
-          <div class="card-body split">
-            <div>
-              <div class="fields">
-                <div>
-                  <label for="userRef">Your reference</label>
-                  <input id="userRef" placeholder="e.g. Project / quote / enquiry reference" value="SDP-0001" />
-                </div>
-                <div>
-                  <label for="loginStatus">Login status</label>
-                  <select id="loginStatus" onchange="syncLoginStatus()">
-                    <option value="guest">Guest / not logged in</option>
-                    <option value="logged-in">Logged in to OneCall</option>
-                  </select>
-                </div>
-              </div>
-              <p class="phase-note">In Phase 1, login is simulated. In live service, users would login to retrieve search responses, downloads and saved site records.</p>
-              <div class="actions">
-                <button class="btn-dark" onclick="simulateLogin()">Login / register</button>
-                <button onclick="goStep('draw')">Start search</button>
-              </div>
-            </div>
-            <div class="summary-card">
-              <h4>Library phase delivery</h4>
-              <p>This prototype does not perform live asset searches. It demonstrates the clean journey and routes users to library resources, OneCall, partner services and premium options.</p>
-              <p><strong>Journey:</strong> Login → Draw Site → Site Insight → Select Services → Basket → Downloads.</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section class="stage" id="stage-draw">
-        <div class="card">
-          <div class="card-head">
-            <div>
-              <h3>Draw or define the site</h3>
-              <p>Search for a place, then draw a simple site boundary. The map is a visual placeholder for the Phase 1 prototype.</p>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="map" aria-label="Map placeholder for drawing a site boundary">
-              <div class="map-toolbar" aria-hidden="true">
-                <div class="tool">+</div>
-                <div class="tool">−</div>
-                <div class="tool">◎</div>
-                <div class="tool">◇</div>
-              </div>
-              <div class="map-search">
-                <input id="siteSearch" placeholder="Search postcode, town, grid reference or site name..." />
-                <button class="btn-blue" onclick="mockLocate()">Search</button>
-              </div>
-              <div class="site-polygon"></div>
-              <div class="map-note">
-                <span>Prototype boundary drawn — 4.20 hectares</span>
-                <button onclick="goStep('insight')">Continue</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="stage" id="stage-insight">
-        <div class="card">
-          <div class="card-head">
-            <div>
-              <h3>Site insight</h3>
-              <p>Indicative insight generated from the drawn area. Phase 1 uses mocked values to demonstrate the future direction.</p>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="insight-grid">
-              <div class="metric"><strong>4.20</strong><span>Site area, hectares</span></div>
-              <div class="metric"><strong>19</strong><span>Estimated utilities nearby</span></div>
-              <div class="metric"><strong>2</strong><span>Potential asset alerts</span></div>
-              <div class="metric"><strong>Library</strong><span>Phase 1 response type</span></div>
-            </div>
-
-            <div class="alert-row">
-              <div class="alert high">
-                <h4>High voltage alert</h4>
-                <p>Potential high-voltage assets may be present in or near the selected area. Use OneCall and relevant safety guidance before work.</p>
-              </div>
-              <div class="alert">
-                <h4>High pressure alert</h4>
-                <p>Potential high-pressure pipeline risk may require additional checks, guidance or asset-owner contact depending on the work type.</p>
-              </div>
-            </div>
-
-            <div class="activity-line">
+          <div class="stage-card">
+            <div class="stage-head">
               <div>
-                <label for="activitySelect">What do you want to do at this site?</label>
+                <h2>Login or start as a guest</h2>
+                <p>
+                  Users can explore the library journey as a guest, but responses and downloads are gated behind login.
+                </p>
+              </div>
+              <button onclick="goStep('draw')">Continue</button>
+            </div>
+
+            <div class="form-strip">
+              <div>
+                <label for="ref">Your reference</label>
+                <input id="ref" value="SDP-0001" />
+              </div>
+
+              <div>
+                <label for="loginStatus">Login status</label>
+                <select id="loginStatus" onchange="syncLoginStatus()">
+                  <option value="guest">Guest</option>
+                  <option value="logged-in">Logged in</option>
+                </select>
+              </div>
+
+              <button class="secondary" onclick="simulateLogin()">Simulate login</button>
+            </div>
+
+            <p class="note">
+              In live service, users would sign in through the correct OneCall/pro-account route before receiving
+              search responses, downloads or saved site records.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 2 -->
+      <section class="stage" id="stage-draw">
+        <div class="stage-grid">
+          <div class="rail">
+            <div class="rail-number">2</div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-head">
+              <div>
+                <h2>Draw the site</h2>
+                <p>
+                  Search for a location and define the area of interest. This is a visual placeholder for a future
+                  Mapbox or Leaflet drawing tool.
+                </p>
+              </div>
+              <button onclick="goStep('insight')">Continue</button>
+            </div>
+
+            <div class="map-card">
+              <div class="map-toolbar">
+                <span>Draw site</span>
+                <span>Prototype boundary: 4.20 hectares</span>
+              </div>
+
+              <div class="map">
+                <div class="map-controls" aria-hidden="true">
+                  <div class="map-control">+</div>
+                  <div class="map-control">−</div>
+                  <div class="map-control">◇</div>
+                </div>
+
+                <div class="site-poly"></div>
+              </div>
+
+              <div class="map-footer">
+                <span>Search: postcode, address, grid reference or site name</span>
+                <button class="secondary" onclick="alert('Prototype search only.');">New search</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 3 -->
+      <section class="stage" id="stage-insight">
+        <div class="stage-grid">
+          <div class="rail">
+            <div class="rail-number">3</div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-head">
+              <div>
+                <h2>Site insight</h2>
+                <p>
+                  Mocked insight generated from the selected boundary. Phase 1 remains a library journey, but this
+                  demonstrates the future site-led service logic.
+                </p>
+              </div>
+              <button onclick="goStep('services')">Continue</button>
+            </div>
+
+            <div class="metric-row">
+              <div class="metric">
+                <strong>4.20</strong>
+                <span>Site area, hectares</span>
+              </div>
+
+              <div class="metric">
+                <strong>19</strong>
+                <span>Estimated utilities nearby</span>
+              </div>
+
+              <div class="metric">
+                <strong>2</strong>
+                <span>Indicative asset alerts</span>
+              </div>
+
+              <div class="metric">
+                <strong>Library</strong>
+                <span>Phase 1 delivery</span>
+              </div>
+            </div>
+
+            <div class="alert-list">
+              <article class="alert">
+                <h3>High voltage alert</h3>
+                <p>
+                  Potential high-voltage assets may be present nearby. Route user to OneCall and relevant safety guidance.
+                </p>
+              </article>
+
+              <article class="alert pressure">
+                <h3>High pressure alert</h3>
+                <p>
+                  Potential high-pressure pipeline constraints may require additional guidance or premium checks.
+                </p>
+              </article>
+            </div>
+
+            <div class="activity-card">
+              <div>
+                <label for="activitySelect">What do you want to do?</label>
                 <select id="activitySelect" onchange="updateServices()">
                   <option value="plan">Plan or assess feasibility</option>
                   <option value="dig">Dig, trench or excavate</option>
@@ -799,208 +1051,379 @@
                   <option value="emergency">Respond to an incident</option>
                 </select>
               </div>
-              <button onclick="goStep('services')">Select services</button>
+
+              <button onclick="goStep('services')">Show services</button>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- STEP 4 -->
       <section class="stage" id="stage-services">
-        <div class="card">
-          <div class="card-head">
-            <div>
-              <h3>Select services</h3>
-              <p>Choose from core library resources, site guidance and premium service routes. Items can be added to the basket.</p>
-            </div>
+        <div class="stage-grid">
+          <div class="rail">
+            <div class="rail-number">4</div>
           </div>
-          <div class="card-body">
-            <div class="service-grid" id="serviceGrid"></div>
-            <div class="actions">
-              <button class="btn-ghost" onclick="goStep('insight')">Back</button>
+
+          <div class="stage-card">
+            <div class="stage-head">
+              <div>
+                <h2>Service options</h2>
+                <p>
+                  The selected activity filters library resources and premium routes. This keeps Phase 1 simple while
+                  demonstrating the commercial pathway.
+                </p>
+              </div>
               <button onclick="goStep('basket')">View basket</button>
             </div>
+
+            <div class="services" id="serviceGrid"></div>
           </div>
         </div>
       </section>
 
+      <!-- STEP 5 -->
       <section class="stage" id="stage-basket">
-        <div class="card">
-          <div class="card-head">
-            <div>
-              <h3>Basket</h3>
-              <p>Review the selected resources and service routes before continuing to login/downloads.</p>
-            </div>
+        <div class="stage-grid">
+          <div class="rail">
+            <div class="rail-number">5</div>
           </div>
-          <div class="card-body basket-layout">
-            <div>
-              <ul class="basket-list" id="basketList"></ul>
-              <p class="phase-note" id="emptyBasketNote">No items selected yet. Add services from the previous step.</p>
-              <div class="actions">
-                <button class="btn-ghost" onclick="goStep('services')">Add more services</button>
-                <button onclick="goStep('downloads')">Continue</button>
+
+          <div class="stage-card">
+            <div class="stage-head">
+              <div>
+                <h2>Basket</h2>
+                <p>
+                  Selected library items and premium service routes are collected before login-gated delivery.
+                </p>
               </div>
+              <button onclick="goStep('downloads')">Continue</button>
             </div>
-            <div class="summary-card">
-              <h4>Prototype basket</h4>
-              <p>Phase 1 treats the basket as a selected-resource pack, not a payment basket.</p>
-              <p>Later phases can add quote references, payment, BACS, email confirmation and saved project records.</p>
+
+            <div class="basket-layout">
+              <div>
+                <ul class="basket-list" id="basketList"></ul>
+                <p class="note" id="emptyBasketNote">
+                  No items selected yet. Return to Service options to add items.
+                </p>
+
+                <div class="note">
+                  <button class="secondary" onclick="goStep('services')">Add more services</button>
+                </div>
+              </div>
+
+              <aside class="summary">
+                <h3>Phase 1 basket</h3>
+                <p>This is a resource basket, not a payment basket.</p>
+                <p>
+                  Later phases can add quote references, payment, BACS, email confirmation and saved site records.
+                </p>
+              </aside>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- STEP 6 -->
       <section class="stage" id="stage-downloads">
-        <div class="card">
-          <div class="card-head">
-            <div>
-              <h3>Downloads and routes</h3>
-              <p>Users must login to receive search responses, site-specific downloads or saved activity records.</p>
-            </div>
+        <div class="stage-grid">
+          <div class="rail">
+            <div class="rail-number">6</div>
           </div>
-          <div class="card-body">
-            <div class="login-panel">
-              <h4 id="loginPanelTitle">Login required</h4>
-              <p id="loginPanelText">Please login to OneCall to access search responses, saved site details and downloadable packs.</p>
-              <div class="actions">
-                <a href="https://lsbud.co.uk/onecall" target="_blank" rel="noopener" class="btn btn-dark">Login to OneCall</a>
-                <button class="btn-ghost" onclick="simulateLogin()">Simulate login</button>
+
+          <div class="stage-card">
+            <div class="stage-head">
+              <div>
+                <h2>Downloads</h2>
+                <p>
+                  Logged-in users can access selected library packs, OneCall routes and premium request summaries.
+                </p>
               </div>
+              <button onclick="mockDownloadAll()">Download pack</button>
             </div>
 
-            <div class="download-grid" id="downloadGrid"></div>
+            <div class="login-panel">
+              <h3 id="loginPanelTitle">Login required</h3>
+              <p id="loginPanelText">
+                Sign in to access search responses, selected downloads and saved site details.
+              </p>
 
-            <div class="actions">
-              <button class="btn-ghost" onclick="goStep('draw')">Start another site</button>
-              <button onclick="mockDownloadAll()">Download selected pack</button>
+              <p class="note">
+                https://lsbud.co.uk/onecall
+                  Login to OneCall
+                </a>
+                <button class="secondary" onclick="simulateLogin()">Simulate login</button>
+              </p>
             </div>
+
+            <div class="downloads" id="downloadGrid"></div>
           </div>
         </div>
       </section>
+
     </main>
 
     <footer>
-      LSBUD Safe Digging Portal — Phase 1 prototype. This layout demonstrates a clean library journey only: login, site drawing, indicative site insight, activity-led service selection, basket and gated downloads. Live asset searches, payments and stored responses are not executed in this version.
+      LSBUD Safe Digging Portal — Phase 1 prototype. This version demonstrates a clean library journey:
+      login, draw site, indicative insight, activity-led service options, basket and gated downloads.
+      Live searches, payments and stored records are not created in this prototype.
     </footer>
   </div>
 
   <script>
+    const order = ["start", "draw", "insight", "services", "basket", "downloads"];
+
     const baseServices = [
-      { id: 'onecall', type: 'Core', title: 'LSBUD OneCall Utility Search', desc: 'Route to the free OneCall utility search for the selected site.', price: 'Free route', tags: ['all'] },
-      { id: 'guide', type: 'Library', title: 'Safe Digging Guidance Pack', desc: 'Relevant guidance notes and safe digging checklist for the chosen work type.', price: 'Included', tags: ['all'] },
-      { id: 'asset-risk', type: 'Library', title: 'High Voltage / High Pressure Guidance', desc: 'Asset-risk guidance for possible high-voltage and high-pressure infrastructure alerts.', price: 'Included', tags: ['all', 'dig', 'posts', 'design', 'emergency'] },
-      { id: 'planning-env', type: 'Library', title: 'Planning & Environmental Resource Pack', desc: 'Routes to TPO, SSSI, conservation, watercourse and planning resource links.', price: 'Included', tags: ['plan', 'vegetation', 'environment', 'renewables'] },
-      { id: 'hsg47', type: 'Library', title: 'HSG47 / Excavation Guidance', desc: 'Guidance route for avoiding danger from underground services during excavation.', price: 'Included', tags: ['dig', 'posts'] },
-      { id: 'pas128', type: 'Library', title: 'PAS128 / Design Route Card', desc: 'Desktop due-diligence and utility detection guidance for design and engineering work.', price: 'Included', tags: ['design', 'plan'] },
-      { id: 'topup', type: 'Premium', title: 'Top-Up Asset Search', desc: 'Enhanced asset confidence route where users want additional assurance.', price: 'Premium option', tags: ['all'] },
-      { id: 'survey', type: 'Premium', title: 'Request Survey Quote', desc: 'Route to GPR, PAS128 verification or specialist site survey quotation.', price: 'Quote request', tags: ['design', 'dig', 'plan', 'renewables'] },
-      { id: 'equipment', type: 'Premium', title: 'Equipment & Safety Support', desc: 'Route to CAT scanner, safety equipment or toolbox-talk support services.', price: 'Partner route', tags: ['dig', 'posts', 'emergency'] },
-      { id: 'renewables', type: 'Premium', title: 'Renewables Feasibility Pack', desc: 'Support route for grid connection, DNO asset assumptions and planning checks.', price: 'Premium option', tags: ['renewables'] },
-      { id: 'incident', type: 'Emergency', title: 'Critical Asset Contact Route', desc: 'Fast-route library page for emergency utility contacts and incident prompts.', price: 'Restricted route', tags: ['emergency'] }
+      {
+        id: "onecall",
+        type: "Core",
+        title: "LSBUD OneCall Utility Search",
+        desc: "Route to the free OneCall utility search for the selected site.",
+        price: "Free route",
+        tags: ["all"]
+      },
+      {
+        id: "guide",
+        type: "Library",
+        title: "Safe Digging Guidance Pack",
+        desc: "Relevant guidance notes and safe digging checklist for the work type.",
+        price: "Included",
+        tags: ["all"]
+      },
+      {
+        id: "asset-risk",
+        type: "Library",
+        title: "High Voltage / High Pressure Guidance",
+        desc: "Guidance for potential high-voltage and high-pressure infrastructure alerts.",
+        price: "Included",
+        tags: ["all", "dig", "posts", "design", "emergency"]
+      },
+      {
+        id: "planning-env",
+        type: "Library",
+        title: "Planning & Environmental Resource Pack",
+        desc: "Routes to TPO, SSSI, conservation, watercourse and planning resources.",
+        price: "Included",
+        tags: ["plan", "vegetation", "environment", "renewables"]
+      },
+      {
+        id: "hsg47",
+        type: "Library",
+        title: "HSG47 / Excavation Guidance",
+        desc: "Guidance route for avoiding danger from underground services.",
+        price: "Included",
+        tags: ["dig", "posts"]
+      },
+      {
+        id: "pas128",
+        type: "Library",
+        title: "PAS128 / Design Route Card",
+        desc: "Desktop due-diligence and utility detection guidance for design work.",
+        price: "Included",
+        tags: ["design", "plan"]
+      },
+      {
+        id: "topup",
+        type: "Premium",
+        title: "Top-Up Asset Search",
+        desc: "Enhanced asset confidence route where additional assurance is needed.",
+        price: "Premium option",
+        tags: ["all"]
+      },
+      {
+        id: "survey",
+        type: "Premium",
+        title: "Request Survey Quote",
+        desc: "Route to GPR, PAS128 verification or specialist site survey quotation.",
+        price: "Quote request",
+        tags: ["design", "dig", "plan", "renewables"]
+      },
+      {
+        id: "equipment",
+        type: "Premium",
+        title: "Equipment & Safety Support",
+        desc: "Route to CAT scanner, safety equipment or toolbox-talk support.",
+        price: "Partner route",
+        tags: ["dig", "posts", "emergency"]
+      },
+      {
+        id: "renewables",
+        type: "Premium",
+        title: "Renewables Feasibility Pack",
+        desc: "Support route for grid connection, DNO assumptions and planning checks.",
+        price: "Premium option",
+        tags: ["renewables"]
+      },
+      {
+        id: "incident",
+        type: "Emergency",
+        title: "Critical Asset Contact Route",
+        desc: "Fast-route library page for emergency utility contacts and prompts.",
+        price: "Restricted route",
+        tags: ["emergency"]
+      }
     ];
 
-    let selectedServices = new Set(['onecall', 'guide']);
+    let selectedServices = new Set(["onecall", "guide"]);
     let loggedIn = false;
 
     function goStep(step) {
-      document.querySelectorAll('.stage').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-      document.getElementById('stage-' + step).classList.add('active');
-      document.querySelector('[data-step="' + step + '"]').classList.add('active');
-      if (step === 'services') updateServices();
-      if (step === 'basket') renderBasket();
-      if (step === 'downloads') renderDownloads();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.querySelectorAll(".stage").forEach(el => el.classList.remove("active"));
+      document.querySelectorAll(".crumb").forEach(el => el.classList.remove("active", "done"));
+
+      document.getElementById("stage-" + step).classList.add("active");
+
+      const idx = order.indexOf(step);
+
+      order.forEach((name, i) => {
+        const crumb = document.querySelector('[data-crumb="' + name + '"]');
+
+        if (!crumb) {
+          return;
+        }
+
+        if (i < idx) {
+          crumb.classList.add("done");
+        }
+
+        if (i === idx) {
+          crumb.classList.add("active");
+        }
+      });
+
+      if (step === "services") {
+        updateServices();
+      }
+
+      if (step === "basket") {
+        renderBasket();
+      }
+
+      if (step === "downloads") {
+        renderDownloads();
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function currentActivity() {
-      return document.getElementById('activitySelect').value;
+      return document.getElementById("activitySelect").value;
     }
 
     function updateServices() {
       const activity = currentActivity();
-      const grid = document.getElementById('serviceGrid');
-      const services = baseServices.filter(s => s.tags.includes('all') || s.tags.includes(activity));
+
+      const services = baseServices.filter(service => {
+        return service.tags.includes("all") || service.tags.includes(activity);
+      });
+
+      const grid = document.getElementById("serviceGrid");
+
       grid.innerHTML = services.map(service => `
-        <article class="service-card ${selectedServices.has(service.id) ? 'selected' : ''}">
+        <article class="service ${selectedServices.has(service.id) ? "selected" : ""}">
           <div class="type">${service.type}</div>
-          <h4>${service.title}</h4>
+          <h3>${service.title}</h3>
           <p>${service.desc}</p>
           <div class="price">${service.price}</div>
-          <button class="${selectedServices.has(service.id) ? 'btn-grey' : ''}" onclick="toggleService('${service.id}')">${selectedServices.has(service.id) ? 'Remove' : 'Add to basket'}</button>
+          <button class="${selectedServices.has(service.id) ? "secondary" : ""}" onclick="toggleService('${service.id}')">
+            ${selectedServices.has(service.id) ? "Remove" : "Add to basket"}
+          </button>
         </article>
-      `).join('');
+      `).join("");
     }
 
     function toggleService(id) {
-      if (selectedServices.has(id)) selectedServices.delete(id);
-      else selectedServices.add(id);
+      if (selectedServices.has(id)) {
+        selectedServices.delete(id);
+      } else {
+        selectedServices.add(id);
+      }
+
       updateServices();
     }
 
     function serviceById(id) {
-      return baseServices.find(s => s.id === id);
+      return baseServices.find(service => service.id === id);
     }
 
     function renderBasket() {
-      const list = document.getElementById('basketList');
-      const note = document.getElementById('emptyBasketNote');
       const items = [...selectedServices].map(serviceById).filter(Boolean);
-      note.style.display = items.length ? 'none' : 'block';
-      list.innerHTML = items.map(item => `
-        <li><span><strong>${item.title}</strong><br>${item.type}</span><span>${item.price}</span></li>
-      `).join('');
+
+      document.getElementById("emptyBasketNote").style.display = items.length ? "none" : "block";
+
+      document.getElementById("basketList").innerHTML = items.map(item => `
+        <li>
+          <span>
+            <strong>${item.title}</strong><br>
+            ${item.type}
+          </span>
+          <span>${item.price}</span>
+        </li>
+      `).join("");
     }
 
     function renderDownloads() {
-      const grid = document.getElementById('downloadGrid');
       const items = [...selectedServices].map(serviceById).filter(Boolean);
-      document.getElementById('loginPanelTitle').textContent = loggedIn ? 'Logged in — downloads available' : 'Login required';
-      document.getElementById('loginPanelText').textContent = loggedIn
-        ? 'The prototype is showing available download and routing cards for the selected library pack.'
-        : 'Please login to OneCall to access search responses, saved site details and downloadable packs.';
-      grid.innerHTML = items.map(item => `
+
+      document.getElementById("loginPanelTitle").textContent = loggedIn
+        ? "Logged in — downloads available"
+        : "Login required";
+
+      document.getElementById("loginPanelText").textContent = loggedIn
+        ? "The selected library pack and route cards are available in this prototype."
+        : "Sign in to access search responses, selected downloads and saved site details.";
+
+      document.getElementById("downloadGrid").innerHTML = items.map(item => `
         <article class="download">
-          <h4>${item.title}</h4>
-          <p>${loggedIn ? 'Available as a prototype download / route.' : 'Locked until login.'}</p>
-          <button class="${loggedIn ? 'btn-blue' : 'btn-grey'}" onclick="mockDownload('${item.title}')">${loggedIn ? 'Open / download' : 'Login required'}</button>
+          <h3>${item.title}</h3>
+          <p>${loggedIn ? "Available as a prototype download or service route." : "Locked until login."}</p>
+          <button class="${loggedIn ? "" : "secondary"}" onclick="mockDownload('${item.title}')">
+            ${loggedIn ? "Open / download" : "Login required"}
+          </button>
         </article>
-      `).join('');
+      `).join("");
     }
 
     function syncLoginStatus() {
-      loggedIn = document.getElementById('loginStatus').value === 'logged-in';
+      loggedIn = document.getElementById("loginStatus").value === "logged-in";
     }
 
     function simulateLogin() {
       loggedIn = true;
-      const status = document.getElementById('loginStatus');
-      if (status) status.value = 'logged-in';
-      alert('Prototype login simulated. Downloads will now show as available.');
-      if (document.getElementById('stage-downloads').classList.contains('active')) renderDownloads();
-    }
 
-    function mockLocate() {
-      const value = document.getElementById('siteSearch').value.trim();
-      alert(value ? 'Prototype map moved to: ' + value : 'Enter a postcode, town, grid reference or site name first.');
+      const status = document.getElementById("loginStatus");
+
+      if (status) {
+        status.value = "logged-in";
+      }
+
+      alert("Prototype login simulated.");
+
+      if (document.getElementById("stage-downloads").classList.contains("active")) {
+        renderDownloads();
+      }
     }
 
     function mockDownload(title) {
       if (!loggedIn) {
-        alert('Login required before this response or library pack can be accessed.');
+        alert("Login required before this item can be accessed.");
         return;
       }
-      alert('Prototype download opened: ' + title);
+
+      alert("Prototype opened: " + title);
     }
 
     function mockDownloadAll() {
       if (!loggedIn) {
-        alert('Login required before selected downloads can be accessed.');
+        alert("Login required before the selected pack can be downloaded.");
         return;
       }
-      alert('Prototype selected pack downloaded.');
+
+      alert("Prototype selected pack downloaded.");
     }
 
     updateServices();
   </script>
+
 </body>
 </html>
