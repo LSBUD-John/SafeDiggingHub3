@@ -5,14 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>LSBUD Safe Digging Portal</title>
-
-  <!-- Leaflet CSS -->
-  https://unpkg.com/leaflet@1.9.4/dist/leaflet.css
-
-  <!-- Leaflet Draw CSS -->
-  https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css
-
-  <!-- Prevent favicon 404 in prototype -->
   data:,
 
   <style>
@@ -22,7 +14,6 @@
       --green: #6f9f43;
       --ink: #2d2f38;
       --muted: #6f7280;
-      --soft: #f7f8fa;
       --line: #e4e7eb;
       --line-dark: #cfd6dc;
       --warning: #b7791f;
@@ -356,8 +347,7 @@
     }
 
     input,
-    select,
-    textarea {
+    select {
       width: 100%;
       border: 1px solid var(--line);
       border-radius: 9px;
@@ -365,15 +355,6 @@
       font: inherit;
       color: var(--ink);
       background: #fff;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus,
-    button:focus,
-    a:focus {
-      outline: 3px solid rgba(111, 159, 67, 0.20);
-      outline-offset: 2px;
     }
 
     .form-strip {
@@ -542,17 +523,25 @@
       background: var(--warning);
     }
 
-    .alert h3 {
-      margin: 0 0 6px;
-      font-size: 1rem;
+    .alert h3,
+    .service h3,
+    .summary h3,
+    .login-panel h3,
+    .download h3 {
+      margin: 0 0 8px;
       color: #30313d;
+      font-size: 1rem;
     }
 
-    .alert p {
-      margin: 0;
+    .alert p,
+    .service p,
+    .summary p,
+    .login-panel p,
+    .download p {
+      margin: 0 0 10px;
       color: var(--muted);
-      line-height: 1.48;
-      font-size: 0.92rem;
+      line-height: 1.45;
+      font-size: .92rem;
     }
 
     .activity-card {
@@ -578,12 +567,6 @@
       min-height: 210px;
       display: flex;
       flex-direction: column;
-      transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
-    }
-
-    .service:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 32px rgba(16, 24, 40, 0.07);
     }
 
     .service.selected {
@@ -598,19 +581,6 @@
       letter-spacing: .08em;
       text-transform: uppercase;
       margin-bottom: 10px;
-    }
-
-    .service h3 {
-      margin: 0 0 8px;
-      color: #30313d;
-      font-size: 1rem;
-    }
-
-    .service p {
-      margin: 0 0 13px;
-      color: var(--muted);
-      line-height: 1.45;
-      font-size: 0.92rem;
     }
 
     .service .price {
@@ -663,23 +633,6 @@
       padding: 18px;
     }
 
-    .summary h3,
-    .login-panel h3,
-    .download h3 {
-      margin: 0 0 8px;
-      color: #30313d;
-      font-size: 1rem;
-    }
-
-    .summary p,
-    .login-panel p,
-    .download p {
-      margin: 0 0 10px;
-      color: var(--muted);
-      line-height: 1.45;
-      font-size: .92rem;
-    }
-
     .downloads {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -710,6 +663,13 @@
 
     .boundary-output.active {
       display: block;
+    }
+
+    .map-error {
+      padding: 24px;
+      color: var(--danger);
+      background: #fff;
+      border-top: 1px solid var(--line);
     }
 
     footer {
@@ -848,7 +808,7 @@
         #About</a>
         #Resources</a>
         https://lsbud.co.uk/onecallSign in / register</a>
-        # return false;">Start search</a>
+        #Start search</a>
       </nav>
     </header>
 
@@ -944,7 +904,7 @@
               <div>
                 <h2>Draw the site</h2>
                 <p>
-                  The map defaults to Birmingham. Search for a location, then draw the area of interest using the polygon tool.
+                  The map defaults to Birmingham. Search for a location, then draw the area of interest using the polygon or rectangle tool.
                 </p>
               </div>
               <button onclick="goStep('insight')">Continue</button>
@@ -966,7 +926,7 @@
               <div id="leafletMap"></div>
 
               <div class="map-footer">
-                <span id="boundaryStatus">No boundary drawn yet.</span>
+                <span id="boundaryStatus">Map default is Birmingham. Draw a boundary to continue.</span>
                 <div>
                   <button class="secondary" onclick="clearBoundary()">Clear boundary</button>
                   <button onclick="goStep('insight')">Use this site</button>
@@ -1145,104 +1105,32 @@
     </footer>
   </div>
 
-  <!-- Leaflet JS -->
-  https://unpkg.com/leaflet@1.9.4/dist/leaflet.jsscript>
-
-  <!-- Leaflet Draw JS -->
-  https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.jsscript>
-
   <script>
+    const LEAFLET_CSS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+    const LEAFLET_JS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+    const DRAW_CSS = "https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css";
+    const DRAW_JS = "https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js";
+
     const order = ["start", "draw", "insight", "services", "basket", "downloads"];
 
+    const Birmingham = {
+      lat: 52.4862,
+      lng: -1.8904,
+      zoom: 13
+    };
+
     const baseServices = [
-      {
-        id: "onecall",
-        type: "Core",
-        title: "LSBUD OneCall Utility Search",
-        desc: "Route to the free OneCall utility search for the selected site.",
-        price: "Free route",
-        tags: ["all"]
-      },
-      {
-        id: "guide",
-        type: "Library",
-        title: "Safe Digging Guidance Pack",
-        desc: "Relevant guidance notes and safe digging checklist for the work type.",
-        price: "Included",
-        tags: ["all"]
-      },
-      {
-        id: "asset-risk",
-        type: "Library",
-        title: "High Voltage / High Pressure Guidance",
-        desc: "Guidance for potential high-voltage and high-pressure infrastructure alerts.",
-        price: "Included",
-        tags: ["all", "dig", "posts", "design", "emergency"]
-      },
-      {
-        id: "planning-env",
-        type: "Library",
-        title: "Planning & Environmental Resource Pack",
-        desc: "Routes to TPO, SSSI, conservation, watercourse and planning resources.",
-        price: "Included",
-        tags: ["plan", "vegetation", "environment", "renewables"]
-      },
-      {
-        id: "hsg47",
-        type: "Library",
-        title: "HSG47 / Excavation Guidance",
-        desc: "Guidance route for avoiding danger from underground services.",
-        price: "Included",
-        tags: ["dig", "posts"]
-      },
-      {
-        id: "pas128",
-        type: "Library",
-        title: "PAS128 / Design Route Card",
-        desc: "Desktop due-diligence and utility detection guidance for design work.",
-        price: "Included",
-        tags: ["design", "plan"]
-      },
-      {
-        id: "topup",
-        type: "Premium",
-        title: "Top-Up Asset Search",
-        desc: "Enhanced asset confidence route where additional assurance is needed.",
-        price: "Premium option",
-        tags: ["all"]
-      },
-      {
-        id: "survey",
-        type: "Premium",
-        title: "Request Survey Quote",
-        desc: "Route to GPR, PAS128 verification or specialist site survey quotation.",
-        price: "Quote request",
-        tags: ["design", "dig", "plan", "renewables"]
-      },
-      {
-        id: "equipment",
-        type: "Premium",
-        title: "Equipment & Safety Support",
-        desc: "Route to CAT scanner, safety equipment or toolbox-talk support.",
-        price: "Partner route",
-        tags: ["dig", "posts", "emergency"]
-      },
-      {
-        id: "renewables",
-        type: "Premium",
-        title: "Renewables Feasibility Pack",
-        desc: "Support route for grid connection, DNO assumptions and planning checks.",
-        price: "Premium option",
-        tags: ["renewables"]
-      },
-      {
-        id: "incident",
-        type: "Emergency",
-        title: "Critical Asset Contact Route",
-        desc: "Fast-route library page for emergency utility contacts and prompts.",
-        price: "Restricted route",
-        tags: ["emergency"]
-      }
+      { id: "onecall", type: "Core", title: "LSBUD OneCall Utility Search", desc: "Route to the free OneCall utility search for the selected site.", price: "Free route", tags: ["all"] },
+      { id: "guide", type: "Library", title: "Safe Digging Guidance Pack", desc: "Relevant guidance notes and safe digging checklist for the work type.", price: "Included", tags: ["all"] },
+      { id: "asset-risk", type: "Library", title: "High Voltage / High Pressure Guidance", desc: "Guidance for potential high-voltage and high-pressure infrastructure alerts.", price: "Included", tags: ["all", "dig", "posts", "design", "emergency"] },
+      { id: "planning-env", type: "Library", title: "Planning & Environmental Resource Pack", desc: "Routes to TPO, SSSI, conservation, watercourse and planning resources.", price: "Included", tags: ["plan", "vegetation", "environment", "renewables"] },
+      { id: "hsg47", type: "Library", title: "HSG47 / Excavation Guidance", desc: "Guidance route for avoiding danger from underground services.", price: "Included", tags: ["dig", "posts"] },
+      { id: "pas128", type: "Library", title: "PAS128 / Design Route Card", desc: "Desktop due-diligence and utility detection guidance for design work.", price: "Included", tags: ["design", "plan"] },
+      { id: "topup", type: "Premium", title: "Top-Up Asset Search", desc: "Enhanced asset confidence route where additional assurance is needed.", price: "Premium option", tags: ["all"] },
+      { id: "survey", type: "Premium", title: "Request Survey Quote", desc: "Route to GPR, PAS128 verification or specialist site survey quotation.", price: "Quote request", tags: ["design", "dig", "plan", "renewables"] },
+      { id: "equipment", type: "Premium", title: "Equipment & Safety Support", desc: "Route to CAT scanner, safety equipment or toolbox-talk support.", price: "Partner route", tags: ["dig", "posts", "emergency"] },
+      { id: "renewables", type: "Premium", title: "Renewables Feasibility Pack", desc: "Support route for grid connection, DNO assumptions and planning checks.", price: "Premium option", tags: ["renewables"] },
+      { id: "incident", type: "Emergency", title: "Critical Asset Contact Route", desc: "Fast-route library page for emergency utility contacts and prompts.", price: "Restricted route", tags: ["emergency"] }
     ];
 
     let selectedServices = new Set(["onecall", "guide"]);
@@ -1253,12 +1141,79 @@
     let currentBoundaryGeoJSON = null;
     let currentAreaHa = 0;
     let latestSearchResults = [];
+    let leafletAssetsLoaded = false;
+    let leafletLoadPromise = null;
 
-    const Birmingham = {
-      lat: 52.4862,
-      lng: -1.8904,
-      zoom: 13
-    };
+    function loadCssOnce(href) {
+      return new Promise((resolve, reject) => {
+        if ([...document.styleSheets].some(sheet => sheet.href === href)) {
+          resolve();
+          return;
+        }
+
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = href;
+        link.onload = resolve;
+        link.onerror = () => reject(new Error("CSS failed to load: " + href));
+        document.head.appendChild(link);
+      });
+    }
+
+    function loadScriptOnce(src) {
+      return new Promise((resolve, reject) => {
+        if ([...document.scripts].some(script => script.src === src)) {
+          resolve();
+          return;
+        }
+
+        const script = document.createElement("script");
+        script.src = src;
+        script.async = false;
+        script.onload = resolve;
+        script.onerror = () => reject(new Error("Script failed to load: " + src));
+        document.body.appendChild(script);
+      });
+    }
+
+    async function loadLeafletAssets() {
+      if (leafletAssetsLoaded) {
+        return;
+      }
+
+      if (leafletLoadPromise) {
+        return leafletLoadPromise;
+      }
+
+      leafletLoadPromise = (async () => {
+        await loadCssOnce(LEAFLET_CSS);
+        await loadCssOnce(DRAW_CSS);
+        await loadScriptOnce(LEAFLET_JS);
+        await loadScriptOnce(DRAW_JS);
+
+        if (typeof L === "undefined") {
+          throw new Error("Leaflet object L is still undefined after loading scripts.");
+        }
+
+        leafletAssetsLoaded = true;
+      })();
+
+      return leafletLoadPromise;
+    }
+
+    function showMapLoadError(error) {
+      const mapDiv = document.getElementById("leafletMap");
+      mapDiv.innerHTML = `
+        <div class="map-error">
+          <strong>Map library could not be loaded.</strong><br>
+          Please check that this browser can access:<br>
+          ${LEAFLET_JS}<br>
+          ${DRAW_JS}<br><br>
+          Error: ${escapeHtml(error.message)}
+        </div>
+      `;
+      console.error(error);
+    }
 
     function goStep(step) {
       document.querySelectorAll(".stage").forEach(el => el.classList.remove("active"));
@@ -1270,17 +1225,20 @@
 
       order.forEach((name, i) => {
         const crumb = document.querySelector('[data-crumb="' + name + '"]');
-
         if (!crumb) return;
-
         if (i < idx) crumb.classList.add("done");
         if (i === idx) crumb.classList.add("active");
       });
 
       if (step === "draw") {
-        setTimeout(() => {
-          initLeafletMap();
-          if (map) map.invalidateSize();
+        setTimeout(async () => {
+          try {
+            await loadLeafletAssets();
+            initLeafletMap();
+            if (map) map.invalidateSize();
+          } catch (error) {
+            showMapLoadError(error);
+          }
         }, 150);
       }
 
@@ -1293,10 +1251,8 @@
     }
 
     function initLeafletMap() {
-      if (map) return;
-
-      if (typeof L === "undefined") {
-        alert("Leaflet has not loaded. Please check internet access and CDN script tags.");
+      if (map) {
+        map.invalidateSize();
         return;
       }
 
@@ -1346,19 +1302,17 @@
 
       map.addControl(drawControl);
 
-      map.on(L.Draw.Event.CREATED, function (event) {
+      map.on(L.Draw.Event.CREATED, event => {
         drawnItems.clearLayers();
         drawnItems.addLayer(event.layer);
         updateBoundaryFromLayer(event.layer);
       });
 
-      map.on(L.Draw.Event.EDITED, function (event) {
-        event.layers.eachLayer(function (layer) {
-          updateBoundaryFromLayer(layer);
-        });
+      map.on(L.Draw.Event.EDITED, event => {
+        event.layers.eachLayer(layer => updateBoundaryFromLayer(layer));
       });
 
-      map.on(L.Draw.Event.DELETED, function () {
+      map.on(L.Draw.Event.DELETED, () => {
         currentBoundaryGeoJSON = null;
         currentAreaHa = 0;
         updateBoundaryDisplay();
@@ -1377,8 +1331,12 @@
         return;
       }
 
-      if (!map) {
+      try {
+        await loadLeafletAssets();
         initLeafletMap();
+      } catch (error) {
+        showMapLoadError(error);
+        return;
       }
 
       const panel = document.getElementById("searchResultsPanel");
@@ -1654,6 +1612,5 @@
       }
     });
   </script>
-
 </body>
 </html>
