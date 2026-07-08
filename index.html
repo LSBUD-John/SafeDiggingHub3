@@ -542,10 +542,110 @@
       white-space: nowrap;
     }
 
+    .leaflet-map-wrap {
+      position: relative;
+    }
+
     #leafletMap {
       height: 460px;
       width: 100%;
       background: #eef2f5;
+    }
+
+    #leafletMap .leaflet-tile {
+      filter: grayscale(85%) brightness(96%);
+    }
+
+    .map-radar-loader {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(2px);
+      z-index: 600;
+      pointer-events: none;
+    }
+
+    .map-radar-loader.active {
+      display: flex;
+    }
+
+    .radar-spinner {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      border: 1px solid rgba(8, 50, 80, 0.16);
+      background:
+        radial-gradient(circle, rgba(111, 159, 67, 0.18) 0 3px, transparent 4px),
+        radial-gradient(circle, transparent 0 25%, rgba(8, 50, 80, 0.08) 26% 27%, transparent 28%),
+        radial-gradient(circle, transparent 0 48%, rgba(8, 50, 80, 0.10) 49% 50%, transparent 51%),
+        radial-gradient(circle, transparent 0 72%, rgba(8, 50, 80, 0.12) 73% 74%, transparent 75%);
+      box-shadow: 0 12px 30px rgba(16, 24, 40, 0.12);
+      overflow: hidden;
+    }
+
+    .radar-spinner::before {
+      content: "";
+      position: absolute;
+      inset: 50% 50% 0 50%;
+      width: 42px;
+      height: 42px;
+      transform-origin: 0 0;
+      background: linear-gradient(
+        45deg,
+        rgba(111, 159, 67, 0.42),
+        rgba(111, 159, 67, 0.06) 55%,
+        transparent 70%
+      );
+      animation: radarSweep 1.65s linear infinite;
+    }
+
+    .radar-spinner::after {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border-radius: 50%;
+      border: 1px dashed rgba(8, 50, 80, 0.18);
+    }
+
+    .radar-spinner span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 7px;
+      height: 7px;
+      margin-left: -3.5px;
+      margin-top: -3.5px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(111, 159, 67, 0.16);
+      z-index: 2;
+    }
+
+    .radar-loader-text {
+      color: #30313d;
+      font-size: 0.88rem;
+      font-weight: 750;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 13px;
+      box-shadow: 0 8px 22px rgba(16, 24, 40, 0.08);
+    }
+
+    @keyframes radarSweep {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .map-footer {
@@ -909,7 +1009,6 @@
         gap: 18px;
       }
 
-      .form-strip,
       .activity-card,
       .map-toolbar {
         grid-template-columns: 1fr;
@@ -1169,7 +1268,16 @@
                 <ul class="result-list" id="searchResultsList"></ul>
               </div>
 
-              <div id="leafletMap"></div>
+              <div class="leaflet-map-wrap">
+                <div id="leafletMap"></div>
+
+                <div class="map-radar-loader" id="mapRadarLoader" aria-live="polite">
+                  <div class="radar-spinner">
+                    <span></span>
+                  </div>
+                  <div class="radar-loader-text" id="mapRadarText">Loading map...</div>
+                </div>
+              </div>
 
               <div class="map-footer">
                 <span id="boundaryStatus">Map default is Birmingham. Draw a boundary or route to continue.</span>
@@ -1483,17 +1591,94 @@
     ];
 
     const baseServices = [
-      { id: "onecall", type: "Core", title: "LSBUD OneCall Utility Search", desc: "Route to the free OneCall utility search for the selected site.", price: "Free route", tags: ["all"] },
-      { id: "guide", type: "Library", title: "Safe Digging Guidance Pack", desc: "Relevant guidance notes and safe digging checklist for the work type.", price: "Included", tags: ["all"] },
-      { id: "asset-risk", type: "Library", title: "High Voltage / High Pressure Guidance", desc: "Guidance for potential high-voltage and high-pressure infrastructure alerts.", price: "Included", tags: ["all", "dig", "posts", "design", "emergency"] },
-      { id: "planning-env", type: "Library", title: "Planning & Environmental Resource Pack", desc: "Routes to TPO, SSSI, conservation, watercourse and planning resources.", price: "Included", tags: ["plan", "vegetation", "environment", "renewables"] },
-      { id: "hsg47", type: "Library", title: "HSG47 / Excavation Guidance", desc: "Guidance route for avoiding danger from underground services.", price: "Included", tags: ["dig", "posts"] },
-      { id: "pas128", type: "Library", title: "PAS128 / Design Route Card", desc: "Desktop due-diligence and utility detection guidance for design work.", price: "Included", tags: ["design", "plan"] },
-      { id: "topup", type: "Premium", title: "Top-Up Asset Search", desc: "Enhanced asset confidence route where additional assurance is needed.", price: "Premium option", tags: ["all"] },
-      { id: "survey", type: "Premium", title: "Request Survey Quote", desc: "Route to GPR, PAS128 verification or specialist site survey quotation.", price: "Quote request", tags: ["design", "dig", "plan", "renewables"] },
-      { id: "equipment", type: "Premium", title: "Equipment & Safety Support", desc: "Route to CAT scanner, safety equipment or toolbox-talk support.", price: "Partner route", tags: ["dig", "posts", "emergency"] },
-      { id: "renewables", type: "Premium", title: "Renewables Feasibility Pack", desc: "Support route for grid connection, DNO assumptions and planning checks.", price: "Premium option", tags: ["renewables"] },
-      { id: "incident", type: "Emergency", title: "Critical Asset Contact Route", desc: "Fast-route library page for emergency utility contacts and prompts.", price: "Restricted route", tags: ["emergency"] }
+      {
+        id: "onecall",
+        type: "Core",
+        title: "LSBUD OneCall Utility Search",
+        desc: "Route to the free OneCall utility search for the selected site.",
+        price: "Free route",
+        tags: ["all"]
+      },
+      {
+        id: "guide",
+        type: "Library",
+        title: "Safe Digging Guidance Pack",
+        desc: "Relevant guidance notes and safe digging checklist for the work type.",
+        price: "Included",
+        tags: ["all"]
+      },
+      {
+        id: "asset-risk",
+        type: "Library",
+        title: "High Voltage / High Pressure Guidance",
+        desc: "Guidance for potential high-voltage and high-pressure infrastructure alerts.",
+        price: "Included",
+        tags: ["all", "dig", "posts", "design", "emergency"]
+      },
+      {
+        id: "planning-env",
+        type: "Library",
+        title: "Planning & Environmental Resource Pack",
+        desc: "Routes to TPO, SSSI, conservation, watercourse and planning resources.",
+        price: "Included",
+        tags: ["plan", "vegetation", "environment", "renewables"]
+      },
+      {
+        id: "hsg47",
+        type: "Library",
+        title: "HSG47 / Excavation Guidance",
+        desc: "Guidance route for avoiding danger from underground services.",
+        price: "Included",
+        tags: ["dig", "posts"]
+      },
+      {
+        id: "pas128",
+        type: "Library",
+        title: "PAS128 / Design Route Card",
+        desc: "Desktop due-diligence and utility detection guidance for design work.",
+        price: "Included",
+        tags: ["design", "plan"]
+      },
+      {
+        id: "topup",
+        type: "Premium",
+        title: "Top-Up Asset Search",
+        desc: "Enhanced asset confidence route where additional assurance is needed.",
+        price: "Premium option",
+        tags: ["all"]
+      },
+      {
+        id: "survey",
+        type: "Premium",
+        title: "Request Survey Quote",
+        desc: "Route to GPR, PAS128 verification or specialist site survey quotation.",
+        price: "Quote request",
+        tags: ["design", "dig", "plan", "renewables"]
+      },
+      {
+        id: "equipment",
+        type: "Premium",
+        title: "Equipment & Safety Support",
+        desc: "Route to CAT scanner, safety equipment or toolbox-talk support.",
+        price: "Partner route",
+        tags: ["dig", "posts", "emergency"]
+      },
+      {
+        id: "renewables",
+        type: "Premium",
+        title: "Renewables Feasibility Pack",
+        desc: "Support route for grid connection, DNO assumptions and planning checks.",
+        price: "Premium option",
+        tags: ["renewables"]
+      },
+      {
+        id: "incident",
+        type: "Emergency",
+        title: "Critical Asset Contact Route",
+        desc: "Fast-route library page for emergency utility contacts and prompts.",
+        price: "Restricted route",
+        tags: ["emergency"]
+      }
     ];
 
     let selectedServices = new Set(["onecall", "guide"]);
@@ -1509,6 +1694,21 @@
     let leafletAssetsLoaded = false;
     let leafletLoadPromise = null;
     let largeSitePromptShown = false;
+
+    function setMapLoading(isLoading, message) {
+      const loader = document.getElementById("mapRadarLoader");
+      const text = document.getElementById("mapRadarText");
+
+      if (!loader) {
+        return;
+      }
+
+      if (text && message) {
+        text.textContent = message;
+      }
+
+      loader.classList.toggle("active", Boolean(isLoading));
+    }
 
     function loadCssOnce(href) {
       return new Promise((resolve, reject) => {
@@ -1574,6 +1774,8 @@
     function showMapLoadError(error) {
       const mapDiv = document.getElementById("leafletMap");
 
+      setMapLoading(false);
+
       mapDiv.innerHTML = `
         <div class="map-error">
           <strong>Map library could not be loaded.</strong><br><br>
@@ -1614,6 +1816,7 @@
       if (step === "draw") {
         setTimeout(async () => {
           try {
+            setMapLoading(true, "Loading map...");
             await loadLeafletAssets();
             initLeafletMap();
 
@@ -1655,6 +1858,7 @@
     function initLeafletMap() {
       if (map) {
         map.invalidateSize();
+        setMapLoading(false);
         return;
       }
 
@@ -1662,10 +1866,20 @@
         zoomControl: true
       }).setView([Birmingham.lat, Birmingham.lng], Birmingham.zoom);
 
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      const tileLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 20,
         attribution: "&copy; OpenStreetMap contributors"
-      }).addTo(map);
+      });
+
+      tileLayer.on("loading", function () {
+        setMapLoading(true, "Loading map...");
+      });
+
+      tileLayer.on("load", function () {
+        setMapLoading(false);
+      });
+
+      tileLayer.addTo(map);
 
       drawnItems = new L.FeatureGroup();
       map.addLayer(drawnItems);
@@ -1743,6 +1957,7 @@
       }
 
       try {
+        setMapLoading(true, "Preparing map...");
         await loadLeafletAssets();
         initLeafletMap();
       } catch (error) {
@@ -1755,6 +1970,7 @@
 
       list.innerHTML = "<li>Searching...</li>";
       panel.classList.add("active");
+      setMapLoading(true, "Searching location...");
 
       try {
         const url =
@@ -1773,6 +1989,7 @@
 
         const results = await response.json();
         latestSearchResults = results;
+        setMapLoading(false);
 
         if (!results.length) {
           list.innerHTML = "<li>No results found. Try a postcode, town or street name.</li>";
@@ -1788,6 +2005,7 @@
         `).join("");
 
       } catch (error) {
+        setMapLoading(false);
         list.innerHTML = "<li>Search unavailable. Check internet access or try again.</li>";
       }
     }
@@ -1802,6 +2020,8 @@
       const lat = parseFloat(result.lat);
       const lon = parseFloat(result.lon);
 
+      setMapLoading(true, "Moving map...");
+
       if (result.boundingbox && result.boundingbox.length === 4) {
         const bounds = [
           [parseFloat(result.boundingbox[0]), parseFloat(result.boundingbox[2])],
@@ -1812,6 +2032,10 @@
       } else {
         map.setView([lat, lon], 16);
       }
+
+      setTimeout(() => {
+        setMapLoading(false);
+      }, 500);
 
       document.getElementById("searchResultsPanel").classList.remove("active");
       document.getElementById("boundaryStatus").textContent = "Location found. Draw or edit the site boundary.";
