@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>LSBUD Safe Digging Portal</title>
   data:,
 
@@ -140,7 +139,6 @@
       box-shadow: none;
       display: inline-grid;
       place-items: center;
-      gap: 0;
     }
 
     .burger-button span {
@@ -271,19 +269,20 @@
       max-width: 620px;
     }
 
-    .intro p {
+    .intro p,
+    .intro-side {
       color: var(--muted);
       font-size: 1rem;
       line-height: 1.6;
+    }
+
+    .intro p {
       margin: 20px 0 0;
       max-width: 620px;
     }
 
     .intro-side {
-      color: var(--muted);
-      line-height: 1.55;
       padding-top: 64px;
-      font-size: 1rem;
     }
 
     .crumbs {
@@ -406,26 +405,7 @@
       align-items: end;
     }
 
-    .stage-head h2 {
-      margin: 0;
-      color: #30313d;
-      font-size: 1.34rem;
-      letter-spacing: -0.02em;
-    }
-
-    .stage-head p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      line-height: 1.52;
-      max-width: 720px;
-    }
-
-    .insight-activity-heading {
-      margin: 28px 0 16px;
-      padding-top: 26px;
-      border-top: 1px solid var(--line);
-    }
-
+    .stage-head h2,
     .insight-activity-heading h2 {
       margin: 0;
       color: #30313d;
@@ -433,11 +413,18 @@
       letter-spacing: -0.02em;
     }
 
+    .stage-head p,
     .insight-activity-heading p {
       margin: 8px 0 0;
       color: var(--muted);
       line-height: 1.52;
       max-width: 780px;
+    }
+
+    .insight-activity-heading {
+      margin: 28px 0 16px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
     }
 
     button,
@@ -1110,14 +1097,7 @@
         # return false;">Start search</a>
 
         <div class="burger-wrap">
-          <button
-            class="burger-button"
-            id="burgerButton"
-            type="button"
-            aria-label="Open resources menu"
-            aria-expanded="false"
-            onclick="toggleBurgerMenu()"
-          >
+          <button class="burger-button" id="burgerButton" type="button" aria-label="Open resources menu" aria-expanded="false" onclick="toggleBurgerMenu()">
             <span></span>
             <span></span>
             <span></span>
@@ -1126,31 +1106,17 @@
           <div class="burger-menu" id="burgerMenu" aria-label="Resources menu">
             <div class="burger-menu-section">
               <strong>Repository resources</strong>
-              https://github.com/LSBUD-John/SafeDiggingHub
-                GitHub repository
-              </a>
-              https://github.com/LSBUD-John/SafeDiggingHub/tree/main/resources
-                Resources folder
-              </a>
-              ./resources/safe-digging-checklist.pdf
-                Safe digging checklist
-              </a>
-              ./resources/guidance-pack.pdf
-                Guidance pack
-              </a>
+              https://github.com/LSBUD-John/SafeDiggingHubGitHub repository</a>
+              https://github.com/LSBUD-John/SafeDiggingHub/tree/main/resourcesResources folder</a>
+              ./resources/safe-digging-checklist.pdfSafe digging checklist</a>
+              ./resources/guidance-pack.pdfGuidance pack</a>
             </div>
 
             <div class="burger-menu-section">
               <strong>External services</strong>
-              <a href="https://lsbud.co.uk/" target="_blank" rel="noopener">
-                LSBUD OneCall
-              </a>
-              <a href="https://www.utilitystrikeavoidancegroup.org/" target="_blank" rel="noopener">
-                USAG
-              </a>
-              <a href="https://lsbud-john.github.io/LSBUD-LargeSite/" target="_blank" rel="noopener">
-                Large Site Service
-              </a>
+              <a href="https://lsbud.co.uk/" target="_blank" rel="noopener">LSBUD OneCall</a>
+              <a href="https://www.utilitystrikeavoidancegroup.org/" target="_blank" rel="noopener">USAG</a>
+              <a href="https://lsbud-john.github.io/LSBUD-LargeSite/" target="_blank" rel="noopener">Large Site Service</a>
             </div>
           </div>
         </div>
@@ -1168,15 +1134,11 @@
       <div>
         <div class="status"><span class="spinner"></span> Library phase journey</div>
         <h1>Get the right safe digging resources for your site.</h1>
-        <p>
-          Login, draw a site, view simple indicative site insight, choose what you want to do,
-          then add relevant library resources and premium routes to your basket.
-        </p>
+        <p>Login, draw a site, view simple indicative site insight, choose what you want to do, then add relevant library resources and premium routes to your basket.</p>
       </div>
 
       <div class="intro-side">
-        A cleaner ordering journey for Phase 1: no live searches, no complex dashboard,
-        just a site-led route to OneCall, guidance, premium options and gated downloads.
+        A cleaner ordering journey for Phase 1: no live searches, no complex dashboard, just a site-led route to OneCall, guidance, premium options and gated downloads.
       </div>
     </section>
 
@@ -1200,9 +1162,7 @@
 
       <section class="stage active" id="stage-start">
         <div class="stage-grid">
-          <div class="rail">
-            <div class="rail-number">1</div>
-          </div>
+          <div class="rail"><div class="rail-number">1</div></div>
 
           <div class="stage-card">
             <div class="stage-head">
@@ -1230,27 +1190,20 @@
               <button class="secondary" onclick="simulateLogin()">Simulate login</button>
             </div>
 
-            <p class="note">
-              In live service, users would sign in through the correct OneCall/pro-account route before receiving
-              search responses, downloads or saved site records.
-            </p>
+            <p class="note">In live service, users would sign in through the correct OneCall/pro-account route before receiving search responses, downloads or saved site records.</p>
           </div>
         </div>
       </section>
 
       <section class="stage" id="stage-draw">
         <div class="stage-grid">
-          <div class="rail">
-            <div class="rail-number">2</div>
-          </div>
+          <div class="rail"><div class="rail-number">2</div></div>
 
           <div class="stage-card">
             <div class="stage-head">
               <div>
                 <h2>Draw the site</h2>
-                <p>
-                  The map defaults to Birmingham. Search for a location, then draw the area of interest using the polygon, rectangle or route tool.
-                </p>
+                <p>The map defaults to Birmingham. Search for a location, then draw the area of interest using the polygon, rectangle or route tool.</p>
               </div>
               <button onclick="goStep('insight')">Continue</button>
             </div>
@@ -1293,18 +1246,13 @@
 
       <section class="stage" id="stage-insight">
         <div class="stage-grid">
-          <div class="rail">
-            <div class="rail-number">3</div>
-          </div>
+          <div class="rail"><div class="rail-number">3</div></div>
 
           <div class="stage-card">
             <div class="stage-head">
               <div>
                 <h2>Site insight</h2>
-                <p>
-                  Indicative insight generated from the selected boundary or route. Phase 1 remains a library journey,
-                  but this demonstrates future site-led service logic.
-                </p>
+                <p>Indicative insight generated from the selected boundary or route. Phase 1 remains a library journey, but this demonstrates future site-led service logic.</p>
               </div>
             </div>
 
@@ -1344,10 +1292,7 @@
 
             <div class="insight-activity-heading">
               <h2>What do you want to do?</h2>
-              <p>
-                Tell us what activity is planned at this site so we can recommend the most relevant safe digging
-                resources, checks and service options.
-              </p>
+              <p>Tell us what activity is planned at this site so we can recommend the most relevant safe digging resources, checks and service options.</p>
             </div>
 
             <div class="activity-card">
@@ -1355,12 +1300,10 @@
                 <label for="activityText">Describe the planned activity</label>
                 <input
                   id="activityText"
-                  placeholder="Type a few words, for example: house extension, drainage trench, dig pack collation, fence posts, vegetation clearance, solar farm..."
+                  placeholder="Type a few words, for example: house extension, drainage trench, dig pack collation, fence posts, utility works, solar farm..."
                   oninput="handleActivityTextInput()"
                 />
-                <div class="activity-help">
-                  We’ll match your description to the nearest safe digging activity route.
-                </div>
+                <div class="activity-help">We’ll match your description to the nearest safe digging activity route.</div>
                 <div class="activity-match" id="activityMatchMessage"></div>
               </div>
 
@@ -1373,13 +1316,12 @@
                   <option value="posts">Install posts, fencing or signs</option>
                   <option value="vegetation">Clear trees, hedges or vegetation</option>
                   <option value="design">Design or engineer a scheme</option>
+                  <option value="utility">Carry out utility works</option>
                   <option value="environment">Check environmental constraints</option>
                   <option value="renewables">Plan renewables or grid connection</option>
                   <option value="emergency">Respond to an incident</option>
                 </select>
-                <div class="activity-help">
-                  Use the dropdown if the free-text match does not look right.
-                </div>
+                <div class="activity-help">Use the dropdown if the free-text match does not look right.</div>
               </div>
 
               <button id="activityContinueButton" onclick="requireActivityThenServices()" disabled>
@@ -1388,8 +1330,7 @@
             </div>
 
             <div class="future-ai-note">
-              Future release option: an AI routing agent could interpret natural language activity descriptions,
-              identify risk context and automatically recommend the most appropriate service cards and premium options.
+              Future release option: an AI routing agent could interpret natural language activity descriptions, identify risk context and automatically recommend the most appropriate service cards and premium options.
             </div>
           </div>
         </div>
@@ -1397,9 +1338,7 @@
 
       <section class="stage" id="stage-services">
         <div class="stage-grid">
-          <div class="rail">
-            <div class="rail-number">4</div>
-          </div>
+          <div class="rail"><div class="rail-number">4</div></div>
 
           <div class="stage-card">
             <div class="stage-head">
@@ -1417,9 +1356,7 @@
 
       <section class="stage" id="stage-basket">
         <div class="stage-grid">
-          <div class="rail">
-            <div class="rail-number">5</div>
-          </div>
+          <div class="rail"><div class="rail-number">5</div></div>
 
           <div class="stage-card">
             <div class="stage-head">
@@ -1452,9 +1389,7 @@
 
       <section class="stage" id="stage-downloads">
         <div class="stage-grid">
-          <div class="rail">
-            <div class="rail-number">6</div>
-          </div>
+          <div class="rail"><div class="rail-number">6</div></div>
 
           <div class="stage-card">
             <div class="stage-head">
@@ -1479,7 +1414,6 @@
           </div>
         </div>
       </section>
-
     </main>
 
     <footer>
@@ -1525,6 +1459,7 @@
       posts: "Install posts, fencing or signs",
       vegetation: "Clear trees, hedges or vegetation",
       design: "Design or engineer a scheme",
+      utility: "Carry out utility works",
       environment: "Check environmental constraints",
       renewables: "Plan renewables or grid connection",
       emergency: "Respond to an incident"
@@ -1534,58 +1469,72 @@
       {
         route: "dig",
         words: [
-          "dig", "digging", "excavate", "excavation", "trench", "trenching", "drainage",
-          "duct", "ducting", "trial hole", "groundworks", "service trench", "cable trench",
-          "dig pack", "pack collation", "utility pack", "dig pack collation"
+          "dig", "digging", "excavate", "excavation", "trench", "trenching",
+          "drainage", "duct", "ducting", "trial hole", "groundworks",
+          "service trench", "cable trench", "dig pack", "pack collation",
+          "utility pack", "dig pack collation"
         ]
       },
       {
         route: "posts",
         words: [
-          "post", "posts", "fence", "fencing", "gate", "sign", "signage", "bollard",
-          "street furniture", "anchor", "piles", "stake", "staking"
+          "post", "posts", "fence", "fencing", "gate", "sign", "signage",
+          "bollard", "street furniture", "anchor", "piles", "stake", "staking"
         ]
       },
       {
         route: "vegetation",
         words: [
-          "tree", "trees", "hedge", "hedges", "vegetation", "clearance", "root", "roots",
-          "scrub", "land clearance", "tree removal", "hedgerow"
+          "tree", "trees", "hedge", "hedges", "vegetation", "clearance",
+          "root", "roots", "scrub", "land clearance", "tree removal", "hedgerow"
         ]
       },
       {
         route: "design",
         words: [
-          "design", "engineer", "engineering", "scheme", "pas128", "pas 128", "gpr",
-          "survey", "verification", "route design", "pre-construction", "pre construction"
+          "design", "engineer", "engineering", "scheme", "pas128", "pas 128",
+          "gpr", "survey", "verification", "route design", "pre-construction",
+          "pre construction"
+        ]
+      },
+      {
+        route: "utility",
+        words: [
+          "utility works", "utility work", "new connection", "service connection",
+          "water connection", "gas connection", "electric connection", "telecoms",
+          "fibre", "cable lay", "mains replacement", "network repair",
+          "diversion", "apparatus"
         ]
       },
       {
         route: "environment",
         words: [
-          "environment", "environmental", "ecology", "ecological", "sssi", "watercourse",
-          "river", "stream", "conservation", "woodland", "habitat", "tpo"
+          "environment", "environmental", "ecology", "ecological", "sssi",
+          "watercourse", "river", "stream", "conservation", "woodland",
+          "habitat", "tpo"
         ]
       },
       {
         route: "renewables",
         words: [
-          "solar", "solar farm", "wind", "battery", "bess", "ev", "ev charging",
-          "renewable", "renewables", "grid connection", "substation", "energy storage"
+          "solar", "solar farm", "wind", "battery", "bess", "ev",
+          "ev charging", "renewable", "renewables", "grid connection",
+          "substation", "energy storage"
         ]
       },
       {
         route: "emergency",
         words: [
-          "emergency", "incident", "repair", "burst", "leak", "urgent", "outage",
-          "strike", "damage", "response", "make safe"
+          "emergency", "incident", "repair", "burst", "leak", "urgent",
+          "outage", "strike", "damage", "response", "make safe"
         ]
       },
       {
         route: "plan",
         words: [
-          "plan", "planning", "feasibility", "extension", "house extension", "driveway",
-          "patio", "build", "building", "development", "site appraisal", "early stage"
+          "plan", "planning", "feasibility", "extension", "house extension",
+          "driveway", "patio", "build", "building", "development",
+          "site appraisal", "early stage"
         ]
       }
     ];
@@ -1613,7 +1562,7 @@
         title: "High Voltage / High Pressure Guidance",
         desc: "Guidance for potential high-voltage and high-pressure infrastructure alerts.",
         price: "Included",
-        tags: ["all", "dig", "posts", "design", "emergency"]
+        tags: ["all", "dig", "posts", "design", "emergency", "utility"]
       },
       {
         id: "planning-env",
@@ -1621,7 +1570,7 @@
         title: "Planning & Environmental Resource Pack",
         desc: "Routes to TPO, SSSI, conservation, watercourse and planning resources.",
         price: "Included",
-        tags: ["plan", "vegetation", "environment", "renewables"]
+        tags: ["plan", "vegetation", "environment", "renewables", "utility"]
       },
       {
         id: "hsg47",
@@ -1629,7 +1578,7 @@
         title: "HSG47 / Excavation Guidance",
         desc: "Guidance route for avoiding danger from underground services.",
         price: "Included",
-        tags: ["dig", "posts"]
+        tags: ["dig", "posts", "utility"]
       },
       {
         id: "pas128",
@@ -1637,7 +1586,23 @@
         title: "PAS128 / Design Route Card",
         desc: "Desktop due-diligence and utility detection guidance for design work.",
         price: "Included",
-        tags: ["design", "plan"]
+        tags: ["design", "plan", "utility"]
+      },
+      {
+        id: "environmental-restrictions",
+        type: "Environmental",
+        title: "Environmental Restrictions Proximity Check",
+        desc: "Prototype route to check whether the selected site or route may be close to environmental constraints such as protected areas, sensitive land or conservation designations.",
+        price: "Library route",
+        tags: ["utility", "dig", "design", "environment", "renewables"]
+      },
+      {
+        id: "open-water-risk",
+        type: "Environmental",
+        title: "Open Water Proximity Risk Report",
+        desc: "Prototype report showing whether the selected site or route may require a 100m open water proximity review. Future versions could query live GIS/environmental datasets.",
+        price: "Prototype report",
+        tags: ["utility", "dig", "design", "environment", "renewables"]
       },
       {
         id: "topup",
@@ -1653,7 +1618,7 @@
         title: "Request Survey Quote",
         desc: "Route to GPR, PAS128 verification or specialist site survey quotation.",
         price: "Quote request",
-        tags: ["design", "dig", "plan", "renewables"]
+        tags: ["design", "dig", "plan", "renewables", "utility"]
       },
       {
         id: "equipment",
@@ -1661,7 +1626,7 @@
         title: "Equipment & Safety Support",
         desc: "Route to CAT scanner, safety equipment or toolbox-talk support.",
         price: "Partner route",
-        tags: ["dig", "posts", "emergency"]
+        tags: ["dig", "posts", "emergency", "utility"]
       },
       {
         id: "renewables",
@@ -1683,10 +1648,10 @@
 
     let selectedServices = new Set(["onecall", "guide"]);
     let loggedIn = false;
-
     let map = null;
     let drawnItems = null;
     let currentBoundaryGeoJSON = null;
+    let currentWKT = "";
     let currentAreaHa = 0;
     let currentRouteLengthKm = 0;
     let currentGeometryType = "";
@@ -1935,6 +1900,7 @@
 
       map.on(L.Draw.Event.DELETED, () => {
         currentBoundaryGeoJSON = null;
+        currentWKT = "";
         currentAreaHa = 0;
         currentRouteLengthKm = 0;
         currentGeometryType = "";
@@ -2042,8 +2008,42 @@
       document.getElementById("mapMeta").textContent = "Location selected";
     }
 
+    function latLngsToWktCoordinates(latlngs) {
+      return latlngs
+        .map(point => `${point.lng.toFixed(6)} ${point.lat.toFixed(6)}`)
+        .join(", ");
+    }
+
+    function layerToWKT(layer) {
+      if (layer instanceof L.Polygon || layer instanceof L.Rectangle) {
+        let latlngs = layer.getLatLngs()[0];
+
+        const first = latlngs[0];
+        const last = latlngs[latlngs.length - 1];
+
+        const isClosed =
+          first.lat === last.lat &&
+          first.lng === last.lng;
+
+        if (!isClosed) {
+          latlngs = [...latlngs, first];
+        }
+
+        return `POLYGON((${latLngsToWktCoordinates(latlngs)}))`;
+      }
+
+      if (layer instanceof L.Polyline) {
+        const latlngs = layer.getLatLngs();
+        return `LINESTRING(${latLngsToWktCoordinates(latlngs)})`;
+      }
+
+      return "";
+    }
+
     function updateBoundaryFromLayer(layer) {
       currentBoundaryGeoJSON = layer.toGeoJSON();
+      currentWKT = layerToWKT(layer);
+
       currentAreaHa = 0;
       currentRouteLengthKm = 0;
 
@@ -2098,6 +2098,7 @@
 
       drawnItems.clearLayers();
       currentBoundaryGeoJSON = null;
+      currentWKT = "";
       currentAreaHa = 0;
       currentRouteLengthKm = 0;
       currentGeometryType = "";
@@ -2140,7 +2141,26 @@
     }
 
     function openLargeSiteService() {
-      window.open(LARGE_SITE_URL, "_blank", "noopener");
+      const params = new URLSearchParams();
+
+      if (currentWKT) {
+        params.set("wkt", currentWKT);
+      }
+
+      params.set("source", "safe-digging-portal");
+      params.set("geometryType", currentGeometryType || "unknown");
+
+      if (currentAreaHa > 0) {
+        params.set("areaHa", currentAreaHa.toFixed(2));
+      }
+
+      if (currentRouteLengthKm > 0) {
+        params.set("lengthKm", currentRouteLengthKm.toFixed(2));
+      }
+
+      const url = `${LARGE_SITE_URL}?${params.toString()}`;
+
+      window.open(url, "_blank", "noopener");
     }
 
     function updateInsightMetrics() {
@@ -2284,17 +2304,23 @@
         return service.tags.includes("all") || service.tags.includes(activity);
       });
 
-      grid.innerHTML = services.map(service => `
-        <article class="service ${selectedServices.has(service.id) ? "selected" : ""}">
-          <div class="type">${service.type}</div>
-          <h3>${service.title}</h3>
-          <p>${service.desc}</p>
-          <div class="price">${service.price}</div>
-          <button class="${selectedServices.has(service.id) ? "secondary" : ""}" onclick="toggleService('${service.id}')">
-            ${selectedServices.has(service.id) ? "Remove" : "Add to basket"}
-          </button>
-        </article>
-      `).join("");
+      grid.innerHTML = services.map(service => {
+        const actionButton = service.id === "open-water-risk"
+          ? `<button onclick="generateOpenWaterReport()">Generate report</button>`
+          : `<button class="${selectedServices.has(service.id) ? "secondary" : ""}" onclick="toggleService('${service.id}')">
+              ${selectedServices.has(service.id) ? "Remove" : "Add to basket"}
+            </button>`;
+
+        return `
+          <article class="service ${selectedServices.has(service.id) ? "selected" : ""}">
+            <div class="type">${service.type}</div>
+            <h3>${service.title}</h3>
+            <p>${service.desc}</p>
+            <div class="price">${service.price}</div>
+            ${actionButton}
+          </article>
+        `;
+      }).join("");
     }
 
     function toggleService(id) {
@@ -2385,6 +2411,133 @@
       }
 
       alert("Prototype selected pack downloaded.");
+    }
+
+    function generateOpenWaterReport() {
+      if (!currentWKT) {
+        alert("Draw a site boundary or route before generating this report.");
+        return;
+      }
+
+      const geometrySummary = currentGeometryType === "linear"
+        ? `${currentRouteLengthKm.toFixed(2)} km route`
+        : `${currentAreaHa.toFixed(2)} hectares site`;
+
+      const prototypeRisk = currentGeometryType === "linear"
+        ? "Potential open water proximity review recommended for linear works."
+        : "Potential open water proximity review recommended for site-based works.";
+
+      const safeWKT = escapeHtml(currentWKT);
+
+      const reportWindow = window.open("", "_blank");
+
+      if (!reportWindow) {
+        alert("Popup blocked. Please allow popups to generate the report.");
+        return;
+      }
+
+      reportWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <title>Open Water Proximity Risk Report</title>
+          <style>
+            body {
+              font-family: Arial, Helvetica, sans-serif;
+              margin: 36px;
+              color: #2d2f38;
+              line-height: 1.5;
+            }
+
+            h1,
+            h2 {
+              color: #083250;
+            }
+
+            .summary {
+              border: 1px solid #e4e7eb;
+              border-radius: 12px;
+              padding: 16px;
+              background: #f7f8fa;
+              margin: 18px 0;
+            }
+
+            .status {
+              display: inline-block;
+              padding: 8px 12px;
+              border-radius: 999px;
+              background: #fff4e5;
+              color: #7a4b00;
+              font-weight: bold;
+              border: 1px solid #f0d4a1;
+            }
+
+            pre {
+              white-space: pre-wrap;
+              word-break: break-word;
+              background: #f7f8fa;
+              border: 1px solid #e4e7eb;
+              border-radius: 10px;
+              padding: 12px;
+              font-size: 12px;
+            }
+
+            .note {
+              color: #6f7280;
+              font-size: 13px;
+            }
+
+            button {
+              background: #083250;
+              color: white;
+              border: 0;
+              border-radius: 8px;
+              padding: 10px 14px;
+              font-weight: bold;
+              cursor: pointer;
+            }
+          </style>
+        </head>
+        <body>
+          <h1>Open Water Proximity Risk Report</h1>
+          <p class="note">Prototype report generated by the LSBUD Safe Digging Portal.</p>
+
+          <div class="summary">
+            <p><strong>Selected geometry:</strong> ${geometrySummary}</p>
+            <p><strong>Assessment buffer:</strong> 100 metres from drawn site or route</p>
+            <p><strong>Status:</strong> <span class="status">Prototype review required</span></p>
+          </div>
+
+          <h2>Indicative result</h2>
+          <p>${prototypeRisk}</p>
+
+          <p>
+            This prototype report demonstrates how the service could route users to an environmental proximity check.
+            A production version would query approved environmental and hydrological datasets to determine whether open water,
+            watercourses, flood channels, ponds, lakes, reservoirs or drainage features are within 100 metres of the selected works.
+          </p>
+
+          <h2>Recommended action</h2>
+          <ul>
+            <li>Review whether excavation or utility works may interact with water features.</li>
+            <li>Consider environmental constraints, permits, mitigation and asset-owner requirements.</li>
+            <li>Use OneCall and relevant guidance before work proceeds.</li>
+          </ul>
+
+          <h2>Geometry sent for assessment</h2>
+          <pre>${safeWKT}</pre>
+
+          <p class="note">
+            This is a prototype report only. It does not query live environmental datasets and should not be used as operational advice.
+          </p>
+
+          <button onclick="window.print()">Print / save as PDF</button>
+        </body>
+        </html>
+      `);
+
+      reportWindow.document.close();
     }
 
     function toggleBurgerMenu() {
