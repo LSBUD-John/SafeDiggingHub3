@@ -19,6 +19,7 @@
       --warning: #b7791f;
       --danger: #b84444;
       --shadow: 0 18px 45px rgba(16, 24, 40, 0.06);
+      --soft: #f7f8fa;
     }
 
     * {
@@ -114,10 +115,6 @@
       font-weight: 600;
     }
 
-    .top-actions .login {
-      color: var(--ink);
-    }
-
     .top-actions .primary {
       background: #142938;
       color: #fff;
@@ -202,7 +199,7 @@
     }
 
     .burger-menu-section a:hover {
-      background: #f7f8fa;
+      background: var(--soft);
       color: var(--ink);
     }
 
@@ -294,77 +291,61 @@
       align-items: center;
       gap: 10px;
       color: var(--muted);
-      font-size: 0.84rem;
+      font-size: 0.86rem;
       margin-bottom: 28px;
       flex-wrap: wrap;
     }
 
-    .crumbs {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--muted);
-  font-size: 0.86rem;
-  margin-bottom: 28px;
-  flex-wrap: wrap;
-}
+    .crumb {
+      position: relative;
+      border: 0;
+      background: none;
+      padding: 0 0 7px;
+      color: #8a8f9b;
+      font: inherit;
+      font-weight: 650;
+      cursor: pointer;
+      box-shadow: none;
+      transition: color 0.15s ease;
+    }
 
-.crumb {
-  position: relative;
-  border: 0;
-  background: none;
-  padding: 0 0 7px;
-  color: #8a8f9b;
-  font: inherit;
-  font-weight: 650;
-  cursor: pointer;
-  box-shadow: none;
-  transition: color 0.15s ease;
-}
+    .crumb::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      border-radius: 99px;
+      background: transparent;
+    }
 
-.crumb::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  border-radius: 99px;
-  background: transparent;
-}
+    .crumb:hover {
+      color: #30313d;
+    }
 
-.crumb:hover {
-  color: #30313d;
-}
+    .crumb.active {
+      color: #30313d;
+      font-weight: 800;
+    }
 
-.crumb.active {
-  color: #30313d;
-  font-weight: 800;
-}
+    .crumb.active::after {
+      background: #30313d;
+      height: 3px;
+    }
 
-.crumb.active::after {
-  background: #30313d;
-  height: 3px;
-}
+    .crumb.done {
+      color: var(--navy);
+    }
 
-.crumb.done {
-  color: var(--navy);
-}
+    .crumb.done::after {
+      background: rgba(8, 50, 80, 0.35);
+    }
 
-.crumb.done::before {
-  content: "✓ ";
-  color: var(--green);
-  font-weight: 900;
-}
-
-.crumb.done::after {
-  background: rgba(8, 50, 80, 0.35);
-}
-
-.slash {
-  color: #c4c8d0;
-  padding-bottom: 7px;
-}
+    .slash {
+      color: #c4c8d0;
+      padding-bottom: 7px;
+    }
 
     .stage-panel {
       border-top: 1px solid var(--line);
@@ -437,6 +418,26 @@
       color: var(--muted);
       line-height: 1.52;
       max-width: 720px;
+    }
+
+    .insight-activity-heading {
+      margin: 28px 0 16px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+    }
+
+    .insight-activity-heading h2 {
+      margin: 0;
+      color: #30313d;
+      font-size: 1.34rem;
+      letter-spacing: -0.02em;
+    }
+
+    .insight-activity-heading p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.52;
+      max-width: 780px;
     }
 
     button,
@@ -684,9 +685,47 @@
       padding: 18px;
       box-shadow: var(--shadow);
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.85fr) auto;
       gap: 14px;
       align-items: end;
+    }
+
+    .activity-help {
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.45;
+      margin-top: 8px;
+    }
+
+    .activity-match {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.45;
+      display: none;
+    }
+
+    .activity-match.active {
+      display: block;
+    }
+
+    .activity-match strong {
+      color: #30313d;
+    }
+
+    .future-ai-note {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-left: 3px solid var(--green);
+      background: #fbfcfa;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 0.88rem;
+      border-radius: 10px;
     }
 
     .services {
@@ -784,6 +823,49 @@
       color: var(--danger);
       background: #fff;
       border-top: 1px solid var(--line);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 41, 56, 0.38);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 5000;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(520px, 100%);
+      background: #fff;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      box-shadow: 0 24px 70px rgba(16, 24, 40, 0.22);
+      padding: 24px;
+    }
+
+    .modal h2 {
+      margin: 0 0 10px;
+      color: #30313d;
+      font-size: 1.4rem;
+    }
+
+    .modal p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
     }
 
     footer {
@@ -925,7 +1007,7 @@
       </div>
 
       <nav class="top-actions" aria-label="Top navigation">
-        <a href="https://lsbud.co.uk/">Sign in / register</a>
+        <a href="https://lsbud.co.uk/" target="_blank" rel="noopener">Sign in / register</a>
         # return false;">Start search</a>
 
         <div class="burger-wrap">
@@ -961,11 +1043,14 @@
 
             <div class="burger-menu-section">
               <strong>External services</strong>
-              <a href="https://lsbud.co.uk/">
+              <a href="https://lsbud.co.uk/" target="_blank" rel="noopener">
                 LSBUD OneCall
               </a>
               <a href="https://www.utilitystrikeavoidancegroup.org/" target="_blank" rel="noopener">
                 USAG
+              </a>
+              <a href="https://lsbud-john.github.io/LSBUD-LargeSite/" target="_blank" rel="noopener">
+                Large Site Service
               </a>
             </div>
           </div>
@@ -1065,7 +1150,7 @@
               <div>
                 <h2>Draw the site</h2>
                 <p>
-                  The map defaults to Birmingham. Search for a location, then draw the area of interest using the polygon or rectangle tool.
+                  The map defaults to Birmingham. Search for a location, then draw the area of interest using the polygon, rectangle or route tool.
                 </p>
               </div>
               <button onclick="goStep('insight')">Continue</button>
@@ -1087,7 +1172,7 @@
               <div id="leafletMap"></div>
 
               <div class="map-footer">
-                <span id="boundaryStatus">Map default is Birmingham. Draw a boundary to continue.</span>
+                <span id="boundaryStatus">Map default is Birmingham. Draw a boundary or route to continue.</span>
                 <div>
                   <button class="secondary" onclick="clearBoundary()">Clear boundary</button>
                   <button onclick="goStep('insight')">Use this site</button>
@@ -1109,16 +1194,16 @@
               <div>
                 <h2>Site insight</h2>
                 <p>
-                  Mocked insight generated from the selected boundary. Phase 1 remains a library journey, but this demonstrates future site-led service logic.
+                  Indicative insight generated from the selected boundary or route. Phase 1 remains a library journey,
+                  but this demonstrates future site-led service logic.
                 </p>
               </div>
-              <button id="insightContinueButton" onclick="requireActivityThenServices()" disabled>Continue</button>
             </div>
 
             <div class="metric-row">
               <div class="metric">
                 <strong id="areaMetric">0.00</strong>
-                <span>Site area, hectares</span>
+                <span id="areaMetricLabel">Site area, hectares</span>
               </div>
 
               <div class="metric">
@@ -1149,11 +1234,32 @@
               </article>
             </div>
 
+            <div class="insight-activity-heading">
+              <h2>What do you want to do?</h2>
+              <p>
+                Tell us what activity is planned at this site so we can recommend the most relevant safe digging
+                resources, checks and service options.
+              </p>
+            </div>
+
             <div class="activity-card">
               <div>
-                <label for="activitySelect">What do you want to do?</label>
-                <select id="activitySelect" onchange="handleActivityChange()">
-                  <option value="" selected disabled>Select an activity...</option>
+                <label for="activityText">Describe the planned activity</label>
+                <input
+                  id="activityText"
+                  placeholder="Type a few words, for example: house extension, drainage trench, dig pack collation, fence posts, vegetation clearance, solar farm..."
+                  oninput="handleActivityTextInput()"
+                />
+                <div class="activity-help">
+                  We’ll match your description to the nearest safe digging activity route.
+                </div>
+                <div class="activity-match" id="activityMatchMessage"></div>
+              </div>
+
+              <div>
+                <label for="activitySelect">Or choose the closest activity</label>
+                <select id="activitySelect" onchange="handleActivityDropdownChange()">
+                  <option value="" selected>Select an activity...</option>
                   <option value="plan">Plan or assess feasibility</option>
                   <option value="dig">Dig, trench or excavate</option>
                   <option value="posts">Install posts, fencing or signs</option>
@@ -1163,9 +1269,19 @@
                   <option value="renewables">Plan renewables or grid connection</option>
                   <option value="emergency">Respond to an incident</option>
                 </select>
+                <div class="activity-help">
+                  Use the dropdown if the free-text match does not look right.
+                </div>
               </div>
 
-              <button id="activityContinueButton" onclick="requireActivityThenServices()" disabled>Show services</button>
+              <button id="activityContinueButton" onclick="requireActivityThenServices()" disabled>
+                Show recommended services
+              </button>
+            </div>
+
+            <div class="future-ai-note">
+              Future release option: an AI routing agent could interpret natural language activity descriptions,
+              identify risk context and automatically recommend the most appropriate service cards and premium options.
             </div>
           </div>
         </div>
@@ -1246,7 +1362,7 @@
               <p id="loginPanelText">Sign in to access search responses, selected downloads and saved site details.</p>
 
               <p class="note">
-                <a class="button secondary" href="https://lsbud.co.uk/">Login to OneCall</a>
+                <a class="button secondary" href="https://lsbud.co.uk/" target="_blank" rel="noopener">Login to OneCall</a>
                 <button class="secondary" onclick="simulateLogin()">Simulate login</button>
               </p>
             </div>
@@ -1265,11 +1381,27 @@
     </footer>
   </div>
 
+  <div class="modal-backdrop" id="largeSiteModal" role="dialog" aria-modal="true" aria-labelledby="largeSiteTitle">
+    <div class="modal">
+      <h2 id="largeSiteTitle">Looks like your site is large.</h2>
+      <p>
+        Use our large site service <strong>here</strong>, or redraw your site to be less than
+        <strong>1 km²</strong> or less than <strong>5 km</strong> in length.
+      </p>
+      <p id="largeSiteDetail"></p>
+      <div class="modal-actions">
+        <button onclick="openLargeSiteService()">Use Large Site Service</button>
+        <button class="secondary" onclick="closeLargeSitePrompt()">Redraw site</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const LEAFLET_CSS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
     const LEAFLET_JS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
     const DRAW_CSS = "https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css";
     const DRAW_JS = "https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js";
+    const LARGE_SITE_URL = "https://lsbud-john.github.io/LSBUD-LargeSite/";
 
     const order = ["start", "draw", "insight", "services", "basket", "downloads"];
 
@@ -1278,6 +1410,77 @@
       lng: -1.8904,
       zoom: 13
     };
+
+    const activityLabels = {
+      plan: "Plan or assess feasibility",
+      dig: "Dig, trench or excavate",
+      posts: "Install posts, fencing or signs",
+      vegetation: "Clear trees, hedges or vegetation",
+      design: "Design or engineer a scheme",
+      environment: "Check environmental constraints",
+      renewables: "Plan renewables or grid connection",
+      emergency: "Respond to an incident"
+    };
+
+    const keywordRoutes = [
+      {
+        route: "dig",
+        words: [
+          "dig", "digging", "excavate", "excavation", "trench", "trenching", "drainage",
+          "duct", "ducting", "trial hole", "groundworks", "service trench", "cable trench",
+          "dig pack", "pack collation", "utility pack", "dig pack collation"
+        ]
+      },
+      {
+        route: "posts",
+        words: [
+          "post", "posts", "fence", "fencing", "gate", "sign", "signage", "bollard",
+          "street furniture", "anchor", "piles", "stake", "staking"
+        ]
+      },
+      {
+        route: "vegetation",
+        words: [
+          "tree", "trees", "hedge", "hedges", "vegetation", "clearance", "root", "roots",
+          "scrub", "land clearance", "tree removal", "hedgerow"
+        ]
+      },
+      {
+        route: "design",
+        words: [
+          "design", "engineer", "engineering", "scheme", "pas128", "pas 128", "gpr",
+          "survey", "verification", "route design", "pre-construction", "pre construction"
+        ]
+      },
+      {
+        route: "environment",
+        words: [
+          "environment", "environmental", "ecology", "ecological", "sssi", "watercourse",
+          "river", "stream", "conservation", "woodland", "habitat", "tpo"
+        ]
+      },
+      {
+        route: "renewables",
+        words: [
+          "solar", "solar farm", "wind", "battery", "bess", "ev", "ev charging",
+          "renewable", "renewables", "grid connection", "substation", "energy storage"
+        ]
+      },
+      {
+        route: "emergency",
+        words: [
+          "emergency", "incident", "repair", "burst", "leak", "urgent", "outage",
+          "strike", "damage", "response", "make safe"
+        ]
+      },
+      {
+        route: "plan",
+        words: [
+          "plan", "planning", "feasibility", "extension", "house extension", "driveway",
+          "patio", "build", "building", "development", "site appraisal", "early stage"
+        ]
+      }
+    ];
 
     const baseServices = [
       { id: "onecall", type: "Core", title: "LSBUD OneCall Utility Search", desc: "Route to the free OneCall utility search for the selected site.", price: "Free route", tags: ["all"] },
@@ -1300,9 +1503,12 @@
     let drawnItems = null;
     let currentBoundaryGeoJSON = null;
     let currentAreaHa = 0;
+    let currentRouteLengthKm = 0;
+    let currentGeometryType = "";
     let latestSearchResults = [];
     let leafletAssetsLoaded = false;
     let leafletLoadPromise = null;
+    let largeSitePromptShown = false;
 
     function loadCssOnce(href) {
       return new Promise((resolve, reject) => {
@@ -1428,7 +1634,7 @@
       if (step === "services") {
         if (!validateActivitySelection()) {
           goStep("insight");
-          alert("Please select what you want to do at this site before continuing.");
+          alert("Please describe or select what you want to do at this site before continuing.");
           return;
         }
 
@@ -1485,7 +1691,12 @@
               fillOpacity: 0.08
             }
           },
-          polyline: false,
+          polyline: {
+            shapeOptions: {
+              color: "#083250",
+              weight: 4
+            }
+          },
           circle: false,
           circlemarker: false,
           marker: false
@@ -1511,11 +1722,15 @@
       map.on(L.Draw.Event.DELETED, () => {
         currentBoundaryGeoJSON = null;
         currentAreaHa = 0;
+        currentRouteLengthKm = 0;
+        currentGeometryType = "";
+        largeSitePromptShown = false;
         updateBoundaryDisplay();
         updateInsightMetrics();
       });
 
-      document.getElementById("boundaryStatus").textContent = "Map loaded at Birmingham. Draw a polygon or rectangle to continue.";
+      document.getElementById("boundaryStatus").textContent =
+        "Map loaded at Birmingham. Draw a polygon, rectangle or route to continue.";
       document.getElementById("mapMeta").textContent = "Default view: Birmingham";
     }
 
@@ -1605,18 +1820,32 @@
 
     function updateBoundaryFromLayer(layer) {
       currentBoundaryGeoJSON = layer.toGeoJSON();
+      currentAreaHa = 0;
+      currentRouteLengthKm = 0;
 
-      let areaSqM = 0;
-
-      if (layer instanceof L.Rectangle || layer instanceof L.Polygon) {
+      if (layer instanceof L.Polygon || layer instanceof L.Rectangle) {
+        currentGeometryType = "area";
         const latLngs = layer.getLatLngs()[0];
-        areaSqM = L.GeometryUtil.geodesicArea(latLngs);
+        const areaSqM = L.GeometryUtil.geodesicArea(latLngs);
+        currentAreaHa = areaSqM / 10000;
+      } else if (layer instanceof L.Polyline) {
+        currentGeometryType = "linear";
+        currentRouteLengthKm = calculateLineLengthKm(layer.getLatLngs());
       }
-
-      currentAreaHa = areaSqM / 10000;
 
       updateBoundaryDisplay();
       updateInsightMetrics();
+      checkLargeSiteThreshold();
+    }
+
+    function calculateLineLengthKm(latlngs) {
+      let metres = 0;
+
+      for (let i = 1; i < latlngs.length; i++) {
+        metres += map.distance(latlngs[i - 1], latlngs[i]);
+      }
+
+      return metres / 1000;
     }
 
     function updateBoundaryDisplay() {
@@ -1625,12 +1854,17 @@
 
       if (!currentBoundaryGeoJSON) {
         status.textContent = "No boundary drawn yet.";
-        meta.textContent = "Draw a polygon to calculate site area";
+        meta.textContent = "Draw a polygon or route to calculate site size";
         return;
       }
 
-      status.textContent = "Boundary captured — " + currentAreaHa.toFixed(2) + " hectares";
-      meta.textContent = currentAreaHa.toFixed(2) + " hectares";
+      if (currentGeometryType === "linear") {
+        status.textContent = "Route captured — " + currentRouteLengthKm.toFixed(2) + " km";
+        meta.textContent = currentRouteLengthKm.toFixed(2) + " km route";
+      } else {
+        status.textContent = "Boundary captured — " + currentAreaHa.toFixed(2) + " hectares";
+        meta.textContent = currentAreaHa.toFixed(2) + " hectares";
+      }
     }
 
     function clearBoundary() {
@@ -1641,30 +1875,138 @@
       drawnItems.clearLayers();
       currentBoundaryGeoJSON = null;
       currentAreaHa = 0;
+      currentRouteLengthKm = 0;
+      currentGeometryType = "";
+      largeSitePromptShown = false;
       updateBoundaryDisplay();
       updateInsightMetrics();
     }
 
-    function updateInsightMetrics() {
-      const areaText = currentAreaHa > 0 ? currentAreaHa.toFixed(2) : "0.00";
+    function checkLargeSiteThreshold() {
+      if (largeSitePromptShown) {
+        return;
+      }
 
-      const estimatedUtilities = currentAreaHa > 0
-        ? Math.max(3, Math.round(6 + currentAreaHa * 3))
+      if (currentGeometryType === "area" && currentAreaHa >= 100) {
+        largeSitePromptShown = true;
+        showLargeSitePrompt(
+          "Your drawn site is " + currentAreaHa.toFixed(2) + " hectares, which is at or above 1 km²."
+        );
+      }
+
+      if (currentGeometryType === "linear" && currentRouteLengthKm >= 5) {
+        largeSitePromptShown = true;
+        showLargeSitePrompt(
+          "Your drawn route is " + currentRouteLengthKm.toFixed(2) + " km, which is at or above 5 km."
+        );
+      }
+    }
+
+    function showLargeSitePrompt(detail) {
+      const modal = document.getElementById("largeSiteModal");
+      const detailElement = document.getElementById("largeSiteDetail");
+
+      detailElement.textContent = detail;
+      modal.classList.add("open");
+    }
+
+    function closeLargeSitePrompt() {
+      const modal = document.getElementById("largeSiteModal");
+      modal.classList.remove("open");
+    }
+
+    function openLargeSiteService() {
+      window.open(LARGE_SITE_URL, "_blank", "noopener");
+    }
+
+    function updateInsightMetrics() {
+      if (currentGeometryType === "linear") {
+        document.getElementById("areaMetric").textContent =
+          currentRouteLengthKm > 0 ? currentRouteLengthKm.toFixed(2) : "0.00";
+        document.getElementById("areaMetricLabel").textContent = "Route length, km";
+      } else {
+        document.getElementById("areaMetric").textContent =
+          currentAreaHa > 0 ? currentAreaHa.toFixed(2) : "0.00";
+        document.getElementById("areaMetricLabel").textContent = "Site area, hectares";
+      }
+
+      const scaleValue = currentGeometryType === "linear" ? currentRouteLengthKm : currentAreaHa;
+
+      const estimatedUtilities = scaleValue > 0
+        ? Math.max(3, Math.round(6 + scaleValue * 3))
         : "—";
 
-      const alertCount = currentAreaHa > 0 ? 2 : "—";
+      const alertCount = scaleValue > 0 ? 2 : "—";
 
-      document.getElementById("areaMetric").textContent = areaText;
       document.getElementById("utilityMetric").textContent = estimatedUtilities;
       document.getElementById("alertMetric").textContent = alertCount;
 
-      document.getElementById("hvAlertText").textContent = currentAreaHa > 0
-        ? "Potential high-voltage assets may be present near the selected boundary. Route user to OneCall and relevant safety guidance."
-        : "Draw a site boundary to generate a prototype high-voltage prompt.";
+      document.getElementById("hvAlertText").textContent = scaleValue > 0
+        ? "Potential high-voltage assets may be present near the selected site or route. Route user to OneCall and relevant safety guidance."
+        : "Draw a site boundary or route to generate a prototype high-voltage prompt.";
 
-      document.getElementById("hpAlertText").textContent = currentAreaHa > 0
+      document.getElementById("hpAlertText").textContent = scaleValue > 0
         ? "Potential high-pressure pipeline constraints may require additional guidance or premium checks."
-        : "Draw a site boundary to generate a prototype high-pressure prompt.";
+        : "Draw a site boundary or route to generate a prototype high-pressure prompt.";
+    }
+
+    function matchActivityFromText(text) {
+      const cleaned = text.toLowerCase().trim();
+
+      if (cleaned.length < 3) {
+        return "";
+      }
+
+      for (const option of keywordRoutes) {
+        for (const word of option.words) {
+          if (cleaned.includes(word)) {
+            return option.route;
+          }
+        }
+      }
+
+      return "";
+    }
+
+    function handleActivityTextInput() {
+      const textInput = document.getElementById("activityText");
+      const dropdown = document.getElementById("activitySelect");
+      const message = document.getElementById("activityMatchMessage");
+
+      const route = matchActivityFromText(textInput.value);
+
+      if (route) {
+        dropdown.value = route;
+        message.innerHTML =
+          "Matched to: <strong>" + activityLabels[route] + "</strong>. You can change this using the dropdown if needed.";
+        message.classList.add("active");
+      } else if (textInput.value.trim().length > 0) {
+        dropdown.value = "";
+        message.innerHTML =
+          "We could not confidently match this activity. Please choose the closest option from the dropdown.";
+        message.classList.add("active");
+      } else {
+        dropdown.value = "";
+        message.innerHTML = "";
+        message.classList.remove("active");
+      }
+
+      validateActivitySelection();
+      updateServices();
+    }
+
+    function handleActivityDropdownChange() {
+      const dropdown = document.getElementById("activitySelect");
+      const message = document.getElementById("activityMatchMessage");
+
+      if (dropdown.value) {
+        message.innerHTML =
+          "Selected route: <strong>" + activityLabels[dropdown.value] + "</strong>.";
+        message.classList.add("active");
+      }
+
+      validateActivitySelection();
+      updateServices();
     }
 
     function currentActivity() {
@@ -1672,21 +2014,11 @@
       return activitySelect ? activitySelect.value : "";
     }
 
-    function handleActivityChange() {
-      validateActivitySelection();
-      updateServices();
-    }
-
     function validateActivitySelection() {
       const activity = currentActivity();
       const hasActivity = activity !== "";
 
-      const insightContinueButton = document.getElementById("insightContinueButton");
       const activityContinueButton = document.getElementById("activityContinueButton");
-
-      if (insightContinueButton) {
-        insightContinueButton.disabled = !hasActivity;
-      }
 
       if (activityContinueButton) {
         activityContinueButton.disabled = !hasActivity;
@@ -1697,7 +2029,7 @@
 
     function requireActivityThenServices() {
       if (!validateActivitySelection()) {
-        alert("Please select what you want to do at this site before continuing.");
+        alert("Please describe or select what you want to do at this site before continuing.");
         return;
       }
 
@@ -1717,7 +2049,7 @@
           <article class="service">
             <div class="type">Select activity</div>
             <h3>Choose what you want to do</h3>
-            <p>Select an activity on the Site insight step to reveal relevant library resources and premium options.</p>
+            <p>Describe or select an activity on the Site insight step to reveal relevant library resources and premium options.</p>
             <div class="price">Required</div>
           </article>
         `;
@@ -1867,6 +2199,7 @@
 
       const menu = document.getElementById("burgerMenu");
       const button = document.getElementById("burgerButton");
+      const modal = document.getElementById("largeSiteModal");
 
       if (menu) {
         menu.classList.remove("open");
@@ -1874,6 +2207,10 @@
 
       if (button) {
         button.setAttribute("aria-expanded", "false");
+      }
+
+      if (modal) {
+        modal.classList.remove("open");
       }
     });
 
