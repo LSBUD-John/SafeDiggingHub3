@@ -8,687 +8,648 @@
 
   <style>
     :root {
-      --navy: #083250;
-      --red: #c91517;
-      --green: #6f9f43;
-      --ink: #2d2f38;
-      --muted: #6f7280;
-      --line: #e4e7eb;
-      --line-dark: #cfd6dc;
-      --warning: #b7791f;
-      --danger: #b84444;
-      --shadow: 0 18px 45px rgba(16, 24, 40, 0.06);
-      --soft: #f7f8fa;
+      --navy:#083250;
+      --red:#c91517;
+      --green:#6f9f43;
+      --ink:#2d2f38;
+      --muted:#6f7280;
+      --line:#e4e7eb;
+      --line-dark:#cfd6dc;
+      --soft:#f7f8fa;
+      --danger:#b84444;
+      --warning:#b7791f;
+      --shadow:0 18px 45px rgba(16,24,40,.06);
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing:border-box; }
 
     body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
-      color: var(--ink);
-      background: #fff;
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;
+      color:var(--ink);
+      background:#fff;
     }
 
-    a {
-      color: inherit;
-    }
+    a { color:inherit; }
 
     .page {
-      min-height: 100vh;
+      min-height:100vh;
       background:
-        radial-gradient(circle at 12% 8%, rgba(8, 50, 80, 0.03), transparent 280px),
-        radial-gradient(circle at 86% 18%, rgba(111, 159, 67, 0.05), transparent 260px),
+        radial-gradient(circle at 12% 8%,rgba(8,50,80,.03),transparent 280px),
+        radial-gradient(circle at 86% 18%,rgba(111,159,67,.05),transparent 260px),
         #fff;
     }
 
     .topbar {
-      min-height: 72px;
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 34px;
-      gap: 22px;
-      background: rgba(255, 255, 255, 0.94);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: blur(10px);
+      min-height:72px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:22px;
+      padding:14px 34px;
+      background:rgba(255,255,255,.94);
+      position:sticky;
+      top:0;
+      z-index:1000;
+      backdrop-filter:blur(10px);
     }
 
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      min-width: 0;
+      display:flex;
+      align-items:center;
+      gap:18px;
+      min-width:0;
     }
 
     .logo {
-      width: 185px;
-      height: auto;
-      display: block;
-      flex: 0 0 auto;
+      width:185px;
+      height:auto;
+      display:block;
+      flex:0 0 auto;
     }
 
     .product-name {
-      border-left: 1px solid var(--line);
-      padding-left: 18px;
-      min-width: 0;
+      border-left:1px solid var(--line);
+      padding-left:18px;
     }
 
     .product-name strong {
-      display: block;
-      color: var(--ink);
-      font-size: 0.96rem;
-      line-height: 1.2;
+      display:block;
+      font-size:.96rem;
+      color:var(--ink);
     }
 
     .product-name span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.8rem;
-      margin-top: 2px;
+      display:block;
+      color:var(--muted);
+      font-size:.8rem;
+      margin-top:2px;
     }
 
     .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      color: var(--muted);
-      font-size: 0.88rem;
-      white-space: nowrap;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+      display:flex;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      color:var(--muted);
+      font-size:.88rem;
+      white-space:nowrap;
     }
 
     .top-actions a {
-      text-decoration: none;
-      color: var(--muted);
-      font-weight: 600;
+      text-decoration:none;
+      color:var(--muted);
+      font-weight:650;
     }
 
-    .top-actions .primary {
-      background: #142938;
-      color: #fff;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 0.84rem;
-      box-shadow: 0 8px 18px rgba(20, 41, 56, 0.12);
+    .primary {
+      background:#142938 !important;
+      color:#fff !important;
+      border-radius:8px;
+      padding:10px 14px;
+      box-shadow:0 8px 18px rgba(20,41,56,.12);
     }
 
     .burger-wrap {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
+      position:relative;
     }
 
     .burger-button {
-      width: 42px;
-      height: 42px;
-      padding: 0;
-      border-radius: 10px;
-      background: #fff;
-      border: 1px solid var(--line-dark);
-      box-shadow: none;
-      display: inline-grid;
-      place-items: center;
+      width:42px;
+      height:42px;
+      padding:0;
+      border-radius:10px;
+      background:#fff;
+      border:1px solid var(--line-dark);
+      box-shadow:none;
+      display:grid;
+      place-items:center;
     }
 
     .burger-button span {
-      width: 18px;
-      height: 2px;
-      background: #30313d;
-      border-radius: 99px;
-      display: block;
-      margin: 2px 0;
+      width:18px;
+      height:2px;
+      background:#30313d;
+      border-radius:99px;
+      display:block;
+      margin:2px 0;
     }
 
     .burger-menu {
-      position: absolute;
-      right: 0;
-      top: calc(100% + 10px);
-      width: 310px;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      box-shadow: 0 18px 45px rgba(16, 24, 40, 0.12);
-      padding: 14px;
-      display: none;
-      z-index: 2000;
+      position:absolute;
+      right:0;
+      top:calc(100% + 10px);
+      width:310px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:0 18px 45px rgba(16,24,40,.12);
+      padding:14px;
+      display:none;
+      z-index:2000;
     }
 
-    .burger-menu.open {
-      display: block;
-    }
+    .burger-menu.open { display:block; }
 
     .burger-menu-section {
-      display: grid;
-      gap: 8px;
-      padding: 8px 0;
+      display:grid;
+      gap:8px;
+      padding:8px 0;
     }
 
     .burger-menu-section + .burger-menu-section {
-      border-top: 1px solid var(--line);
-      margin-top: 8px;
-      padding-top: 14px;
+      border-top:1px solid var(--line);
+      margin-top:8px;
+      padding-top:14px;
     }
 
     .burger-menu-section strong {
-      color: #30313d;
-      font-size: 0.82rem;
-      margin-bottom: 2px;
+      color:#30313d;
+      font-size:.82rem;
     }
 
     .burger-menu-section a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      line-height: 1.35;
-      padding: 8px 10px;
-      border-radius: 9px;
-      white-space: normal;
+      color:var(--muted);
+      text-decoration:none;
+      font-size:.9rem;
+      padding:8px 10px;
+      border-radius:9px;
+      white-space:normal;
     }
 
     .burger-menu-section a:hover {
-      background: var(--soft);
-      color: var(--ink);
+      background:var(--soft);
+      color:var(--ink);
     }
 
     .navline {
-      height: 46px;
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      align-items: center;
-      gap: 30px;
-      padding: 0 34px;
-      color: var(--muted);
-      font-size: 0.9rem;
-      background: #fff;
-      overflow-x: auto;
+      height:46px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      gap:30px;
+      padding:0 34px;
+      color:var(--muted);
+      font-size:.9rem;
+      background:#fff;
+      overflow-x:auto;
     }
 
     .navline a {
-      text-decoration: none;
-      color: var(--muted);
-      height: 46px;
-      display: inline-flex;
-      align-items: center;
-      border-bottom: 2px solid transparent;
-      white-space: nowrap;
+      text-decoration:none;
+      color:var(--muted);
+      height:46px;
+      display:inline-flex;
+      align-items:center;
+      border-bottom:2px solid transparent;
+      white-space:nowrap;
     }
 
     .navline a.active {
-      color: var(--ink);
-      border-bottom-color: var(--ink);
+      color:var(--ink);
+      border-bottom-color:var(--ink);
     }
 
     .wrap {
-      width: min(1060px, calc(100% - 48px));
-      margin: 0 auto;
+      width:min(1060px,calc(100% - 48px));
+      margin:0 auto;
     }
 
     .intro {
-      padding: 74px 0 46px;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
-      gap: 70px;
-      align-items: start;
+      padding:74px 0 46px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(300px,.72fr);
+      gap:70px;
+      align-items:start;
     }
 
     .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: #5c55ff;
-      font-weight: 700;
-      font-size: 0.84rem;
-      margin-bottom: 18px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      color:#5c55ff;
+      font-weight:700;
+      font-size:.84rem;
+      margin-bottom:18px;
     }
 
     .spinner {
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      border: 2px solid rgba(92, 85, 255, 0.18);
-      border-top-color: #5c55ff;
+      width:13px;
+      height:13px;
+      border-radius:50%;
+      border:2px solid rgba(92,85,255,.18);
+      border-top-color:#5c55ff;
     }
 
     .intro h1 {
-      margin: 0;
-      color: #30313d;
-      font-size: clamp(2rem, 4vw, 3.3rem);
-      line-height: 1.04;
-      letter-spacing: -0.045em;
-      max-width: 620px;
+      margin:0;
+      color:#30313d;
+      font-size:clamp(2rem,4vw,3.3rem);
+      line-height:1.04;
+      letter-spacing:-.045em;
+      max-width:620px;
     }
 
     .intro p,
     .intro-side {
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.6;
+      color:var(--muted);
+      font-size:1rem;
+      line-height:1.6;
     }
 
     .intro p {
-      margin: 20px 0 0;
-      max-width: 620px;
+      margin:20px 0 0;
+      max-width:620px;
     }
 
     .intro-side {
-      padding-top: 64px;
+      padding-top:64px;
     }
 
     .crumbs {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--muted);
-      font-size: 0.86rem;
-      margin-bottom: 28px;
-      flex-wrap: wrap;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:.86rem;
+      margin-bottom:28px;
+      flex-wrap:wrap;
     }
 
     .crumb {
-      position: relative;
-      border: 0;
-      background: none;
-      padding: 0 0 7px;
-      color: #8a8f9b;
-      font: inherit;
-      font-weight: 650;
-      cursor: pointer;
-      box-shadow: none;
-      transition: color 0.15s ease;
+      position:relative;
+      border:0;
+      background:none;
+      padding:0 0 7px;
+      color:#8a8f9b;
+      font:inherit;
+      font-weight:650;
+      cursor:pointer;
+      box-shadow:none;
     }
 
     .crumb::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 2px;
-      border-radius: 99px;
-      background: transparent;
-    }
-
-    .crumb:hover {
-      color: #30313d;
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      height:2px;
+      border-radius:99px;
+      background:transparent;
     }
 
     .crumb.active {
-      color: #30313d;
-      font-weight: 800;
+      color:#30313d;
+      font-weight:800;
     }
 
     .crumb.active::after {
-      background: #30313d;
-      height: 3px;
+      background:#30313d;
+      height:3px;
     }
 
     .crumb.done {
-      color: var(--navy);
+      color:var(--navy);
     }
 
     .crumb.done::after {
-      background: rgba(8, 50, 80, 0.35);
+      background:rgba(8,50,80,.35);
     }
 
     .slash {
-      color: #c4c8d0;
-      padding-bottom: 7px;
+      color:#c4c8d0;
+      padding-bottom:7px;
     }
 
     .stage-panel {
-      border-top: 1px solid var(--line);
-      padding: 34px 0 88px;
+      border-top:1px solid var(--line);
+      padding:34px 0 88px;
     }
 
-    .stage {
-      display: none;
-    }
-
-    .stage.active {
-      display: block;
-    }
+    .stage { display:none; }
+    .stage.active { display:block; }
 
     .stage-grid {
-      display: grid;
-      grid-template-columns: 90px minmax(0, 1fr);
-      gap: 28px;
-      align-items: start;
+      display:grid;
+      grid-template-columns:90px minmax(0,1fr);
+      gap:28px;
     }
 
     .rail {
-      position: relative;
-      min-height: 420px;
-      display: flex;
-      justify-content: center;
+      position:relative;
+      min-height:420px;
+      display:flex;
+      justify-content:center;
     }
 
     .rail::before {
-      content: "";
-      width: 1px;
-      background: var(--line);
-      position: absolute;
-      top: 0;
-      bottom: 0;
+      content:"";
+      width:1px;
+      background:var(--line);
+      position:absolute;
+      top:0;
+      bottom:0;
     }
 
     .rail-number {
-      position: sticky;
-      top: 100px;
-      width: 22px;
-      height: 22px;
-      border-radius: 999px;
-      background: #30313d;
-      color: #fff;
-      display: grid;
-      place-items: center;
-      font-size: 0.75rem;
-      font-weight: 800;
-      z-index: 2;
+      position:sticky;
+      top:100px;
+      width:22px;
+      height:22px;
+      border-radius:999px;
+      background:#30313d;
+      color:#fff;
+      display:grid;
+      place-items:center;
+      font-size:.75rem;
+      font-weight:800;
+      z-index:2;
     }
 
     .stage-head {
-      margin-bottom: 22px;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 22px;
-      align-items: end;
+      margin-bottom:22px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:22px;
+      align-items:end;
     }
 
     .stage-head h2,
     .insight-activity-heading h2 {
-      margin: 0;
-      color: #30313d;
-      font-size: 1.34rem;
-      letter-spacing: -0.02em;
+      margin:0;
+      color:#30313d;
+      font-size:1.34rem;
+      letter-spacing:-.02em;
     }
 
     .stage-head p,
     .insight-activity-heading p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      line-height: 1.52;
-      max-width: 780px;
+      margin:8px 0 0;
+      color:var(--muted);
+      line-height:1.52;
+      max-width:780px;
     }
 
     .insight-activity-heading {
-      margin: 28px 0 16px;
-      padding-top: 26px;
-      border-top: 1px solid var(--line);
+      margin:28px 0 16px;
+      padding-top:26px;
+      border-top:1px solid var(--line);
     }
 
     button,
     .button {
-      border: 0;
-      background: #142938;
-      color: #fff;
-      border-radius: 9px;
-      padding: 11px 15px;
-      font-weight: 750;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 0.9rem;
-      box-shadow: 0 8px 16px rgba(20, 41, 56, 0.10);
+      border:0;
+      background:#142938;
+      color:#fff;
+      border-radius:9px;
+      padding:11px 15px;
+      font-weight:750;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      font-size:.9rem;
+      box-shadow:0 8px 16px rgba(20,41,56,.10);
     }
 
     button:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      box-shadow: none;
+      opacity:.45;
+      cursor:not-allowed;
+      box-shadow:none;
     }
 
     button.secondary,
     .button.secondary {
-      color: #30313d;
-      background: #fff;
-      border: 1px solid var(--line-dark);
-      box-shadow: none;
+      color:#30313d;
+      background:#fff;
+      border:1px solid var(--line-dark);
+      box-shadow:none;
     }
 
     label {
-      display: block;
-      color: #30313d;
-      font-size: 0.82rem;
-      font-weight: 750;
-      margin-bottom: 7px;
+      display:block;
+      color:#30313d;
+      font-size:.82rem;
+      font-weight:750;
+      margin-bottom:7px;
     }
 
     input,
     select {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 9px;
-      padding: 11px 12px;
-      font: inherit;
-      color: var(--ink);
-      background: #fff;
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:9px;
+      padding:11px 12px;
+      font:inherit;
+      color:var(--ink);
+      background:#fff;
     }
 
     .form-strip {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: var(--shadow);
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 190px auto;
-      gap: 12px;
-      align-items: end;
-      margin-bottom: 18px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:18px;
+      box-shadow:var(--shadow);
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 190px auto;
+      gap:12px;
+      align-items:end;
+      margin-bottom:18px;
     }
 
     .map-card {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
     }
 
     .map-toolbar {
-      min-height: 54px;
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--line);
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 10px;
-      align-items: center;
-      color: var(--muted);
-      font-size: 0.84rem;
-      background: #fff;
+      min-height:54px;
+      padding:10px 14px;
+      border-bottom:1px solid var(--line);
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:10px;
+      align-items:center;
+      color:var(--muted);
+      font-size:.84rem;
+      background:#fff;
     }
 
     .map-search {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 8px;
-      align-items: center;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:8px;
+      align-items:center;
     }
 
     .map-search input {
-      height: 40px;
+      height:40px;
     }
 
     .map-meta {
-      text-align: right;
-      color: var(--muted);
-      white-space: nowrap;
+      text-align:right;
+      color:var(--muted);
+      white-space:nowrap;
     }
 
     .leaflet-map-wrap {
-      position: relative;
+      position:relative;
     }
 
     #leafletMap {
-      height: 460px;
-      width: 100%;
-      background: #eef2f5;
+      height:460px;
+      width:100%;
+      background:#eef2f5;
     }
 
     #leafletMap .leaflet-tile {
-      filter: grayscale(85%) brightness(96%);
+      filter:grayscale(85%) brightness(96%);
     }
 
     .map-radar-loader {
-      position: absolute;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 12px;
-      background: rgba(255, 255, 255, 0.68);
-      backdrop-filter: blur(2px);
-      z-index: 600;
-      pointer-events: none;
+      position:absolute;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:12px;
+      background:rgba(255,255,255,.68);
+      backdrop-filter:blur(2px);
+      z-index:600;
+      pointer-events:none;
     }
 
     .map-radar-loader.active {
-      display: flex;
+      display:flex;
     }
 
     .radar-spinner {
-      position: relative;
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
-      border: 1px solid rgba(8, 50, 80, 0.16);
+      position:relative;
+      width:88px;
+      height:88px;
+      border-radius:50%;
+      border:1px solid rgba(8,50,80,.16);
       background:
-        radial-gradient(circle, rgba(111, 159, 67, 0.18) 0 3px, transparent 4px),
-        radial-gradient(circle, transparent 0 25%, rgba(8, 50, 80, 0.08) 26% 27%, transparent 28%),
-        radial-gradient(circle, transparent 0 48%, rgba(8, 50, 80, 0.10) 49% 50%, transparent 51%),
-        radial-gradient(circle, transparent 0 72%, rgba(8, 50, 80, 0.12) 73% 74%, transparent 75%);
-      box-shadow: 0 12px 30px rgba(16, 24, 40, 0.12);
-      overflow: hidden;
+        radial-gradient(circle,rgba(111,159,67,.18) 0 3px,transparent 4px),
+        radial-gradient(circle,transparent 0 25%,rgba(8,50,80,.08) 26% 27%,transparent 28%),
+        radial-gradient(circle,transparent 0 48%,rgba(8,50,80,.10) 49% 50%,transparent 51%),
+        radial-gradient(circle,transparent 0 72%,rgba(8,50,80,.12) 73% 74%,transparent 75%);
+      box-shadow:0 12px 30px rgba(16,24,40,.12);
+      overflow:hidden;
     }
 
     .radar-spinner::before {
-      content: "";
-      position: absolute;
-      inset: 50% 50% 0 50%;
-      width: 42px;
-      height: 42px;
-      transform-origin: 0 0;
-      background: linear-gradient(
-        45deg,
-        rgba(111, 159, 67, 0.42),
-        rgba(111, 159, 67, 0.06) 55%,
-        transparent 70%
-      );
-      animation: radarSweep 1.65s linear infinite;
+      content:"";
+      position:absolute;
+      inset:50% 50% 0 50%;
+      width:42px;
+      height:42px;
+      transform-origin:0 0;
+      background:linear-gradient(45deg,rgba(111,159,67,.42),rgba(111,159,67,.06) 55%,transparent 70%);
+      animation:radarSweep 1.65s linear infinite;
     }
 
     .radar-spinner::after {
-      content: "";
-      position: absolute;
-      inset: 12px;
-      border-radius: 50%;
-      border: 1px dashed rgba(8, 50, 80, 0.18);
+      content:"";
+      position:absolute;
+      inset:12px;
+      border-radius:50%;
+      border:1px dashed rgba(8,50,80,.18);
     }
 
     .radar-spinner span {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 7px;
-      height: 7px;
-      margin-left: -3.5px;
-      margin-top: -3.5px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 0 5px rgba(111, 159, 67, 0.16);
-      z-index: 2;
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:7px;
+      height:7px;
+      margin-left:-3.5px;
+      margin-top:-3.5px;
+      border-radius:50%;
+      background:var(--green);
+      box-shadow:0 0 0 5px rgba(111,159,67,.16);
+      z-index:2;
     }
 
     .radar-loader-text {
-      color: #30313d;
-      font-size: 0.88rem;
-      font-weight: 750;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 8px 13px;
-      box-shadow: 0 8px 22px rgba(16, 24, 40, 0.08);
+      color:#30313d;
+      font-size:.88rem;
+      font-weight:750;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:8px 13px;
+      box-shadow:0 8px 22px rgba(16,24,40,.08);
     }
 
     @keyframes radarSweep {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
+      from { transform:rotate(0deg); }
+      to { transform:rotate(360deg); }
     }
 
     .map-footer {
-      min-height: 58px;
-      border-top: 1px solid var(--line);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 16px;
-      color: var(--muted);
-      font-size: 0.9rem;
-      background: #fff;
-      flex-wrap: wrap;
+      min-height:58px;
+      border-top:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 16px;
+      color:var(--muted);
+      font-size:.9rem;
+      background:#fff;
+      flex-wrap:wrap;
     }
 
     .result-panel {
-      display: none;
-      border-top: 1px solid var(--line);
-      background: #fff;
-      padding: 10px 14px;
-      color: var(--muted);
-      font-size: 0.9rem;
+      display:none;
+      border-top:1px solid var(--line);
+      background:#fff;
+      padding:10px 14px;
+      color:var(--muted);
+      font-size:.9rem;
     }
 
     .result-panel.active {
-      display: block;
+      display:block;
     }
 
     .result-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 6px;
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:grid;
+      gap:6px;
     }
 
     .result-list button {
-      width: 100%;
-      text-align: left;
-      justify-content: flex-start;
-      color: #30313d;
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: none;
-      border-radius: 8px;
-      padding: 9px 10px;
-      line-height: 1.3;
-      white-space: normal;
+      width:100%;
+      text-align:left;
+      justify-content:flex-start;
+      color:#30313d;
+      background:#fff;
+      border:1px solid var(--line);
+      box-shadow:none;
+      border-radius:8px;
+      padding:9px 10px;
+      line-height:1.3;
+      white-space:normal;
     }
 
     .metric-row {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin-bottom: 16px;
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+      margin-bottom:16px;
     }
 
     .metric,
@@ -697,51 +658,51 @@
     .summary,
     .login-panel,
     .download {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      box-shadow: 0 10px 28px rgba(16, 24, 40, 0.04);
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:0 10px 28px rgba(16,24,40,.04);
     }
 
     .metric {
-      padding: 18px;
+      padding:18px;
     }
 
     .metric strong {
-      display: block;
-      font-size: 1.34rem;
-      color: #30313d;
-      margin-bottom: 4px;
+      display:block;
+      font-size:1.34rem;
+      color:#30313d;
+      margin-bottom:4px;
     }
 
     .metric span {
-      color: var(--muted);
-      font-size: 0.86rem;
+      color:var(--muted);
+      font-size:.86rem;
     }
 
     .alert-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-bottom: 18px;
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+      margin-bottom:18px;
     }
 
     .alert {
-      padding: 16px;
+      padding:16px;
     }
 
     .alert::before {
-      content: "";
-      display: block;
-      width: 32px;
-      height: 3px;
-      border-radius: 99px;
-      background: var(--danger);
-      margin-bottom: 12px;
+      content:"";
+      display:block;
+      width:32px;
+      height:3px;
+      border-radius:99px;
+      background:var(--danger);
+      margin-bottom:12px;
     }
 
     .alert.pressure::before {
-      background: var(--warning);
+      background:var(--warning);
     }
 
     .alert h3,
@@ -749,9 +710,9 @@
     .summary h3,
     .login-panel h3,
     .download h3 {
-      margin: 0 0 8px;
-      color: #30313d;
-      font-size: 1rem;
+      margin:0 0 8px;
+      color:#30313d;
+      font-size:1rem;
     }
 
     .alert p,
@@ -759,246 +720,247 @@
     .summary p,
     .login-panel p,
     .download p {
-      margin: 0 0 10px;
-      color: var(--muted);
-      line-height: 1.45;
-      font-size: .92rem;
+      margin:0 0 10px;
+      color:var(--muted);
+      line-height:1.45;
+      font-size:.92rem;
     }
 
     .activity-card {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: var(--shadow);
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.85fr) auto;
-      gap: 14px;
-      align-items: end;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:18px;
+      box-shadow:var(--shadow);
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(260px,.85fr) auto;
+      gap:14px;
+      align-items:end;
     }
 
     .activity-help {
-      color: var(--muted);
-      font-size: 0.84rem;
-      line-height: 1.45;
-      margin-top: 8px;
+      color:var(--muted);
+      font-size:.84rem;
+      line-height:1.45;
+      margin-top:8px;
     }
 
     .activity-match {
-      margin-top: 10px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: var(--soft);
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 0.88rem;
-      line-height: 1.45;
-      display: none;
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:var(--soft);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:.88rem;
+      line-height:1.45;
+      display:none;
     }
 
     .activity-match.active {
-      display: block;
+      display:block;
     }
 
     .activity-match strong {
-      color: #30313d;
+      color:#30313d;
     }
 
     .future-ai-note {
-      margin-top: 14px;
-      padding: 12px 14px;
-      border-left: 3px solid var(--green);
-      background: #fbfcfa;
-      color: var(--muted);
-      line-height: 1.45;
-      font-size: 0.88rem;
-      border-radius: 10px;
+      margin-top:14px;
+      padding:12px 14px;
+      border-left:3px solid var(--green);
+      background:#fbfcfa;
+      color:var(--muted);
+      line-height:1.45;
+      font-size:.88rem;
+      border-radius:10px;
     }
 
     .services {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
     }
 
     .service {
-      padding: 18px;
-      min-height: 210px;
-      display: flex;
-      flex-direction: column;
+      padding:18px;
+      min-height:210px;
+      display:flex;
+      flex-direction:column;
     }
 
     .service.selected {
-      border-color: rgba(111, 159, 67, 0.75);
-      box-shadow: 0 0 0 3px rgba(111, 159, 67, 0.14);
+      border-color:rgba(111,159,67,.75);
+      box-shadow:0 0 0 3px rgba(111,159,67,.14);
     }
 
     .service .type {
-      color: var(--muted);
-      font-size: 0.74rem;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
+      color:var(--muted);
+      font-size:.74rem;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:10px;
     }
 
     .service .price {
-      margin-top: auto;
-      color: #30313d;
-      font-weight: 800;
-      font-size: 0.92rem;
+      margin-top:auto;
+      color:#30313d;
+      font-weight:800;
+      font-size:.92rem;
     }
 
     .service button {
-      margin-top: 13px;
-      width: 100%;
-      border-radius: 9px;
-      box-shadow: none;
+      margin-top:13px;
+      width:100%;
+      border-radius:9px;
+      box-shadow:none;
     }
 
     .basket-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 320px;
-      gap: 20px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 320px;
+      gap:20px;
     }
 
     .basket-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 10px;
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:grid;
+      gap:10px;
     }
 
     .basket-list li {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px 16px;
-      display: flex;
-      justify-content: space-between;
-      gap: 18px;
-      color: var(--muted);
-      box-shadow: 0 8px 22px rgba(16, 24, 40, 0.03);
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px 16px;
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      color:var(--muted);
+      box-shadow:0 8px 22px rgba(16,24,40,.03);
     }
 
     .basket-list strong {
-      color: #30313d;
+      color:#30313d;
     }
 
     .summary,
     .login-panel,
     .download {
-      padding: 18px;
+      padding:18px;
     }
 
     .downloads {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
     }
 
     .note {
-      margin-top: 16px;
-      color: var(--muted);
-      font-size: 0.88rem;
-      line-height: 1.45;
+      margin-top:16px;
+      color:var(--muted);
+      font-size:.88rem;
+      line-height:1.45;
     }
 
     .map-error {
-      padding: 24px;
-      color: var(--danger);
-      background: #fff;
-      border-top: 1px solid var(--line);
+      padding:24px;
+      color:var(--danger);
+      background:#fff;
+      border-top:1px solid var(--line);
     }
 
     .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(20, 41, 56, 0.38);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      z-index: 5000;
+      position:fixed;
+      inset:0;
+      background:rgba(20,41,56,.38);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      z-index:5000;
     }
 
     .modal-backdrop.open {
-      display: flex;
+      display:flex;
     }
 
     .modal {
-      width: min(520px, 100%);
-      background: #fff;
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      box-shadow: 0 24px 70px rgba(16, 24, 40, 0.22);
-      padding: 24px;
+      width:min(520px,100%);
+      background:#fff;
+      border-radius:18px;
+      border:1px solid var(--line);
+      box-shadow:0 24px 70px rgba(16,24,40,.22);
+      padding:24px;
     }
 
     .modal h2 {
-      margin: 0 0 10px;
-      color: #30313d;
-      font-size: 1.4rem;
+      margin:0 0 10px;
+      color:#30313d;
+      font-size:1.4rem;
     }
 
     .modal p {
-      margin: 0 0 14px;
-      color: var(--muted);
-      line-height: 1.5;
+      margin:0 0 14px;
+      color:var(--muted);
+      line-height:1.5;
     }
 
     .modal-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:18px;
     }
 
     footer {
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      padding: 28px 34px;
-      font-size: 0.84rem;
-      line-height: 1.45;
-      background: #fff;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      padding:28px 34px;
+      font-size:.84rem;
+      line-height:1.45;
+      background:#fff;
     }
 
     .leaflet-control-attribution {
-      font-size: 10px;
+      font-size:10px;
     }
 
-    @media (max-width: 960px) {
+    @media (max-width:960px) {
       .topbar {
-        height: auto;
-        padding: 18px 22px;
-        flex-direction: column;
-        align-items: flex-start;
+        height:auto;
+        padding:18px 22px;
+        flex-direction:column;
+        align-items:flex-start;
       }
 
       .navline {
-        overflow-x: auto;
-        padding: 0 22px;
+        overflow-x:auto;
+        padding:0 22px;
       }
 
       .intro {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding-top: 48px;
+        grid-template-columns:1fr;
+        gap:20px;
+        padding-top:48px;
       }
 
       .intro-side {
-        padding-top: 0;
+        padding-top:0;
       }
 
       .stage-grid {
-        grid-template-columns: 42px minmax(0, 1fr);
-        gap: 18px;
+        grid-template-columns:42px minmax(0,1fr);
+        gap:18px;
       }
 
       .activity-card,
-      .map-toolbar {
-        grid-template-columns: 1fr;
+      .map-toolbar,
+      .form-strip {
+        grid-template-columns:1fr;
       }
 
       .metric-row,
@@ -1006,68 +968,64 @@
       .services,
       .downloads,
       .basket-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns:1fr;
       }
 
       #leafletMap {
-        height: 390px;
+        height:390px;
       }
 
       .map-meta {
-        text-align: left;
+        text-align:left;
       }
     }
 
-    @media (max-width: 620px) {
+    @media (max-width:620px) {
       .wrap {
-        width: min(100% - 28px, 1060px);
+        width:min(100% - 28px,1060px);
       }
 
       .logo {
-        width: 155px;
+        width:155px;
       }
 
       .product-name {
-        display: none;
+        display:none;
       }
 
       .top-actions {
-        align-items: flex-start;
-        justify-content: flex-start;
-        flex-wrap: wrap;
+        justify-content:flex-start;
       }
 
       .burger-menu {
-        left: 0;
-        right: auto;
-        width: min(300px, calc(100vw - 32px));
+        left:0;
+        right:auto;
+        width:min(300px,calc(100vw - 32px));
       }
 
       .stage-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns:1fr;
       }
 
       .rail {
-        display: none;
+        display:none;
       }
 
       .stage-head {
-        grid-template-columns: 1fr;
+        grid-template-columns:1fr;
       }
 
       #leafletMap {
-        height: 340px;
+        height:340px;
       }
 
       .map-footer {
-        height: auto;
-        padding: 12px;
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction:column;
+        align-items:flex-start;
       }
 
       .map-search {
-        grid-template-columns: 1fr;
+        grid-template-columns:1fr;
       }
     }
   </style>
@@ -1075,7 +1033,6 @@
 
 <body>
   <div class="page">
-
     <header class="topbar">
       <div class="brand">
         <svg class="logo" viewBox="0 0 615 170" role="img" aria-label="LSBUD Safe Digging For All logo" xmlns="http://www.w3.org/2000/svg">
@@ -1159,11 +1116,9 @@
     </section>
 
     <main class="stage-panel wrap">
-
       <section class="stage active" id="stage-start">
         <div class="stage-grid">
           <div class="rail"><div class="rail-number">1</div></div>
-
           <div class="stage-card">
             <div class="stage-head">
               <div>
@@ -1178,7 +1133,6 @@
                 <label for="ref">Your reference</label>
                 <input id="ref" value="SDP-0001" />
               </div>
-
               <div>
                 <label for="loginStatus">Login status</label>
                 <select id="loginStatus" onchange="syncLoginStatus()">
@@ -1186,7 +1140,6 @@
                   <option value="logged-in">Logged in</option>
                 </select>
               </div>
-
               <button class="secondary" onclick="simulateLogin()">Simulate login</button>
             </div>
 
@@ -1198,7 +1151,6 @@
       <section class="stage" id="stage-draw">
         <div class="stage-grid">
           <div class="rail"><div class="rail-number">2</div></div>
-
           <div class="stage-card">
             <div class="stage-head">
               <div>
@@ -1223,11 +1175,8 @@
 
               <div class="leaflet-map-wrap">
                 <div id="leafletMap"></div>
-
                 <div class="map-radar-loader" id="mapRadarLoader" aria-live="polite">
-                  <div class="radar-spinner">
-                    <span></span>
-                  </div>
+                  <div class="radar-spinner"><span></span></div>
                   <div class="radar-loader-text" id="mapRadarText">Loading map...</div>
                 </div>
               </div>
@@ -1247,7 +1196,6 @@
       <section class="stage" id="stage-insight">
         <div class="stage-grid">
           <div class="rail"><div class="rail-number">3</div></div>
-
           <div class="stage-card">
             <div class="stage-head">
               <div>
@@ -1261,17 +1209,14 @@
                 <strong id="areaMetric">0.00</strong>
                 <span id="areaMetricLabel">Site area, hectares</span>
               </div>
-
               <div class="metric">
                 <strong id="utilityMetric">—</strong>
                 <span>Estimated utilities nearby</span>
               </div>
-
               <div class="metric">
                 <strong id="alertMetric">—</strong>
                 <span>Indicative asset alerts</span>
               </div>
-
               <div class="metric">
                 <strong>Library</strong>
                 <span>Phase 1 delivery</span>
@@ -1283,7 +1228,6 @@
                 <h3>High voltage alert</h3>
                 <p id="hvAlertText">Draw a site boundary to generate a prototype high-voltage prompt.</p>
               </article>
-
               <article class="alert pressure">
                 <h3>High pressure alert</h3>
                 <p id="hpAlertText">Draw a site boundary to generate a prototype high-pressure prompt.</p>
@@ -1298,11 +1242,7 @@
             <div class="activity-card">
               <div>
                 <label for="activityText">Describe the planned activity</label>
-                <input
-                  id="activityText"
-                  placeholder="Type a few words, for example: house extension, drainage trench, dig pack collation, fence posts, utility works, solar farm..."
-                  oninput="handleActivityTextInput()"
-                />
+                <input id="activityText" placeholder="Type a few words, for example: house extension, drainage trench, dig pack collation, fence posts, utility works, solar farm..." oninput="handleActivityTextInput()" />
                 <div class="activity-help">We’ll match your description to the nearest safe digging activity route.</div>
                 <div class="activity-match" id="activityMatchMessage"></div>
               </div>
@@ -1324,9 +1264,7 @@
                 <div class="activity-help">Use the dropdown if the free-text match does not look right.</div>
               </div>
 
-              <button id="activityContinueButton" onclick="requireActivityThenServices()" disabled>
-                Show recommended services
-              </button>
+              <button id="activityContinueButton" onclick="requireActivityThenServices()" disabled>Show recommended services</button>
             </div>
 
             <div class="future-ai-note">
@@ -1339,7 +1277,6 @@
       <section class="stage" id="stage-services">
         <div class="stage-grid">
           <div class="rail"><div class="rail-number">4</div></div>
-
           <div class="stage-card">
             <div class="stage-head">
               <div>
@@ -1348,7 +1285,6 @@
               </div>
               <button onclick="goStep('basket')">View basket</button>
             </div>
-
             <div class="services" id="serviceGrid"></div>
           </div>
         </div>
@@ -1357,7 +1293,6 @@
       <section class="stage" id="stage-basket">
         <div class="stage-grid">
           <div class="rail"><div class="rail-number">5</div></div>
-
           <div class="stage-card">
             <div class="stage-head">
               <div>
@@ -1371,7 +1306,6 @@
               <div>
                 <ul class="basket-list" id="basketList"></ul>
                 <p class="note" id="emptyBasketNote">No items selected yet. Return to Service options to add items.</p>
-
                 <div class="note">
                   <button class="secondary" onclick="goStep('services')">Add more services</button>
                 </div>
@@ -1390,7 +1324,6 @@
       <section class="stage" id="stage-downloads">
         <div class="stage-grid">
           <div class="rail"><div class="rail-number">6</div></div>
-
           <div class="stage-card">
             <div class="stage-head">
               <div>
@@ -1403,7 +1336,6 @@
             <div class="login-panel">
               <h3 id="loginPanelTitle">Login required</h3>
               <p id="loginPanelText">Sign in to access search responses, selected downloads and saved site details.</p>
-
               <p class="note">
                 <a class="button secondary" href="https://lsbud.co.uk/" target="_blank" rel="noopener">Login to OneCall</a>
                 <button class="secondary" onclick="simulateLogin()">Simulate login</button>
@@ -1444,6 +1376,7 @@
     const DRAW_CSS = "https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css";
     const DRAW_JS = "https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js";
     const LARGE_SITE_URL = "https://lsbud-john.github.io/LSBUD-LargeSite/";
+    const JSPDF_JS = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 
     const order = ["start", "draw", "insight", "services", "basket", "downloads"];
 
@@ -1469,72 +1402,66 @@
       {
         route: "dig",
         words: [
-          "dig", "digging", "excavate", "excavation", "trench", "trenching",
-          "drainage", "duct", "ducting", "trial hole", "groundworks",
-          "service trench", "cable trench", "dig pack", "pack collation",
+          "dig", "digging", "excavate", "excavation", "trench", "trenching", "drainage", "duct", "ducting",
+          "trial hole", "groundworks", "service trench", "cable trench", "dig pack", "pack collation",
           "utility pack", "dig pack collation"
         ]
       },
       {
         route: "posts",
         words: [
-          "post", "posts", "fence", "fencing", "gate", "sign", "signage",
-          "bollard", "street furniture", "anchor", "piles", "stake", "staking"
+          "post", "posts", "fence", "fencing", "gate", "sign", "signage", "bollard", "street furniture",
+          "anchor", "piles", "stake", "staking"
         ]
       },
       {
         route: "vegetation",
         words: [
-          "tree", "trees", "hedge", "hedges", "vegetation", "clearance",
-          "root", "roots", "scrub", "land clearance", "tree removal", "hedgerow"
+          "tree", "trees", "hedge", "hedges", "vegetation", "clearance", "root", "roots", "scrub",
+          "land clearance", "tree removal", "hedgerow"
         ]
       },
       {
         route: "design",
         words: [
-          "design", "engineer", "engineering", "scheme", "pas128", "pas 128",
-          "gpr", "survey", "verification", "route design", "pre-construction",
-          "pre construction"
+          "design", "engineer", "engineering", "scheme", "pas128", "pas 128", "gpr", "survey",
+          "verification", "route design", "pre-construction", "pre construction"
         ]
       },
       {
         route: "utility",
         words: [
-          "utility works", "utility work", "new connection", "service connection",
-          "water connection", "gas connection", "electric connection", "telecoms",
-          "fibre", "cable lay", "mains replacement", "network repair",
-          "diversion", "apparatus"
+          "utility works", "utility work", "new connection", "service connection", "water connection",
+          "gas connection", "electric connection", "telecoms", "fibre", "cable lay", "mains replacement",
+          "network repair", "diversion", "apparatus"
         ]
       },
       {
         route: "environment",
         words: [
-          "environment", "environmental", "ecology", "ecological", "sssi",
-          "watercourse", "river", "stream", "conservation", "woodland",
-          "habitat", "tpo"
+          "environment", "environmental", "ecology", "ecological", "sssi", "watercourse", "river",
+          "stream", "conservation", "woodland", "habitat", "tpo"
         ]
       },
       {
         route: "renewables",
         words: [
-          "solar", "solar farm", "wind", "battery", "bess", "ev",
-          "ev charging", "renewable", "renewables", "grid connection",
-          "substation", "energy storage"
+          "solar", "solar farm", "wind", "battery", "bess", "ev", "ev charging", "renewable",
+          "renewables", "grid connection", "substation", "energy storage"
         ]
       },
       {
         route: "emergency",
         words: [
-          "emergency", "incident", "repair", "burst", "leak", "urgent",
-          "outage", "strike", "damage", "response", "make safe"
+          "emergency", "incident", "repair", "burst", "leak", "urgent", "outage", "strike",
+          "damage", "response", "make safe"
         ]
       },
       {
         route: "plan",
         words: [
-          "plan", "planning", "feasibility", "extension", "house extension",
-          "driveway", "patio", "build", "building", "development",
-          "site appraisal", "early stage"
+          "plan", "planning", "feasibility", "extension", "house extension", "driveway", "patio",
+          "build", "building", "development", "site appraisal", "early stage"
         ]
       }
     ];
@@ -1601,7 +1528,7 @@
         type: "Environmental",
         title: "Open Water Proximity Risk Report",
         desc: "Prototype report showing whether the selected site or route may require a 100m open water proximity review. Future versions could query live GIS/environmental datasets.",
-        price: "Prototype report",
+        price: "Prototype PDF",
         tags: ["utility", "dig", "design", "environment", "renewables"]
       },
       {
@@ -1663,22 +1590,14 @@
     function setMapLoading(isLoading, message) {
       const loader = document.getElementById("mapRadarLoader");
       const text = document.getElementById("mapRadarText");
-
-      if (!loader) {
-        return;
-      }
-
-      if (text && message) {
-        text.textContent = message;
-      }
-
+      if (!loader) return;
+      if (text && message) text.textContent = message;
       loader.classList.toggle("active", Boolean(isLoading));
     }
 
     function loadCssOnce(href) {
       return new Promise((resolve, reject) => {
         const existing = document.querySelector(`link[href="${href}"]`);
-
         if (existing) {
           resolve();
           return;
@@ -1696,7 +1615,6 @@
     function loadScriptOnce(src) {
       return new Promise((resolve, reject) => {
         const existing = document.querySelector(`script[src="${src}"]`);
-
         if (existing) {
           resolve();
           return;
@@ -1712,13 +1630,8 @@
     }
 
     async function loadLeafletAssets() {
-      if (leafletAssetsLoaded) {
-        return;
-      }
-
-      if (leafletLoadPromise) {
-        return leafletLoadPromise;
-      }
+      if (leafletAssetsLoaded) return;
+      if (leafletLoadPromise) return leafletLoadPromise;
 
       leafletLoadPromise = (async () => {
         await loadCssOnce(LEAFLET_CSS);
@@ -1738,7 +1651,6 @@
 
     function showMapLoadError(error) {
       const mapDiv = document.getElementById("leafletMap");
-
       setMapLoading(false);
 
       mapDiv.innerHTML = `
@@ -1764,18 +1676,9 @@
 
       order.forEach((name, i) => {
         const crumb = document.querySelector('[data-crumb="' + name + '"]');
-
-        if (!crumb) {
-          return;
-        }
-
-        if (i < idx) {
-          crumb.classList.add("done");
-        }
-
-        if (i === idx) {
-          crumb.classList.add("active");
-        }
+        if (!crumb) return;
+        if (i < idx) crumb.classList.add("done");
+        if (i === idx) crumb.classList.add("active");
       });
 
       if (step === "draw") {
@@ -1784,10 +1687,7 @@
             setMapLoading(true, "Loading map...");
             await loadLeafletAssets();
             initLeafletMap();
-
-            if (map) {
-              map.invalidateSize();
-            }
+            if (map) map.invalidateSize();
           } catch (error) {
             showMapLoadError(error);
           }
@@ -1809,13 +1709,8 @@
         updateServices();
       }
 
-      if (step === "basket") {
-        renderBasket();
-      }
-
-      if (step === "downloads") {
-        renderDownloads();
-      }
+      if (step === "basket") renderBasket();
+      if (step === "downloads") renderDownloads();
 
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -1827,23 +1722,16 @@
         return;
       }
 
-      map = L.map("leafletMap", {
-        zoomControl: true
-      }).setView([Birmingham.lat, Birmingham.lng], Birmingham.zoom);
+      map = L.map("leafletMap", { zoomControl: true })
+        .setView([Birmingham.lat, Birmingham.lng], Birmingham.zoom);
 
       const tileLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 20,
         attribution: "&copy; OpenStreetMap contributors"
       });
 
-      tileLayer.on("loading", function () {
-        setMapLoading(true, "Loading map...");
-      });
-
-      tileLayer.on("load", function () {
-        setMapLoading(false);
-      });
-
+      tileLayer.on("loading", () => setMapLoading(true, "Loading map..."));
+      tileLayer.on("load", () => setMapLoading(false));
       tileLayer.addTo(map);
 
       drawnItems = new L.FeatureGroup();
@@ -1979,9 +1867,7 @@
     function selectSearchResult(index) {
       const result = latestSearchResults[index];
 
-      if (!result || !map) {
-        return;
-      }
+      if (!result || !map) return;
 
       const lat = parseFloat(result.lat);
       const lon = parseFloat(result.lon);
@@ -1999,9 +1885,7 @@
         map.setView([lat, lon], 16);
       }
 
-      setTimeout(() => {
-        setMapLoading(false);
-      }, 500);
+      setTimeout(() => setMapLoading(false), 500);
 
       document.getElementById("searchResultsPanel").classList.remove("active");
       document.getElementById("boundaryStatus").textContent = "Location found. Draw or edit the site boundary.";
@@ -2043,7 +1927,6 @@
     function updateBoundaryFromLayer(layer) {
       currentBoundaryGeoJSON = layer.toGeoJSON();
       currentWKT = layerToWKT(layer);
-
       currentAreaHa = 0;
       currentRouteLengthKm = 0;
 
@@ -2092,9 +1975,7 @@
     }
 
     function clearBoundary() {
-      if (!drawnItems) {
-        return;
-      }
+      if (!drawnItems) return;
 
       drawnItems.clearLayers();
       currentBoundaryGeoJSON = null;
@@ -2108,9 +1989,7 @@
     }
 
     function checkLargeSiteThreshold() {
-      if (largeSitePromptShown) {
-        return;
-      }
+      if (largeSitePromptShown) return;
 
       if (currentGeometryType === "area" && currentAreaHa >= 100) {
         largeSitePromptShown = true;
@@ -2128,16 +2007,12 @@
     }
 
     function showLargeSitePrompt(detail) {
-      const modal = document.getElementById("largeSiteModal");
-      const detailElement = document.getElementById("largeSiteDetail");
-
-      detailElement.textContent = detail;
-      modal.classList.add("open");
+      document.getElementById("largeSiteDetail").textContent = detail;
+      document.getElementById("largeSiteModal").classList.add("open");
     }
 
     function closeLargeSitePrompt() {
-      const modal = document.getElementById("largeSiteModal");
-      modal.classList.remove("open");
+      document.getElementById("largeSiteModal").classList.remove("open");
     }
 
     function openLargeSiteService() {
@@ -2159,7 +2034,6 @@
       }
 
       const url = `${LARGE_SITE_URL}?${params.toString()}`;
-
       window.open(url, "_blank", "noopener");
     }
 
@@ -2176,14 +2050,10 @@
 
       const scaleValue = currentGeometryType === "linear" ? currentRouteLengthKm : currentAreaHa;
 
-      const estimatedUtilities = scaleValue > 0
-        ? Math.max(3, Math.round(6 + scaleValue * 3))
-        : "—";
-
-      const alertCount = scaleValue > 0 ? 2 : "—";
-
-      document.getElementById("utilityMetric").textContent = estimatedUtilities;
-      document.getElementById("alertMetric").textContent = alertCount;
+      document.getElementById("utilityMetric").textContent =
+        scaleValue > 0 ? Math.max(3, Math.round(6 + scaleValue * 3)) : "—";
+      document.getElementById("alertMetric").textContent =
+        scaleValue > 0 ? 2 : "—";
 
       document.getElementById("hvAlertText").textContent = scaleValue > 0
         ? "Potential high-voltage assets may be present near the selected site or route. Route user to OneCall and relevant safety guidance."
@@ -2197,9 +2067,7 @@
     function matchActivityFromText(text) {
       const cleaned = text.toLowerCase().trim();
 
-      if (cleaned.length < 3) {
-        return "";
-      }
+      if (cleaned.length < 3) return "";
 
       for (const option of keywordRoutes) {
         for (const word of option.words) {
@@ -2259,9 +2127,7 @@
     }
 
     function validateActivitySelection() {
-      const activity = currentActivity();
-      const hasActivity = activity !== "";
-
+      const hasActivity = currentActivity() !== "";
       const activityContinueButton = document.getElementById("activityContinueButton");
 
       if (activityContinueButton) {
@@ -2284,9 +2150,7 @@
       const activity = currentActivity();
       const grid = document.getElementById("serviceGrid");
 
-      if (!grid) {
-        return;
-      }
+      if (!grid) return;
 
       if (!activity) {
         grid.innerHTML = `
@@ -2300,13 +2164,13 @@
         return;
       }
 
-      const services = baseServices.filter(service => {
-        return service.tags.includes("all") || service.tags.includes(activity);
-      });
+      const services = baseServices.filter(service =>
+        service.tags.includes("all") || service.tags.includes(activity)
+      );
 
       grid.innerHTML = services.map(service => {
         const actionButton = service.id === "open-water-risk"
-          ? `<button onclick="generateOpenWaterReport()">Generate report</button>`
+          ? `<button onclick="generateOpenWaterReport()">Download PDF report</button>`
           : `<button class="${selectedServices.has(service.id) ? "secondary" : ""}" onclick="toggleService('${service.id}')">
               ${selectedServices.has(service.id) ? "Remove" : "Add to basket"}
             </button>`;
@@ -2413,140 +2277,262 @@
       alert("Prototype selected pack downloaded.");
     }
 
-    function generateOpenWaterReport() {
+    async function generateOpenWaterReport() {
       if (!currentWKT) {
         alert("Draw a site boundary or route before generating this report.");
         return;
       }
 
+      try {
+        await loadScriptOnce(JSPDF_JS);
+      } catch (error) {
+        alert("PDF generator could not be loaded. Please check internet access and try again.");
+        return;
+      }
+
+      if (!window.jspdf || !window.jspdf.jsPDF) {
+        alert("PDF generator did not initialise correctly.");
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
+      });
+
+      const today = new Date().toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      });
+
       const geometrySummary = currentGeometryType === "linear"
         ? `${currentRouteLengthKm.toFixed(2)} km route`
         : `${currentAreaHa.toFixed(2)} hectares site`;
+
+      const geometryTypeLabel = currentGeometryType === "linear"
+        ? "Linear route"
+        : "Site boundary";
 
       const prototypeRisk = currentGeometryType === "linear"
         ? "Potential open water proximity review recommended for linear works."
         : "Potential open water proximity review recommended for site-based works.";
 
-      const safeWKT = escapeHtml(currentWKT);
+      const titleColour = [8, 50, 80];
+      const greenColour = [111, 159, 67];
+      const textColour = [45, 47, 56];
+      const mutedColour = [100, 105, 115];
+      const lineColour = [228, 231, 235];
 
-      const reportWindow = window.open("", "_blank");
+      let y = 18;
 
-      if (!reportWindow) {
-        alert("Popup blocked. Please allow popups to generate the report.");
-        return;
+      function addHeader() {
+        doc.setFillColor(...titleColour);
+        doc.rect(0, 0, 210, 13, "F");
+
+        doc.setTextColor(255, 255, 255);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(10);
+        doc.text("LSBUD Safe Digging Portal", 14, 8.5);
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8);
+        doc.text("Prototype environmental proximity report", 143, 8.5);
       }
 
-      reportWindow.document.write(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <title>Open Water Proximity Risk Report</title>
-          <style>
-            body {
-              font-family: Arial, Helvetica, sans-serif;
-              margin: 36px;
-              color: #2d2f38;
-              line-height: 1.5;
-            }
+      function addFooter() {
+        doc.setDrawColor(...lineColour);
+        doc.line(14, 285, 196, 285);
 
-            h1,
-            h2 {
-              color: #083250;
-            }
+        doc.setTextColor(...mutedColour);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8);
+        doc.text("Prototype report only. Not operational advice.", 14, 291);
+        doc.text(`Generated: ${today}`, 165, 291);
+      }
 
-            .summary {
-              border: 1px solid #e4e7eb;
-              border-radius: 12px;
-              padding: 16px;
-              background: #f7f8fa;
-              margin: 18px 0;
-            }
+      function addWrappedText(text, x, currentY, maxWidth, lineHeight, options = {}) {
+        doc.setFont("helvetica", options.bold ? "bold" : "normal");
+        doc.setFontSize(options.size || 10);
+        doc.setTextColor(...(options.colour || textColour));
 
-            .status {
-              display: inline-block;
-              padding: 8px 12px;
-              border-radius: 999px;
-              background: #fff4e5;
-              color: #7a4b00;
-              font-weight: bold;
-              border: 1px solid #f0d4a1;
-            }
+        const lines = doc.splitTextToSize(text, maxWidth);
 
-            pre {
-              white-space: pre-wrap;
-              word-break: break-word;
-              background: #f7f8fa;
-              border: 1px solid #e4e7eb;
-              border-radius: 10px;
-              padding: 12px;
-              font-size: 12px;
-            }
+        lines.forEach(line => {
+          if (currentY > 276) {
+            addFooter();
+            doc.addPage();
+            addHeader();
+            currentY = 22;
+          }
 
-            .note {
-              color: #6f7280;
-              font-size: 13px;
-            }
+          doc.text(line, x, currentY);
+          currentY += lineHeight;
+        });
 
-            button {
-              background: #083250;
-              color: white;
-              border: 0;
-              border-radius: 8px;
-              padding: 10px 14px;
-              font-weight: bold;
-              cursor: pointer;
-            }
-          </style>
-        </head>
-        <body>
-          <h1>Open Water Proximity Risk Report</h1>
-          <p class="note">Prototype report generated by the LSBUD Safe Digging Portal.</p>
+        return currentY;
+      }
 
-          <div class="summary">
-            <p><strong>Selected geometry:</strong> ${geometrySummary}</p>
-            <p><strong>Assessment buffer:</strong> 100 metres from drawn site or route</p>
-            <p><strong>Status:</strong> <span class="status">Prototype review required</span></p>
-          </div>
+      function addSectionHeading(text, currentY) {
+        if (currentY > 268) {
+          addFooter();
+          doc.addPage();
+          addHeader();
+          currentY = 22;
+        }
 
-          <h2>Indicative result</h2>
-          <p>${prototypeRisk}</p>
+        doc.setTextColor(...titleColour);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(13);
+        doc.text(text, 14, currentY);
 
-          <p>
-            This prototype report demonstrates how the service could route users to an environmental proximity check.
-            A production version would query approved environmental and hydrological datasets to determine whether open water,
-            watercourses, flood channels, ponds, lakes, reservoirs or drainage features are within 100 metres of the selected works.
-          </p>
+        doc.setDrawColor(...greenColour);
+        doc.setLineWidth(0.7);
+        doc.line(14, currentY + 2.5, 60, currentY + 2.5);
 
-          <h2>Recommended action</h2>
-          <ul>
-            <li>Review whether excavation or utility works may interact with water features.</li>
-            <li>Consider environmental constraints, permits, mitigation and asset-owner requirements.</li>
-            <li>Use OneCall and relevant guidance before work proceeds.</li>
-          </ul>
+        return currentY + 10;
+      }
 
-          <h2>Geometry sent for assessment</h2>
-          <pre>${safeWKT}</pre>
+      addHeader();
 
-          <p class="note">
-            This is a prototype report only. It does not query live environmental datasets and should not be used as operational advice.
-          </p>
+      doc.setTextColor(...titleColour);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(20);
+      doc.text("Open Water Proximity Risk Report", 14, y);
+      y += 8;
 
-          <button onclick="window.print()">Print / save as PDF</button>
-        </body>
-        </html>
-      `);
+      doc.setTextColor(...mutedColour);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.text("Generated for demonstration from the LSBUD Safe Digging Portal prototype", 14, y);
+      y += 12;
 
-      reportWindow.document.close();
+      doc.setDrawColor(...lineColour);
+      doc.setFillColor(247, 248, 250);
+      doc.roundedRect(14, y, 182, 42, 3, 3, "FD");
+
+      doc.setTextColor(...titleColour);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(11);
+      doc.text("Assessment summary", 20, y + 8);
+
+      doc.setTextColor(...textColour);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9.5);
+      doc.text(`Selected geometry: ${geometrySummary}`, 20, y + 17);
+      doc.text(`Geometry type: ${geometryTypeLabel}`, 20, y + 25);
+      doc.text("Assessment buffer: 100 metres from drawn site or route", 20, y + 33);
+
+      doc.setFillColor(255, 244, 229);
+      doc.setDrawColor(240, 212, 161);
+      doc.roundedRect(134, y + 14, 50, 12, 3, 3, "FD");
+
+      doc.setTextColor(122, 75, 0);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(8.5);
+      doc.text("Prototype review required", 139, y + 22);
+
+      y += 55;
+
+      y = addSectionHeading("Indicative result", y);
+      y = addWrappedText(prototypeRisk, 14, y, 182, 5.5);
+      y += 4;
+
+      y = addWrappedText(
+        "This prototype report demonstrates how the Safe Digging Portal could route users to an environmental proximity check. A production version would query approved environmental and hydrological datasets to determine whether open water, watercourses, flood channels, ponds, lakes, reservoirs or drainage features are within 100 metres of the selected works.",
+        14,
+        y,
+        182,
+        5.5
+      );
+
+      y += 6;
+      y = addSectionHeading("Recommended actions", y);
+
+      const actions = [
+        "Review whether excavation or utility works may interact with water features.",
+        "Consider environmental constraints, permits, mitigation and asset-owner requirements.",
+        "Use OneCall and relevant safe digging guidance before work proceeds.",
+        "Where uncertainty remains, consider a managed review or environmental screening service."
+      ];
+
+      actions.forEach(action => {
+        y = addWrappedText(`• ${action}`, 18, y, 174, 5.5);
+      });
+
+      y += 6;
+      y = addSectionHeading("Prototype service note", y);
+
+      y = addWrappedText(
+        "This report is for demonstration only. It does not query live environmental datasets and must not be used as operational, legal, environmental or safety advice. The purpose is to demonstrate how a drawn site or route can become reusable geometry for downstream services.",
+        14,
+        y,
+        182,
+        5.5
+      );
+
+      y += 6;
+      y = addSectionHeading("Geometry sent for assessment", y);
+
+      doc.setDrawColor(...lineColour);
+      doc.setFillColor(247, 248, 250);
+
+      const wktLines = doc.splitTextToSize(currentWKT, 176);
+      const boxHeight = Math.min(70, Math.max(24, wktLines.length * 4.5 + 10));
+
+      if (y + boxHeight > 276) {
+        addFooter();
+        doc.addPage();
+        addHeader();
+        y = 22;
+        y = addSectionHeading("Geometry sent for assessment", y);
+      }
+
+      doc.roundedRect(14, y, 182, boxHeight, 3, 3, "FD");
+
+      doc.setTextColor(...mutedColour);
+      doc.setFont("courier", "normal");
+      doc.setFontSize(7.8);
+
+      let wktY = y + 7;
+
+      wktLines.forEach(line => {
+        if (wktY < y + boxHeight - 3) {
+          doc.text(line, 18, wktY);
+          wktY += 4.2;
+        }
+      });
+
+      y += boxHeight + 8;
+
+      y = addSectionHeading("Future service enhancement", y);
+
+      y = addWrappedText(
+        "A future release could replace this prototype result with live spatial analysis, for example: open water within 100m, proximity to environmental restrictions, protected sites, flood risk areas, watercourse crossings and asset-owner-sensitive zones. The same geometry could also be sent to OneCall or other downstream services using WKT.",
+        14,
+        y,
+        182,
+        5.5
+      );
+
+      addFooter();
+
+      const fileTimestamp = new Date()
+        .toISOString()
+        .slice(0, 19)
+        .replaceAll(":", "-");
+
+      doc.save(`Open_Water_Proximity_Risk_Report_${fileTimestamp}.pdf`);
     }
 
     function toggleBurgerMenu() {
       const menu = document.getElementById("burgerMenu");
       const button = document.getElementById("burgerButton");
 
-      if (!menu || !button) {
-        return;
-      }
+      if (!menu || !button) return;
 
       const isOpen = menu.classList.toggle("open");
       button.setAttribute("aria-expanded", String(isOpen));
@@ -2556,9 +2542,7 @@
       const menu = document.getElementById("burgerMenu");
       const button = document.getElementById("burgerButton");
 
-      if (!menu || !button) {
-        return;
-      }
+      if (!menu || !button) return;
 
       const clickedInsideMenu = menu.contains(event.target);
       const clickedButton = button.contains(event.target);
@@ -2570,25 +2554,15 @@
     });
 
     document.addEventListener("keydown", function (event) {
-      if (event.key !== "Escape") {
-        return;
-      }
+      if (event.key !== "Escape") return;
 
       const menu = document.getElementById("burgerMenu");
       const button = document.getElementById("burgerButton");
       const modal = document.getElementById("largeSiteModal");
 
-      if (menu) {
-        menu.classList.remove("open");
-      }
-
-      if (button) {
-        button.setAttribute("aria-expanded", "false");
-      }
-
-      if (modal) {
-        modal.classList.remove("open");
-      }
+      if (menu) menu.classList.remove("open");
+      if (button) button.setAttribute("aria-expanded", "false");
+      if (modal) modal.classList.remove("open");
     });
 
     function escapeHtml(value) {
